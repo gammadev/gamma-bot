@@ -1,5 +1,7 @@
 package br.com.gmfonseca.business.command
 
+import br.com.gmfonseca.DiscordApp
+import br.com.gmfonseca.business.command.play.PlayCommand
 import br.com.gmfonseca.business.utils.ext.createInstance
 import br.com.gmfonseca.business.utils.ext.equalsIgnoreCase
 import net.dv8tion.jda.api.entities.TextChannel
@@ -9,9 +11,13 @@ import kotlin.reflect.KClass
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
  */
-abstract class Command(val name: String) {
+abstract class Command(private val name: String) {
 
     abstract fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean
+
+    override fun toString(): String {
+        return "${DiscordApp.COMMAND_PREFIX}$name"
+    }
 
     @Suppress("UNUSED")
     enum class Commands(private val klass: KClass<out Command>) {

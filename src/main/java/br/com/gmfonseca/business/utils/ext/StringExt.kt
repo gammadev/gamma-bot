@@ -12,7 +12,8 @@ fun String.isCommand(): Boolean {
 }
 
 fun String.getCommand(): Command.Commands {
-    return Command.Commands.fromName(substring(1).trim())
+    val command = split(" ").first().substring(1)
+    return Command.Commands.fromName(command)
 }
 
 fun String.getCommandArgs(): List<String> {
@@ -20,5 +21,5 @@ fun String.getCommandArgs(): List<String> {
 }
 
 infix fun String.equalsIgnoreCase(other: String): Boolean {
-    return toLowerCase() == other.toLowerCase()
+    return equals(other, ignoreCase = true)
 }

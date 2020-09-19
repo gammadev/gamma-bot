@@ -12,7 +12,7 @@ class UnknownCommand : Command("unknown") {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         val embedMessage = EmbedBuilder()
-                .setTitle("Wrong command")
+                .setTitle("Comando inválido")
                 .setDescription("Opa! Você digitou algo errado, use ${DiscordApp.COMMAND_PREFIX}help")
                 .build()
 

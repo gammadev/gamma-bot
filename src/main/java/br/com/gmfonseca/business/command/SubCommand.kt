@@ -1,6 +1,4 @@
-package br.com.gmfonseca.business.command.subcommand
-
-import br.com.gmfonseca.business.command.Command
+package br.com.gmfonseca.business.command
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
