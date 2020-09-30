@@ -1,7 +1,7 @@
 package br.com.gmfonseca.business.utils.ext
 
 import br.com.gmfonseca.DiscordApp
-import br.com.gmfonseca.business.command.Command
+import br.com.gmfonseca.application.command.Command
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.

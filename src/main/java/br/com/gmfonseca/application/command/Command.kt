@@ -1,11 +1,14 @@
-package br.com.gmfonseca.business.command
+package br.com.gmfonseca.application.command
 
 import br.com.gmfonseca.DiscordApp
-import br.com.gmfonseca.business.command.play.PlayCommand
+import br.com.gmfonseca.application.command.play.PlayCommand
 import br.com.gmfonseca.business.utils.ext.createInstance
 import br.com.gmfonseca.business.utils.ext.equalsIgnoreCase
+import br.com.gmfonseca.business.utils.ext.queue
+import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
+import java.awt.Color
 import kotlin.reflect.KClass
 
 /**
@@ -14,6 +17,16 @@ import kotlin.reflect.KClass
 abstract class Command(private val name: String) {
 
     abstract fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean
+
+    open fun onWrongCommand(channel: TextChannel, argsTip: String? = null) {
+        val extra = argsTip ?: ""
+        EmbedBuilder()
+                .setColor(Color.RED)
+                .setTitle("Comando inválido")
+                .setDescription("Por favor, use $this $extra")
+                .build()
+                .queue(channel)
+    }
 
     override fun toString(): String {
         return "${DiscordApp.COMMAND_PREFIX}$name"

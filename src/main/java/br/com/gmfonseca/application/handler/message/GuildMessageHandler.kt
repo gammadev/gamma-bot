@@ -1,4 +1,4 @@
-package br.com.gmfonseca.application.handler
+package br.com.gmfonseca.application.handler.message
 
 import br.com.gmfonseca.business.utils.ext.getCommand
 import br.com.gmfonseca.business.utils.ext.getCommandArgs
