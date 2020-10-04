@@ -39,11 +39,6 @@ object DiscordApp {
         }
     }
 
-    @Suppress("UNUSED")
-    fun getMusicManager(guildId: Long): GuildMusicManager {
-        return getMusicManager("$guildId")
-    }
-
     fun getMusicManager(guildId: String): GuildMusicManager {
         return guildsMusicManager[guildId] ?: GuildMusicManager(PLAYER_MANAGER).also {
             guildsMusicManager[guildId] = it

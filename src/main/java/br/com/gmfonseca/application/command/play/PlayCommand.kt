@@ -5,16 +5,14 @@ import br.com.gmfonseca.application.command.Command
 import br.com.gmfonseca.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.application.listener.YoutubeClientListener
 import br.com.gmfonseca.business.client.YoutubeClient
-import br.com.gmfonseca.business.utils.ext.queue
-import net.dv8tion.jda.api.EmbedBuilder
+import br.com.gmfonseca.business.utils.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
-import java.awt.Color
 
 /**
  * Created by Gabriel Fonseca on 19/09/2020.
  */
-class PlayCommand : Command("play") {
+object PlayCommand : Command("play") {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         if (args.isEmpty()) {
@@ -26,22 +24,20 @@ class PlayCommand : Command("play") {
             }
 
             if (voiceChannel == null) {
-                EmbedBuilder()
-                        .setColor(Color.RED)
-                        .setDescription("Você não está conectado em um canal de voz!")
-                        .build()
-                        .queue(channel)
+                EmbedMessage.failure(
+                        channel,
+                        description = "Você não está conectado em um canal de voz!"
+                )
             } else {
                 if (args.first().matches(Regex("(http|https)://(((www|music).youtube.com/(watch|playlist)\\?[a-zA-Z0-9_\\-&=.]+)|youtu.be/[a-zA-Z0-9_\\-&=.]+)"))) {
                     YoutubeClient(YoutubeClientListener(channel)).download(args.first())
                 } else {
 //                    YoutubeClient(YoutubeClientListener(channel)).search(args.reduce { acc, cur -> "$acc $cur" })
-                    EmbedBuilder()
-                            .setTitle("Ainda não suportado!")
-                            .setColor(Color.CYAN)
-                            .setDescription("Ainda não suportamos pesquisas, então por favor insira uma URL válida do Youtube.")
-                            .build()
-                            .queue(channel)
+                    EmbedMessage.info(
+                            channel,
+                            title = "Ainda não suportado!",
+                            description = "Ainda não suportamos pesquisas, então por favor insira uma URL válida do Youtube."
+                    )
                 }
 
                 with(guild.audioManager) {

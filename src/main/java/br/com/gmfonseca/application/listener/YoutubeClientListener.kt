@@ -2,11 +2,9 @@ package br.com.gmfonseca.application.listener
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.business.client.YoutubeClient
-import br.com.gmfonseca.business.utils.ext.queue
+import br.com.gmfonseca.business.utils.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
-import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.TextChannel
-import java.awt.Color
 import kotlin.concurrent.thread
 
 /**
@@ -15,32 +13,28 @@ import kotlin.concurrent.thread
 class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.YoutubeClientListener {
 
     override fun onTrackLoaded(track: AudioTrack) {
-        val message = EmbedBuilder()
-                .setTitle("Opa!")
-                .setDescription("Adicionado ${track.info.title} à fila.")
-                .setColor(Color.ORANGE)
-                .build()
-        channel.sendMessage(message).queue()
+        EmbedMessage.success(
+                channel,
+                title = "Opa!",
+                description = "Adicionado ${track.info.title} à fila."
+        )
 
         play(channel.guild.id, track)
     }
 
     override fun onPlaylistLoaded(tracks: List<AudioTrack>) {
-
         if (tracks.isNotEmpty()) {
             val track = tracks.first()
-            EmbedBuilder().setTitle("Opa!")
-                    .setDescription("Adicionadas **${tracks.size}** músicas à fila.")
-                    .setColor(Color.ORANGE)
-                    .build()
-                    .queue(channel)
+            EmbedMessage.success(
+                    channel,
+                    title = "Opa!",
+                    description = "Adicionadas **${tracks.size}** músicas à fila."
+            )
 
-            EmbedBuilder()
-                    .setColor(Color.ORANGE)
-                    .setDescription("Tocando **${track.info.title}** agora!")
-                    .setFooter(track.info.author)
-                    .build()
-                    .queue(channel)
+            EmbedMessage.success(
+                    channel,
+                    description = "Tocando **${track.info.title}** agora!"
+            )
 
             thread {
                 tracks.forEach {
@@ -48,31 +42,26 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
                 }
             }
         } else {
-            EmbedBuilder().setTitle("Ops!")
-                    .setDescription("Esta playlist estava vazia.")
-                    .setColor(Color.RED)
-                    .build()
-                    .queue(channel)
+            EmbedMessage.failure(
+                    channel,
+                    description = "Esta playlist estava vazia."
+            )
         }
     }
 
     override fun onNoMatches() {
-        EmbedBuilder()
-                .setTitle("Ops!")
-                .setDescription("Não consegui encontrar nada com o que você me passou.")
-                .setColor(Color.RED)
-                .build()
-                .queue(channel)
+        EmbedMessage.failure(
+                channel,
+                description = "Não consegui encontrar nada com o que você me passou."
+        )
     }
 
     override fun onLoadFailed(message: String?) {
-        EmbedBuilder()
-                .setTitle("Ops!")
-                .setDescription("Ocorreu um erro ao tentar encontrar seu pedido.")
-                .setFooter("Erro: $message")
-                .setColor(Color.RED)
-                .build()
-                .queue(channel)
+        EmbedMessage.failure(
+                channel,
+                description = "Ocorreu um erro ao tentar encontrar seu pedido.",
+                footer = "Erro: $message"
+        )
     }
 
     private fun play(guildId: String, track: AudioTrack) {

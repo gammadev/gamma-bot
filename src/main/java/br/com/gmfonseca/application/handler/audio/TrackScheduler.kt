@@ -4,7 +4,6 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
-import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * Created by Gabriel Fonseca on 23/09/2020.
@@ -12,21 +11,48 @@ import java.util.concurrent.LinkedBlockingQueue
 class TrackScheduler(
         private val player: AudioPlayer
 ) : AudioEventAdapter() {
-    private val trackQueue = LinkedBlockingQueue<AudioTrack>()
 
     var listener: ITrackSchedulerListener? = null
 
+    private val trackQueue = mutableListOf<AudioTrack>()
+    private var curIndex: Int = -1
+    private var curTrack: AudioTrack? = null
+
     fun queue(track: AudioTrack) {
-        if (!player.startTrack(track, true)) {
-            trackQueue.offer(track)
+        synchronized(trackQueue) {
+            if (!player.startTrack(track, true)) {
+                trackQueue.add(track)
+            }
         }
     }
 
-    private fun nextTrack() {
-        val nextTrack = trackQueue.poll() ?: return
+    fun jump(index: Int) {
+        playTrackAt(index)
+    }
 
-        player.startTrack(nextTrack, false)
-        listener?.onNextTrack(nextTrack)
+    fun skip() {
+        nextTrack()
+    }
+
+    private fun nextTrack() {
+        playTrackAt(curIndex + 1)
+    }
+
+    private fun playTrackAt(index: Int) {
+        synchronized(this) {
+            if (!trackQueue.indices.contains(index)) {
+                listener?.onWrongIndex(index)
+                return
+            }
+
+            curIndex = index
+
+            trackQueue[index].makeClone().let {
+                curTrack = it
+                player.startTrack(it, false)
+                listener?.onNextTrack(it)
+            }
+        }
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
@@ -38,6 +64,8 @@ class TrackScheduler(
     interface ITrackSchedulerListener {
 
         fun onNextTrack(track: AudioTrack)
+
+        fun onWrongIndex(index: Int)
 
     }
 }

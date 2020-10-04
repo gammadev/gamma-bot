@@ -1,23 +1,27 @@
 package br.com.gmfonseca.application.listener
 
 import br.com.gmfonseca.application.handler.audio.TrackScheduler
-import br.com.gmfonseca.business.utils.ext.queue
+import br.com.gmfonseca.business.utils.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
-import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.TextChannel
-import java.awt.Color
 
 /**
  * Created by Gabriel Fonseca on 27/09/2020.
  */
-class TrackSchedulerListener(private val channel: TextChannel) : TrackScheduler.ITrackSchedulerListener {
+class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSchedulerListener {
 
     override fun onNextTrack(track: AudioTrack) {
-        EmbedBuilder()
-                .setColor(Color.ORANGE)
-                .setDescription("Tocando **${track.info.title}** agora!")
-                .setFooter(track.info.author)
-                .build()
-                .queue(channel)
+        EmbedMessage.success(
+                channel,
+                description = "Tocando **${track.info.title}** agora!",
+                footer = track.info.author
+        )
+    }
+
+    override fun onWrongIndex(index: Int) {
+        EmbedMessage.failure(
+                channel,
+                description = "A posição ${index + 1} não está na fila."
+        )
     }
 }

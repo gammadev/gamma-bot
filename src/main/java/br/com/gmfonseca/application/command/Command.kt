@@ -1,6 +1,7 @@
 package br.com.gmfonseca.application.command
 
 import br.com.gmfonseca.DiscordApp
+import br.com.gmfonseca.application.command.jump.JumpCommand
 import br.com.gmfonseca.application.command.play.PlayCommand
 import br.com.gmfonseca.business.utils.ext.createInstance
 import br.com.gmfonseca.business.utils.ext.equalsIgnoreCase
@@ -33,16 +34,13 @@ abstract class Command(private val name: String) {
     }
 
     @Suppress("UNUSED")
-    enum class Commands(private val klass: KClass<out Command>) {
-        PLAY(PlayCommand::class),
-        UNKNOWN(UnknownCommand::class);
+    enum class Commands(private val command: Command) {
+        PLAY(PlayCommand),
+        JUMP(JumpCommand),
+        UNKNOWN(UnknownCommand);
 
         fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
-            return getCommandInstance().onCommand(author, channel, args)
-        }
-
-        private fun getCommandInstance(): Command {
-            return klass.createInstance()
+            return command.onCommand(author, channel, args)
         }
 
         override fun toString(): String {
