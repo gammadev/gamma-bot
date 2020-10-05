@@ -8,9 +8,9 @@ import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 
 /**
- * Created by Gabriel Fonseca on 19/09/2020.
+ * Created by Gabriel Fonseca on 03/10/2020.
  */
-object JumpCommand : Command("play") {
+object JumpCommand : Command("jump") {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.id
@@ -18,7 +18,7 @@ object JumpCommand : Command("play") {
         val scheduler = musicManager.scheduler
 
         with(scheduler) {
-            if (listener == null) listener = TrackSchedulerListener(channel)
+            listener = TrackSchedulerListener(channel)
         }
 
         if (args.isEmpty()) {

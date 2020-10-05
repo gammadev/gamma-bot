@@ -2,15 +2,16 @@ package br.com.gmfonseca.application.command
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.application.command.jump.JumpCommand
+import br.com.gmfonseca.application.command.pause.PauseCommand
 import br.com.gmfonseca.application.command.play.PlayCommand
-import br.com.gmfonseca.business.utils.ext.createInstance
+import br.com.gmfonseca.application.command.queue.QueueCommand
+import br.com.gmfonseca.application.command.resume.ResumeCommand
 import br.com.gmfonseca.business.utils.ext.equalsIgnoreCase
 import br.com.gmfonseca.business.utils.ext.queue
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 import java.awt.Color
-import kotlin.reflect.KClass
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
@@ -36,7 +37,10 @@ abstract class Command(private val name: String) {
     @Suppress("UNUSED")
     enum class Commands(private val command: Command) {
         PLAY(PlayCommand),
+        PAUSE(PauseCommand),
+        RESUME(ResumeCommand),
         JUMP(JumpCommand),
+        QUEUE(QueueCommand),
         UNKNOWN(UnknownCommand);
 
         fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
