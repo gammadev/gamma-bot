@@ -14,13 +14,11 @@ object ResumeCommand : Command("resume") {
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.id
         val musicManager = DiscordApp.getMusicManager(guildId)
-        val scheduler = musicManager.scheduler
 
-        with(scheduler) {
+        with(musicManager.scheduler) {
             listener = TrackSchedulerListener(channel)
+            resume(channel)
         }
-
-        scheduler.resume(channel)
 
         return true
     }

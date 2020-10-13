@@ -1,4 +1,4 @@
-package br.com.gmfonseca.business.utils.ext
+package br.com.gmfonseca.utils.ext
 
 import kotlin.reflect.KClass
 

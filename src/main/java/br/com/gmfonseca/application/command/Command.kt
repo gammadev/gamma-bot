@@ -6,8 +6,8 @@ import br.com.gmfonseca.application.command.pause.PauseCommand
 import br.com.gmfonseca.application.command.play.PlayCommand
 import br.com.gmfonseca.application.command.queue.QueueCommand
 import br.com.gmfonseca.application.command.resume.ResumeCommand
-import br.com.gmfonseca.business.utils.ext.equalsIgnoreCase
-import br.com.gmfonseca.business.utils.ext.queue
+import br.com.gmfonseca.utils.ext.equalsIgnoreCase
+import br.com.gmfonseca.utils.ext.queue
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User

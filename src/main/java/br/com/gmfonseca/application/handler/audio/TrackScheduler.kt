@@ -1,17 +1,17 @@
 package br.com.gmfonseca.application.handler.audio
 
-import br.com.gmfonseca.business.utils.EmbedMessage
+import br.com.gmfonseca.utils.EmbedMessage
+import br.com.gmfonseca.utils.ext.fill
+import br.com.gmfonseca.utils.ext.truncateOrFill
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
-import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
-import com.sedmelluq.discord.lavaplayer.track.BaseAudioTrack
-import com.sedmelluq.discord.lavaplayer.track.TrackStateListener
 import net.dv8tion.jda.api.entities.TextChannel
 import java.text.DecimalFormat
 import kotlin.math.abs
 import kotlin.math.floor
+import kotlin.math.min
 
 /**
  * Created by Gabriel Fonseca on 23/09/2020.
@@ -31,60 +31,62 @@ class TrackScheduler(
     private var curIndex: Int = -1
     private var curTrack: AudioTrack? = null
 
-    fun resume(channel: TextChannel) { // TODO: The resume isn't playing from last state, but restarting the music
+    fun resume(channel: TextChannel) {
         synchronized(this) {
-            val track = curTrack?.let { it as BaseAudioTrack }
-            track?.activeExecutor?.execute(object : TrackStateListener {
-                override fun onTrackException(p0: AudioTrack?, p1: FriendlyException?) {
-                    EmbedMessage.failure(channel, description = "Ocorreu um erro ao iniciar: ${p1?.message}")
-                }
-
-                override fun onTrackStuck(p0: AudioTrack?, p1: Long) {
-                    EmbedMessage.failure(channel, description = "O audio esta engargalando.")
-                }
-            })
+            EmbedMessage.success(channel, description = "Voltando a tocar agora!")
+            player.isPaused = false
         }
     }
 
-    fun stop() {
-
-    }
-
-    fun pause(channel: TextChannel) { // TODO: check if this method is pausing the audio correctly
+    fun pause(channel: TextChannel) {
         synchronized(this) {
             curTrack?.let {
                 EmbedMessage.success(channel, description = "Parando de tocar agora!")
-                it.stop()
+                player.isPaused = true
             }
-
         }
     }
 
-    fun queueToString(): String { // TODO: This method should return less than 2000 total characters
+    fun queueToString(): String {
         val strBuilder = StringBuilder()
 
         synchronized(this) {
             val curIndex = this.curIndex
-            val curTrack = this.curTrack
             val queue = this.trackQueue
 
             if (queue.isEmpty()) {
                 strBuilder.append("A lista está vazia :cry:")
             } else {
-                val format = DecimalFormat("00")
+                val decimalFormat = DecimalFormat("00")
+                val starterIndex = if (curIndex < 2) 0 else curIndex - 1
+                val finalIndex = min(starterIndex + 10, queue.size)
 
-                strBuilder.append("```python\n")
+                strBuilder.append("```swift\n")
 
-                queue.forEachIndexed { i, track ->
-                    if (i == curIndex) {
-                        val printTrack = curTrack ?: track
+                val sizeCharCount = "${queue.size}".length
 
-                        strBuilder.append(" \\/ audio atual \n")
-                        strBuilder.append("[${curIndex + 1}] ${track.info.title} ${format.format(printTrack.duration / 60_000)}:${format.format(abs(floor(printTrack.duration / 60_000.0) - (printTrack.duration / 60_000.0)) * 60)} \n")
-                        strBuilder.append(" /\\ audio atual \n")
+                queue.subList(starterIndex, finalIndex).forEachIndexed { i, track ->
+                    val adaptedIndex = starterIndex + i + 1
+                    val displayPosition = "$adaptedIndex".fill(sizeCharCount, fillStart = true)
+
+                    if (starterIndex + i == curIndex) {
+                        strBuilder.append("\n$displayPosition | ")
+                        strBuilder.append(track.info.title.truncateOrFill(36))
+                        strBuilder.append(" | ")
+                        strBuilder.append("${decimalFormat.format(track.duration / 60_000)}:${decimalFormat.format(abs(floor(track.duration / 60_000.0) - (track.duration / 60_000.0)) * 60)} -- Tocando")
+                        strBuilder.append("\n")
                     } else {
-                        strBuilder.append("[${i + 1}] ${track.info.title} -- ${format.format(track.duration / 60_000)}:${format.format(abs(floor(track.duration / 60_000.0) - (track.duration / 60_000.0)) * 60)} \n")
+                        strBuilder.append("$displayPosition | ")
+                        strBuilder.append(track.info.title.truncateOrFill(36))
+                        strBuilder.append(" | ")
+                        strBuilder.append("${decimalFormat.format(track.duration / 60_000)}:${decimalFormat.format(abs(floor(track.duration / 60_000.0) - (track.duration / 60_000.0)) * 60)}")
                     }
+                    strBuilder.append("\n")
+                }
+                if (finalIndex == queue.size) {
+                    strBuilder.append("\nFim da lista")
+                } else {
+                    strBuilder.append("\nMais ${queue.size - finalIndex} abaixo")
                 }
             }
 
@@ -112,15 +114,19 @@ class TrackScheduler(
         nextTrack()
     }
 
-    private fun nextTrack() {
-        playTrackAt(curIndex + 1)
+    private fun nextTrack(shouldNotify: Boolean = true) {
+        playTrackAt(curIndex + 1, shouldNotify = shouldNotify)
     }
 
-    private fun playTrackAt(index: Int) {
+    private fun playTrackAt(index: Int, shouldNotify: Boolean = true) {
         synchronized(this) {
             if (!trackQueue.indices.contains(index)) {
                 listener?.onWrongIndex(index)
                 return
+            }
+
+            if (player.isPaused) {
+                player.isPaused = false
             }
 
             curIndex = index
@@ -128,14 +134,16 @@ class TrackScheduler(
             trackQueue[index].makeClone().let {
                 curTrack = it
                 player.startTrack(it, false)
-                listener?.onNextTrack(it)
+                if (shouldNotify) {
+                    listener?.onNextTrack(it)
+                }
             }
         }
     }
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         if (endReason.mayStartNext) {
-            nextTrack()
+            nextTrack(shouldNotify = endReason != AudioTrackEndReason.LOAD_FAILED)
         }
     }
 

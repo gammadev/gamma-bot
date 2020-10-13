@@ -1,8 +1,8 @@
 package br.com.gmfonseca.application.handler.message
 
-import br.com.gmfonseca.business.utils.ext.getCommand
-import br.com.gmfonseca.business.utils.ext.getCommandArgs
-import br.com.gmfonseca.business.utils.ext.isCommand
+import br.com.gmfonseca.utils.ext.getCommand
+import br.com.gmfonseca.utils.ext.getCommandArgs
+import br.com.gmfonseca.utils.ext.isCommand
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 

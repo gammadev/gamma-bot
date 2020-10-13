@@ -3,7 +3,7 @@ package br.com.gmfonseca.application.command.jump
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.application.command.Command
 import br.com.gmfonseca.application.listener.TrackSchedulerListener
-import br.com.gmfonseca.business.utils.EmbedMessage
+import br.com.gmfonseca.utils.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 

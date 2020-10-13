@@ -1,6 +1,6 @@
-package br.com.gmfonseca.business.utils
+package br.com.gmfonseca.utils
 
-import br.com.gmfonseca.business.utils.ext.queue
+import br.com.gmfonseca.utils.ext.queue
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.TextChannel
 import java.awt.Color
