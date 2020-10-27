@@ -2,7 +2,6 @@ package br.com.gmfonseca.utils.ext
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.application.command.Command
-import kotlin.math.abs
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
@@ -41,8 +40,8 @@ fun String.fill(maxLength: Int, fillStart: Boolean = false, fillChar: Char = ' '
 
     return when {
         fillCount <= 0 -> this
-        fillStart -> "${String.format(format, fillChar)}$this"
-        else -> "$this${String.format(format, fillChar)}"
+        fillStart -> "${format.format(fillChar)}$this"
+        else -> "$this${format.format(fillChar)}"
     }
 }
 

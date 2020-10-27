@@ -2,15 +2,13 @@ package br.com.gmfonseca.application.handler.audio
 
 import br.com.gmfonseca.utils.EmbedMessage
 import br.com.gmfonseca.utils.ext.fill
+import br.com.gmfonseca.utils.ext.msToReadableTime
 import br.com.gmfonseca.utils.ext.truncateOrFill
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason
 import net.dv8tion.jda.api.entities.TextChannel
-import java.text.DecimalFormat
-import kotlin.math.abs
-import kotlin.math.floor
 import kotlin.math.min
 
 /**
@@ -47,53 +45,43 @@ class TrackScheduler(
         }
     }
 
-    fun queueToString(): String {
-        val strBuilder = StringBuilder()
+    fun queueToString(): String = synchronized(this) {
+        val strBuilder = StringBuilder("```swift\n")
+        val curIndex = this.curIndex
+        val queue = this.trackQueue
 
-        synchronized(this) {
-            val curIndex = this.curIndex
-            val queue = this.trackQueue
+        if (queue.isEmpty()) {
+            strBuilder.append("A lista está vazia \uD83E\uDD14")
+        } else {
+            val starterIndex = if (curIndex < 2) 0 else curIndex - 1
+            val finalIndex = min(starterIndex + 10, queue.size)
 
-            if (queue.isEmpty()) {
-                strBuilder.append("A lista está vazia :cry:")
-            } else {
-                val decimalFormat = DecimalFormat("00")
-                val starterIndex = if (curIndex < 2) 0 else curIndex - 1
-                val finalIndex = min(starterIndex + 10, queue.size)
+            val sizeCharCount = "${queue.size}".length
 
-                strBuilder.append("```swift\n")
+            queue.subList(starterIndex, finalIndex).forEachIndexed { i, track ->
+                val adjustedIndex = starterIndex + i + 1
+                val displayPosition = "$adjustedIndex".fill(sizeCharCount, fillStart = true)
+                val readableTime = track.duration.msToReadableTime()
+                val trackTitle = track.info.title.truncateOrFill(36)
 
-                val sizeCharCount = "${queue.size}".length
-
-                queue.subList(starterIndex, finalIndex).forEachIndexed { i, track ->
-                    val adaptedIndex = starterIndex + i + 1
-                    val displayPosition = "$adaptedIndex".fill(sizeCharCount, fillStart = true)
-
-                    if (starterIndex + i == curIndex) {
-                        strBuilder.append("\n$displayPosition | ")
-                        strBuilder.append(track.info.title.truncateOrFill(36))
-                        strBuilder.append(" | ")
-                        strBuilder.append("${decimalFormat.format(track.duration / 60_000)}:${decimalFormat.format(abs(floor(track.duration / 60_000.0) - (track.duration / 60_000.0)) * 60)} -- Tocando")
-                        strBuilder.append("\n")
-                    } else {
-                        strBuilder.append("$displayPosition | ")
-                        strBuilder.append(track.info.title.truncateOrFill(36))
-                        strBuilder.append(" | ")
-                        strBuilder.append("${decimalFormat.format(track.duration / 60_000)}:${decimalFormat.format(abs(floor(track.duration / 60_000.0) - (track.duration / 60_000.0)) * 60)}")
-                    }
-                    strBuilder.append("\n")
-                }
-                if (finalIndex == queue.size) {
-                    strBuilder.append("\nFim da lista")
+                if (starterIndex + i == curIndex) {
+                    strBuilder.append("\n$displayPosition | ", trackTitle)
+                            .append(" | ", "$readableTime -- Tocando")
+                            .appendLine()
                 } else {
-                    strBuilder.append("\nMais ${queue.size - finalIndex} abaixo")
+                    strBuilder.append("$displayPosition | ", trackTitle, " | ", readableTime)
                 }
+                strBuilder.appendLine()
             }
 
-            strBuilder.append("```")
+            if (finalIndex == queue.size) {
+                strBuilder.append("\nFim da lista")
+            } else {
+                strBuilder.append("\nMais ${queue.size - finalIndex} abaixo")
+            }
         }
 
-        return strBuilder.toString()
+        return strBuilder.append("```").toString()
     }
 
     fun queue(track: AudioTrack) {
