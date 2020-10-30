@@ -35,25 +35,27 @@ abstract class Command(private val name: String) {
     }
 
     @Suppress("UNUSED")
-    enum class Commands(private val command: Command) {
-        PLAY(PlayCommand),
+    enum class Commands(private val command: Command, vararg aliases: String) {
+        JUMP(JumpCommand, "j"),
         PAUSE(PauseCommand),
-        RESUME(ResumeCommand),
-        JUMP(JumpCommand),
-        QUEUE(QueueCommand),
+        PLAY(PlayCommand, "p"),
+        RESUME(ResumeCommand, "r"),
+        QUEUE(QueueCommand, "q"),
         UNKNOWN(UnknownCommand);
 
-        fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
-            return command.onCommand(author, channel, args)
-        }
+        private val aliases: List<String> = listOf(*aliases)
 
         override fun toString(): String {
             return name.toLowerCase()
         }
 
+        fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
+            return command.onCommand(author, channel, args)
+        }
+
         companion object {
             fun fromName(name: String): Commands {
-                return values().find { it.name equalsIgnoreCase name } ?: UNKNOWN
+                return values().find { (it.name equalsIgnoreCase name) || (name in it.aliases) } ?: UNKNOWN
             }
         }
     }

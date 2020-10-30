@@ -29,6 +29,12 @@ class TrackScheduler(
     private var curIndex: Int = -1
     private var curTrack: AudioTrack? = null
 
+    override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
+        if (endReason.mayStartNext) {
+            nextTrack(shouldNotify = endReason != AudioTrackEndReason.LOAD_FAILED)
+        }
+    }
+
     fun resume(channel: TextChannel) {
         synchronized(this) {
             EmbedMessage.success(channel, description = "Voltando a tocar agora!")
@@ -126,12 +132,6 @@ class TrackScheduler(
                     listener?.onNextTrack(it)
                 }
             }
-        }
-    }
-
-    override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
-        if (endReason.mayStartNext) {
-            nextTrack(shouldNotify = endReason != AudioTrackEndReason.LOAD_FAILED)
         }
     }
 
