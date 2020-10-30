@@ -12,11 +12,11 @@ import net.dv8tion.jda.api.entities.User
 /**
  * Created by Gabriel Fonseca on 19/09/2020.
  */
-object PlayCommand : Command("play") {
+object PlayCommand : Command("play", listOf("p")) {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         if (args.isEmpty()) {
-            onWrongCommand(channel, "")
+            onWrongCommand(channel, "<youtube-link>")
         } else {
             val guild = channel.guild
             val voiceChannel = guild.voiceChannels.find { voiceChannel ->

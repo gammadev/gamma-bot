@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.entities.User
 /**
  * Created by Gabriel Fonseca on 04/10/2020.
  */
-object ResumeCommand : Command("resume") {
+object ResumeCommand : Command("resume", listOf("r")) {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.id

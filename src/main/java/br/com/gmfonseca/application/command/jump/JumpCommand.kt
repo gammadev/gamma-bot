@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.User
 /**
  * Created by Gabriel Fonseca on 03/10/2020.
  */
-object JumpCommand : Command("jump") {
+object JumpCommand : Command("jump", listOf("j")) {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.id
@@ -50,7 +50,7 @@ object JumpCommand : Command("jump") {
                 // schedule jump music
                 args.first().toIntOrNull()?.let {
                     scheduler.jump(it - 1)
-                } ?: onWrongCommand(channel, "")
+                } ?: onWrongCommand(channel)
 
             }
         }

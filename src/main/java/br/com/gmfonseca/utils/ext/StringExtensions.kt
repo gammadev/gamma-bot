@@ -11,9 +11,9 @@ fun String.isCommand(): Boolean {
     return isNotBlank() && first() == DiscordApp.COMMAND_PREFIX
 }
 
-fun String.getCommand(): Command.Commands {
+fun String.getCommand(): Command {
     val command = split(" ").first().substring(1)
-    return Command.Commands.fromName(command)
+    return Command.fromName(command)
 }
 
 fun String.getCommandArgs(): List<String> {

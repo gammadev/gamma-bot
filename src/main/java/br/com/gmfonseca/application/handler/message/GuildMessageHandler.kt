@@ -16,11 +16,12 @@ class GuildMessageHandler : ListenerAdapter() {
 
         if (event.author.isBot) return
 
-        val rawMessage = event.message.contentRaw
-
-        if (rawMessage.isCommand()) {
-            rawMessage.getCommand().onCommand(event.author, event.channel, rawMessage.getCommandArgs())
+        with(event.message.contentRaw) {
+            if (isCommand()) {
+                getCommand().onCommand(event.author, event.channel, getCommandArgs())
+            }
         }
+
     }
 
 }
