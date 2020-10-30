@@ -6,6 +6,7 @@ import br.com.gmfonseca.application.command.pause.PauseCommand
 import br.com.gmfonseca.application.command.play.PlayCommand
 import br.com.gmfonseca.application.command.queue.QueueCommand
 import br.com.gmfonseca.application.command.resume.ResumeCommand
+import br.com.gmfonseca.application.command.skip.SkipCommand
 import br.com.gmfonseca.utils.EmbedMessage
 import br.com.gmfonseca.utils.ext.equalsIgnoreCase
 import net.dv8tion.jda.api.entities.TextChannel
@@ -33,6 +34,7 @@ abstract class Command(private val name: String, private val aliases: List<Strin
     companion object {
         private val values = listOf(
                 JumpCommand,
+                SkipCommand,
                 PauseCommand,
                 PlayCommand,
                 ResumeCommand,
