@@ -2,6 +2,7 @@ package br.com.gmfonseca.application.command.resume
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.application.command.Command
+import br.com.gmfonseca.application.command.CommandHandler
 import br.com.gmfonseca.application.listener.TrackSchedulerListener
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
@@ -9,7 +10,8 @@ import net.dv8tion.jda.api.entities.User
 /**
  * Created by Gabriel Fonseca on 04/10/2020.
  */
-object ResumeCommand : Command("resume", listOf("r")) {
+@CommandHandler(name = "resume", aliases = ["r"])
+class ResumeCommand : Command() {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.id

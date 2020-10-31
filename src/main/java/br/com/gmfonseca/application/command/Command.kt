@@ -9,14 +9,19 @@ import br.com.gmfonseca.application.command.resume.ResumeCommand
 import br.com.gmfonseca.application.command.skip.SkipCommand
 import br.com.gmfonseca.utils.EmbedMessage
 import br.com.gmfonseca.utils.ext.equalsIgnoreCase
+import br.com.gmfonseca.utils.ext.getAnnotation
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
  */
-abstract class Command(private val name: String, private val aliases: List<String> = emptyList()) {
+abstract class Command {
 
+    private var name: String = ""
+    private val aliases = mutableListOf<String>()
+
+    @Throws
     abstract fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
@@ -32,18 +37,38 @@ abstract class Command(private val name: String, private val aliases: List<Strin
     }
 
     companion object {
+        // Should be sorted by its priority
         private val values = listOf(
-                JumpCommand,
-                SkipCommand,
-                PauseCommand,
-                PlayCommand,
-                ResumeCommand,
-                QueueCommand,
-                UnknownCommand
+                PlayCommand(),
+                QueueCommand(),
+                JumpCommand(),
+                SkipCommand(),
+                PauseCommand(),
+                ResumeCommand(),
         )
 
+        init {
+            // Allow only unique names and aliases
+            val namesAliases = mutableSetOf<String>()
+
+            values.forEach { command ->
+                command.getAnnotation(CommandHandler::class)?.run {
+                    if (namesAliases.add(name)) {
+                        command.name = name
+                    }
+
+                    aliases.filter { it !in namesAliases }.let {
+                        if (namesAliases.addAll(it)) {
+                            command.aliases.addAll(it)
+                        }
+                    }
+                }
+            }
+        }
+
         fun fromName(name: String): Command {
-            return values.find { (it.name equalsIgnoreCase name) || (name in it.aliases) } ?: UnknownCommand
+            return values.find { (it.name equalsIgnoreCase name) || (name.toLowerCase() in it.aliases) }
+                    ?: UnknownCommand
         }
     }
 }

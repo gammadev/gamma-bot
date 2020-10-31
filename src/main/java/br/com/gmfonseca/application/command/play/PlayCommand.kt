@@ -2,6 +2,7 @@ package br.com.gmfonseca.application.command.play
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.application.command.Command
+import br.com.gmfonseca.application.command.CommandHandler
 import br.com.gmfonseca.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.application.listener.YoutubeClientListener
 import br.com.gmfonseca.business.client.YoutubeClient
@@ -12,7 +13,8 @@ import net.dv8tion.jda.api.entities.User
 /**
  * Created by Gabriel Fonseca on 19/09/2020.
  */
-object PlayCommand : Command("play", listOf("p")) {
+@CommandHandler(name = "play", aliases = ["p"])
+class PlayCommand : Command() {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
         if (args.isEmpty()) {
