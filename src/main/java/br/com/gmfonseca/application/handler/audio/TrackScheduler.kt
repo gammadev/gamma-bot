@@ -71,8 +71,8 @@ class TrackScheduler(
                 val trackTitle = track.info.title.truncateOrFill(36)
 
                 if (starterIndex + i == curIndex) {
-                    strBuilder.append("\n$displayPosition | ", trackTitle)
-                            .append(" | ", "$readableTime -- Tocando")
+                    strBuilder.appendLine()
+                            .append("$displayPosition | ", trackTitle, " | ", "$readableTime -- Tocando")
                             .appendLine()
                 } else {
                     strBuilder.append("$displayPosition | ", trackTitle, " | ", readableTime)
@@ -96,6 +96,7 @@ class TrackScheduler(
             if (player.startTrack(track, true)) {
                 curIndex = trackQueue.indexOf(track)
                 curTrack = track
+                listener?.onNextTrack(track)
             }
         }
     }

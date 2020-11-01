@@ -1,5 +1,6 @@
 package br.com.gmfonseca.application.listener
 
+import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.application.handler.audio.TrackScheduler
 import br.com.gmfonseca.utils.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
@@ -15,7 +16,13 @@ class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSc
                 channel,
                 description = "Tocando **${track.info.title}** agora!",
                 footer = track.info.author
-        )
+        ) { message ->
+            val guildId: Long = channel.guild.idLong
+            DiscordApp.takeLastMessageId(guildId = guildId)?.let {
+                channel.deleteMessageById(it).queue()
+            }
+            DiscordApp.putLastMessageId(guildId = guildId, messageId = message.idLong)
+        }
     }
 
     override fun onWrongIndex(index: Int) {
