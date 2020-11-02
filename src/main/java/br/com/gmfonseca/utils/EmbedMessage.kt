@@ -2,6 +2,7 @@ package br.com.gmfonseca.utils
 
 import br.com.gmfonseca.utils.ext.queue
 import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 import java.awt.Color
 
@@ -17,27 +18,31 @@ object EmbedMessage {
             channel: TextChannel,
             title: String? = null,
             description: String? = null,
-            footer: String? = null
+            footer: String? = null,
+            onMessageSent: (Message) -> Unit = {}
     ) {
         buildAndQueue(
                 channel,
                 color = SUCCESS,
                 title = title,
                 description = description,
-                footer = footer
+                footer = footer,
+                onMessageSent = onMessageSent
         )
     }
 
     fun info(
             channel: TextChannel,
             title: String? = null,
-            description: String? = null
+            description: String? = null,
+            onMessageSent: (Message) -> Unit = {}
     ) {
         buildAndQueue(
                 channel,
                 color = INFO,
                 title = title,
-                description = description
+                description = description,
+                onMessageSent = onMessageSent
         )
     }
 
@@ -45,14 +50,16 @@ object EmbedMessage {
             channel: TextChannel,
             title: String = "Ops!",
             description: String? = null,
-            footer: String? = null
+            footer: String? = null,
+            onMessageSent: (Message) -> Unit = {}
     ) {
         buildAndQueue(
                 channel,
                 color = ERROR,
                 title = title,
                 description = description,
-                footer = footer
+                footer = footer,
+                onMessageSent = onMessageSent
         )
     }
 
@@ -61,7 +68,8 @@ object EmbedMessage {
             color: Color? = null,
             title: String? = null,
             description: String? = null,
-            footer: String? = null
+            footer: String? = null,
+            onMessageSent: (Message) -> Unit = {}
     ) {
         EmbedBuilder().apply {
 
@@ -70,7 +78,7 @@ object EmbedMessage {
             description?.let { setDescription(it) }
             footer?.let { setFooter(it) }
 
-        }.build().queue(channel)
+        }.build().queue(channel, onMessageSent)
     }
 
 }

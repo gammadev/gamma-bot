@@ -51,5 +51,4 @@ object DiscordApp {
         INSTANCE.addEventListener(*listeners)
     }
 
-
 }
