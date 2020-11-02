@@ -12,16 +12,32 @@ class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSc
 
     override fun onNextTrack(track: AudioTrack) {
         EmbedMessage.success(
-                channel,
-                description = "Tocando **${track.info.title}** agora!",
-                footer = track.info.author
-        )
+            channel,
+            description = "Tocando **${track.info.title}** agora!",
+            footer = track.info.author
+        ) { msg ->
+            val guildId = channel.guild.idLong
+            LAST_MESSAGE_ID[channel.guild.idLong]?.let {
+                channel.deleteMessageById(it).queue()
+            }
+            LAST_MESSAGE_ID[guildId] = msg.idLong
+        }
     }
 
     override fun onWrongIndex(index: Int) {
         EmbedMessage.failure(
-                channel,
-                description = "A posição ${index + 1} não está na fila."
+            channel,
+            description = "A posição ${index + 1} não está na fila."
         )
+    }
+
+    override fun onFinish() {
+        LAST_MESSAGE_ID[channel.guild.idLong]?.let {
+            channel.deleteMessageById(it).queue()
+        }
+    }
+
+    companion object {
+        private val LAST_MESSAGE_ID = mutableMapOf<Long, Long>()
     }
 }

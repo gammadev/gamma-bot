@@ -24,16 +24,10 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
 
     override fun onPlaylistLoaded(tracks: List<AudioTrack>) {
         if (tracks.isNotEmpty()) {
-            val track = tracks.first()
             EmbedMessage.success(
                     channel,
                     title = "Opa!",
                     description = "Adicionadas **${tracks.size}** músicas à fila."
-            )
-
-            EmbedMessage.success(
-                    channel,
-                    description = "Tocando **${track.info.title}** agora!"
             )
 
             thread {

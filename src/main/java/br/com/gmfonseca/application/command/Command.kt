@@ -21,7 +21,6 @@ abstract class Command {
     private var name: String = ""
     private val aliases = mutableListOf<String>()
 
-    @Throws
     abstract fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
