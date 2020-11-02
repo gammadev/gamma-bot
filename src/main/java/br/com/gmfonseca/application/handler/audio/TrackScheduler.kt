@@ -72,8 +72,8 @@ class TrackScheduler(
 
                 if (starterIndex + i == curIndex) {
                     strBuilder.appendLine()
-                            .append("$displayPosition | ", trackTitle, " | ", "$readableTime -- Tocando")
-                            .appendLine()
+                        .append("$displayPosition | ", trackTitle, " | ", "$readableTime -- Tocando")
+                        .appendLine()
                 } else {
                     strBuilder.append("$displayPosition | ", trackTitle, " | ", readableTime)
                 }
