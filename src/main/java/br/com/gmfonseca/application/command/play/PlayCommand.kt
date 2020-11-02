@@ -31,9 +31,7 @@ class PlayCommand : Command() {
                     description = "Você não está conectado em um canal de voz!"
                 )
             } else {
-                if (args.first()
-                        .matches(Regex(YOUTUBE_REGEX))
-                ) {
+                if (args.first().matches(Regex(YOUTUBE_REGEX))) {
                     YoutubeClient(YoutubeClientListener(channel)).download(args.first())
                 } else {
 //                    YoutubeClient(YoutubeClientListener(channel)).search(args.reduce { acc, cur -> "$acc $cur" })
