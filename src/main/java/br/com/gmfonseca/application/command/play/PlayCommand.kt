@@ -32,7 +32,7 @@ class PlayCommand : Command() {
                 )
             } else {
                 if (args.first()
-                        .matches(Regex("(http|https)://(((www|music).youtube.com/(watch|playlist)\\?[a-zA-Z0-9_\\-&=.]+)|youtu.be/[a-zA-Z0-9_\\-&=.]+)"))
+                        .matches(Regex(YOUTUBE_REGEX))
                 ) {
                     YoutubeClient(YoutubeClientListener(channel)).download(args.first())
                 } else {
@@ -56,5 +56,10 @@ class PlayCommand : Command() {
         }
 
         return true
+    }
+
+    companion object {
+        const val YOUTUBE_REGEX =
+            "(http|https)://(((www|music).youtube.com/(watch|playlist)\\?[a-zA-Z0-9_\\-&=.]+)|youtu.be/[a-zA-Z0-9_\\-&=.]+)"
     }
 }
