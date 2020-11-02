@@ -15,7 +15,7 @@ import kotlin.math.min
  * Created by Gabriel Fonseca on 23/09/2020.
  */
 class TrackScheduler(
-        private val player: AudioPlayer
+    private val player: AudioPlayer
 ) : AudioEventAdapter() {
 
     var listener: ITrackSchedulerListener? = null
@@ -72,8 +72,8 @@ class TrackScheduler(
 
                 if (starterIndex + i == curIndex) {
                     strBuilder.appendLine()
-                            .append("$displayPosition | ", trackTitle, " | ", "$readableTime -- Tocando")
-                            .appendLine()
+                        .append("$displayPosition | ", trackTitle, " | ", "$readableTime -- Tocando")
+                        .appendLine()
                 } else {
                     strBuilder.append("$displayPosition | ", trackTitle, " | ", readableTime)
                 }

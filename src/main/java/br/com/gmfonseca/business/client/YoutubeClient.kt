@@ -26,7 +26,7 @@ class YoutubeClient(private val listener: YoutubeClientListener) {
     }
 
     fun download(identifier: String) {
-        thread { // TODO: sometimes the title is null. Example=https://www.youtube.com/watch?v=b-PhvPKgWjY&list=PLQEUs9xtYT6o8QYY-NYg5hRuX-8fLrcy3
+        thread {
             DiscordApp.PLAYER_MANAGER.loadItem(identifier, object : AudioLoadResultHandler {
                 override fun trackLoaded(track: AudioTrack) {
                     listener.onTrackLoaded(track)

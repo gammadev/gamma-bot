@@ -21,29 +21,29 @@ abstract class Command {
     private var name: String = ""
     private val aliases = mutableListOf<String>()
 
+    override fun toString(): String {
+        return "${DiscordApp.COMMAND_PREFIX}$name"
+    }
+
     abstract fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
         EmbedMessage.failure(
-                channel = channel,
-                title = "Comando inválido",
-                description = "Por favor, use $this $extra"
+            channel = channel,
+            title = "Comando inválido",
+            description = "Por favor, use $this $extra"
         )
-    }
-
-    override fun toString(): String {
-        return "${DiscordApp.COMMAND_PREFIX}$name"
     }
 
     companion object {
         // Should be sorted by its priority
         private val values = listOf(
-                PlayCommand(),
-                QueueCommand(),
-                JumpCommand(),
-                SkipCommand(),
-                PauseCommand(),
-                ResumeCommand(),
+            PlayCommand(),
+            QueueCommand(),
+            JumpCommand(),
+            SkipCommand(),
+            PauseCommand(),
+            ResumeCommand(),
         )
 
         init {
@@ -67,7 +67,7 @@ abstract class Command {
 
         fun fromName(name: String): Command {
             return values.find { (it.name equalsIgnoreCase name) || (name.toLowerCase() in it.aliases) }
-                    ?: UnknownCommand
+                ?: UnknownCommand
         }
     }
 }
