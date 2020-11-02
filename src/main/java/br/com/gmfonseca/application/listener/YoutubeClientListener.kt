@@ -14,9 +14,9 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
 
     override fun onTrackLoaded(track: AudioTrack) {
         EmbedMessage.success(
-                channel,
-                title = "Opa!",
-                description = "Adicionado ${track.info.title} à fila."
+            channel,
+            title = "Opa!",
+            description = "Adicionado ${track.info.title} à fila."
         )
 
         play(channel.guild.id, track)
@@ -26,14 +26,14 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
         if (tracks.isNotEmpty()) {
             val track = tracks.first()
             EmbedMessage.success(
-                    channel,
-                    title = "Opa!",
-                    description = "Adicionadas **${tracks.size}** músicas à fila."
+                channel,
+                title = "Opa!",
+                description = "Adicionadas **${tracks.size}** músicas à fila."
             )
 
             EmbedMessage.success(
-                    channel,
-                    description = "Tocando **${track.info.title}** agora!"
+                channel,
+                description = "Tocando **${track.info.title}** agora!"
             )
 
             thread {
@@ -43,24 +43,24 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
             }
         } else {
             EmbedMessage.failure(
-                    channel,
-                    description = "Esta playlist estava vazia."
+                channel,
+                description = "Esta playlist estava vazia."
             )
         }
     }
 
     override fun onNoMatches() {
         EmbedMessage.failure(
-                channel,
-                description = "Não consegui encontrar nada com o que você me passou."
+            channel,
+            description = "Não consegui encontrar nada com o que você me passou."
         )
     }
 
     override fun onLoadFailed(message: String?) {
         EmbedMessage.failure(
-                channel,
-                description = "Ocorreu um erro ao tentar encontrar seu pedido.",
-                footer = "Erro: $message"
+            channel,
+            description = "Ocorreu um erro ao tentar encontrar seu pedido.",
+            footer = "Erro: $message"
         )
     }
 

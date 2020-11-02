@@ -12,16 +12,16 @@ class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSc
 
     override fun onNextTrack(track: AudioTrack) {
         EmbedMessage.success(
-                channel,
-                description = "Tocando **${track.info.title}** agora!",
-                footer = track.info.author
+            channel,
+            description = "Tocando **${track.info.title}** agora!",
+            footer = track.info.author
         )
     }
 
     override fun onWrongIndex(index: Int) {
         EmbedMessage.failure(
-                channel,
-                description = "A posição ${index + 1} não está na fila."
+            channel,
+            description = "A posição ${index + 1} não está na fila."
         )
     }
 }

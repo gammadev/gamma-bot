@@ -26,9 +26,9 @@ abstract class Command {
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
         EmbedMessage.failure(
-                channel = channel,
-                title = "Comando inválido",
-                description = "Por favor, use $this $extra"
+            channel = channel,
+            title = "Comando inválido",
+            description = "Por favor, use $this $extra"
         )
     }
 
@@ -39,12 +39,12 @@ abstract class Command {
     companion object {
         // Should be sorted by its priority
         private val values = listOf(
-                PlayCommand(),
-                QueueCommand(),
-                JumpCommand(),
-                SkipCommand(),
-                PauseCommand(),
-                ResumeCommand(),
+            PlayCommand(),
+            QueueCommand(),
+            JumpCommand(),
+            SkipCommand(),
+            PauseCommand(),
+            ResumeCommand(),
         )
 
         init {
@@ -68,7 +68,7 @@ abstract class Command {
 
         fun fromName(name: String): Command {
             return values.find { (it.name equalsIgnoreCase name) || (name.toLowerCase() in it.aliases) }
-                    ?: UnknownCommand
+                ?: UnknownCommand
         }
     }
 }

@@ -33,8 +33,8 @@ class JumpCommand : Command() {
 
             if (voiceChannel == null) {
                 EmbedMessage.failure(
-                        channel,
-                        description = "Você não está conectado em um canal de voz!"
+                    channel,
+                    description = "Você não está conectado em um canal de voz!"
                 )
             } else {
                 // try to connect to voice channel if not connected before or user changed voice channel

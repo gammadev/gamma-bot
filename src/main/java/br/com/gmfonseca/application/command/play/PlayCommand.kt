@@ -27,18 +27,20 @@ class PlayCommand : Command() {
 
             if (voiceChannel == null) {
                 EmbedMessage.failure(
-                        channel,
-                        description = "Você não está conectado em um canal de voz!"
+                    channel,
+                    description = "Você não está conectado em um canal de voz!"
                 )
             } else {
-                if (args.first().matches(Regex("(http|https)://(((www|music).youtube.com/(watch|playlist)\\?[a-zA-Z0-9_\\-&=.]+)|youtu.be/[a-zA-Z0-9_\\-&=.]+)"))) {
+                if (args.first()
+                        .matches(Regex("(http|https)://(((www|music).youtube.com/(watch|playlist)\\?[a-zA-Z0-9_\\-&=.]+)|youtu.be/[a-zA-Z0-9_\\-&=.]+)"))
+                ) {
                     YoutubeClient(YoutubeClientListener(channel)).download(args.first())
                 } else {
 //                    YoutubeClient(YoutubeClientListener(channel)).search(args.reduce { acc, cur -> "$acc $cur" })
                     EmbedMessage.info(
-                            channel,
-                            title = "Ainda não suportado!",
-                            description = "Ainda não suportamos pesquisas, então por favor insira uma URL válida do Youtube."
+                        channel,
+                        title = "Ainda não suportado!",
+                        description = "Ainda não suportamos pesquisas, então por favor insira uma URL válida do Youtube."
                     )
                 }
 
