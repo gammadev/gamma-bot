@@ -1,6 +1,5 @@
 package br.com.gmfonseca.application.listener
 
-import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.application.handler.audio.TrackScheduler
 import br.com.gmfonseca.utils.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
@@ -13,28 +12,32 @@ class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSc
 
     override fun onNextTrack(track: AudioTrack) {
         EmbedMessage.success(
-                channel,
-                description = "Tocando **${track.info.title}** agora!",
-                footer = track.info.author
-        ) { message ->
-            val guildId: Long = channel.guild.idLong
-            DiscordApp.takeLastMessageId(guildId = guildId)?.let {
+            channel,
+            description = "Tocando **${track.info.title}** agora!",
+            footer = track.info.author
+        ) { msg ->
+            val guildId = channel.guild.idLong
+            LAST_MESSAGE_ID[channel.guild.idLong]?.let {
                 channel.deleteMessageById(it).queue()
             }
-            DiscordApp.putLastMessageId(guildId = guildId, messageId = message.idLong)
+            LAST_MESSAGE_ID[guildId] = msg.idLong
         }
     }
 
     override fun onWrongIndex(index: Int) {
         EmbedMessage.failure(
-                channel,
-                description = "A posição ${index + 1} não está na fila."
+            channel,
+            description = "A posição ${index + 1} não está na fila."
         )
     }
 
     override fun onFinish() {
-        DiscordApp.takeLastMessageId(guildId = channel.guild.idLong)?.let {
+        LAST_MESSAGE_ID[channel.guild.idLong]?.let {
             channel.deleteMessageById(it).queue()
         }
+    }
+
+    companion object {
+        private val LAST_MESSAGE_ID = mutableMapOf<Long, Long>()
     }
 }

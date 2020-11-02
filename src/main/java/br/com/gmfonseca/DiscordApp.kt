@@ -19,14 +19,15 @@ object DiscordApp {
     val PLAYER_MANAGER = DefaultAudioPlayerManager()
 
     private val guildsMusicManager = mutableMapOf<String, GuildMusicManager>()
-    private val guildLastInfoMessageId = mutableMapOf<Long, Long>()
 
     private lateinit var INSTANCE: JDA
 
     @JvmStatic
     fun main(args: Array<String>) {
         try {
-            INSTANCE = JDABuilder.createDefault(args[0]).setActivity(Activity.playing("sua mãe pela janela \uD83D\uDC4D")).build()
+            INSTANCE = JDABuilder.createDefault(args[0])
+                .setActivity(Activity.playing("sua mãe pela janela \uD83D\uDC4D"))
+                .build()
 
             addEventListener(GuildMessageHandler())
             AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER)
@@ -49,18 +50,5 @@ object DiscordApp {
     private fun addEventListener(vararg listeners: ListenerAdapter) {
         INSTANCE.addEventListener(*listeners)
     }
-
-    fun takeLastMessageId(guildId: Long): Long? {
-        synchronized(guildLastInfoMessageId) {
-            return guildLastInfoMessageId.remove(guildId)
-        }
-    }
-
-    fun putLastMessageId(guildId: Long, messageId: Long) {
-        synchronized(guildLastInfoMessageId) {
-            guildLastInfoMessageId[guildId] = messageId
-        }
-    }
-
 
 }
