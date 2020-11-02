@@ -52,7 +52,7 @@ fun String.fill(maxLength: Int, fillStart: Boolean = false, fillChar: Char = ' '
  * @param maxLength the bigger allowed length for [this]
  */
 fun String.truncate(maxLength: Int): String {
-    return if (length > maxLength) "${substring(0, maxLength - 1)}…" else this
+    return if (maxLength in 1 until length) "${substring(0, maxLength - 1)}…" else this
 }
 
 /**
@@ -67,7 +67,7 @@ fun String.truncate(maxLength: Int): String {
  */
 fun String?.truncateOrFill(maxLength: Int, fillStart: Boolean = false, fillChar: Char = ' '): String {
     return when {
-        this == null -> "null".fill(maxLength)
+        this == null -> "null".fill(maxLength, fillStart)
         length < maxLength -> fill(maxLength, fillStart, fillChar)
         else -> truncate(maxLength)
     }
