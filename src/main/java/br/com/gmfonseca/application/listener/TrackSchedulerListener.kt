@@ -31,4 +31,10 @@ class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSc
                 description = "A posição ${index + 1} não está na fila."
         )
     }
+
+    override fun onFinish() {
+        DiscordApp.takeLastMessageId(guildId = channel.guild.idLong)?.let {
+            channel.deleteMessageById(it).queue()
+        }
+    }
 }

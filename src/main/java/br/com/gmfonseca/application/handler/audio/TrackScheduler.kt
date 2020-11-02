@@ -31,7 +31,7 @@ class TrackScheduler(
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         if (endReason.mayStartNext) {
-            nextTrack(shouldNotify = endReason != AudioTrackEndReason.LOAD_FAILED)
+            nextTrack()
         }
     }
 
@@ -109,13 +109,20 @@ class TrackScheduler(
         nextTrack()
     }
 
-    private fun nextTrack(shouldNotify: Boolean = true) {
-        playTrackAt(curIndex + 1, shouldNotify = shouldNotify)
+    private fun nextTrack() {
+        val nextIndex = curIndex + 1
+        if (nextIndex in trackQueue.indices) {
+            playTrackAt(nextIndex)
+        } else {
+            curTrack = null
+            curIndex = -1
+            listener?.onFinish()
+        }
     }
 
-    private fun playTrackAt(index: Int, shouldNotify: Boolean = true) {
+    private fun playTrackAt(index: Int) {
         synchronized(this) {
-            if (!trackQueue.indices.contains(index)) {
+            if (index !in trackQueue.indices) {
                 listener?.onWrongIndex(index)
                 return
             }
@@ -129,9 +136,7 @@ class TrackScheduler(
             trackQueue[index].makeClone().let {
                 curTrack = it
                 player.startTrack(it, false)
-                if (shouldNotify) {
-                    listener?.onNextTrack(it)
-                }
+                listener?.onNextTrack(it)
             }
         }
     }
@@ -141,6 +146,8 @@ class TrackScheduler(
         fun onNextTrack(track: AudioTrack)
 
         fun onWrongIndex(index: Int)
+
+        fun onFinish()
 
     }
 }
