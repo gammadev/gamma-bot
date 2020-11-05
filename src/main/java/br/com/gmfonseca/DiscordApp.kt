@@ -1,7 +1,9 @@
 package br.com.gmfonseca
 
-import br.com.gmfonseca.application.handler.message.GuildMessageHandler
-import br.com.gmfonseca.business.manager.GuildMusicManager
+import br.com.gmfonseca.music.application.command.*
+import br.com.gmfonseca.music.application.handler.message.GuildMessageHandler
+import br.com.gmfonseca.music.business.manager.GuildMusicManager
+import br.com.gmfonseca.shared.command.Command
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.JDA
@@ -29,6 +31,7 @@ object DiscordApp {
                 .setActivity(Activity.playing("sua mãe pela janela \uD83D\uDC4D"))
                 .build()
 
+            loadCommands()
             addEventListener(GuildMessageHandler())
             AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER)
 
@@ -49,6 +52,17 @@ object DiscordApp {
 
     private fun addEventListener(vararg listeners: ListenerAdapter) {
         INSTANCE.addEventListener(*listeners)
+    }
+
+    private fun loadCommands() {
+        Command.loadCommands(
+            PlayCommand(),
+            QueueCommand(),
+            JumpCommand(),
+            SkipCommand(),
+            PauseCommand(),
+            ResumeCommand(),
+        )
     }
 
 }
