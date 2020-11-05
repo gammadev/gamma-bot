@@ -36,6 +36,18 @@ class TrackScheduler(
         }
     }
 
+    fun clearQueue(channel: TextChannel) {
+        synchronized(this) {
+            player.stopTrack()
+            player.isPaused
+            curTrack?.stop()
+            curTrack = null
+            curIndex = -1
+            trackQueue.clear()
+            EmbedMessage.success(channel, description = "Lista de reprodução limpa com sucesso!")
+        }
+    }
+
     fun queue(track: AudioTrack) {
         synchronized(this) {
             trackQueue.add(track)
@@ -117,6 +129,7 @@ class TrackScheduler(
                     EmbedMessage.success(channel, description = "Parando de tocar...")
                     isStopped = true
                     curTrack?.stop()
+                    player.stopTrack()
                 }
             }
         }
