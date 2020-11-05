@@ -16,28 +16,28 @@ class StringExtensionsTest {
     // region isCommand
 
     @Test
-    fun testIsCommand_givenEmptyString_shouldReturnFalse() {
+    fun testIsCommandGivenEmptyStringShouldReturnFalse() {
         val result = "".isCommand()
 
         assertFalse { result }
     }
 
     @Test
-    fun testIsCommand_givenNotEmptyString_withWrongPrefix_shouldReturnFalse() {
+    fun testIsCommandGivenNotEmptyStringWithWrongPrefixShouldReturnFalse() {
         val result = "¨".isCommand()
 
         assertFalse { result }
     }
 
     @Test
-    fun testIsCommand_givenValidCommandPrefix_shouldReturnTrue() {
+    fun testIsCommandGivenValidCommandPrefixShouldReturnTrue() {
         val result = "$commandPrefix".isCommand()
 
         assertTrue { result }
     }
 
     @Test
-    fun testIsCommand_givenValidString_withCommandPrefix_shouldReturnTrue() {
+    fun testIsCommandGivenValidStringWithCommandPrefixShouldReturnTrue() {
         val result = "$commandPrefix command".isCommand()
 
         assertTrue { result }
@@ -48,21 +48,21 @@ class StringExtensionsTest {
     // region getCommandArgs
 
     @Test
-    fun testGetCommandArgs_givenInvalidCommand_shouldReturnEmptyList() {
+    fun testGetCommandArgsGivenInvalidCommandShouldReturnEmptyList() {
         val result = "".getCommandArgs()
 
         assertTrue { result.isEmpty() }
     }
 
     @Test
-    fun testGetCommandArgs_givenValidCommand_withNoneArguments_shouldReturnEmptyList() {
+    fun testGetCommandArgsGivenValidCommandWithNoneArgumentsShouldReturnEmptyList() {
         val result = "$commandPrefix".getCommandArgs()
 
         assertTrue { result.isEmpty() }
     }
 
     @Test
-    fun testGetCommandArgs_givenValidCommand_withArguments_shouldReturnValidArgumentsList() {
+    fun testGetCommandArgsGivenValidCommandWithArgumentsShouldReturnValidArgumentsList() {
         val expected = listOf("arg1", "arg2", "arg3")
         val result = "$commandPrefix arg1 arg2 arg3".getCommandArgs()
 
@@ -74,28 +74,28 @@ class StringExtensionsTest {
     // region equalsIgnoreCase
 
     @Test
-    fun testEqualsIgnoreCase_givenDifferentString_withDifferentCase_shouldReturnTrue() {
+    fun testEqualsIgnoreCaseGivenDifferentStringWithDifferentCaseShouldReturnTrue() {
         val result = "ABC123".equalsIgnoreCase("efg345")
 
         assertFalse { result }
     }
 
     @Test
-    fun testEqualsIgnoreCase_givenDifferentString_withSameCase_shouldReturnTrue() {
+    fun testEqualsIgnoreCaseGivenDifferentStringWithSameCaseShouldReturnTrue() {
         val result = "abc123".equalsIgnoreCase("efg345")
 
         assertFalse { result }
     }
 
     @Test
-    fun testEqualsIgnoreCase_givenSameString_withDifferentCase_shouldReturnTrue() {
+    fun testEqualsIgnoreCaseGivenSameStringWithDifferentCaseShouldReturnTrue() {
         val result = "aBc345".equalsIgnoreCase("Abc345")
 
         assertTrue { result }
     }
 
     @Test
-    fun testEqualsIgnoreCase_givenSameString_withSameCase_shouldReturnTrue() {
+    fun testEqualsIgnoreCaseGivenSameStringWithSameCaseShouldReturnTrue() {
         val result = "abc345".equalsIgnoreCase("abc345")
 
         assertTrue { result }
@@ -106,35 +106,35 @@ class StringExtensionsTest {
     // region fill
 
     @Test
-    fun testFill_givenEmptyString_withLowerLength_shouldReturnFilledString() {
+    fun testFillGivenEmptyStringWithLowerLengthShouldReturnFilledString() {
         val result = "".fill(5)
 
         assertEquals("     ", result)
     }
 
     @Test
-    fun testFill_givenValidString_withLowerLength_shouldReturnFilledEndString() {
+    fun testFillGivenValidStringWithLowerLengthShouldReturnFilledEndString() {
         val result = "abc".fill(5, fillStart = false, fillChar = ' ')
 
         assertEquals("abc  ", result)
     }
 
     @Test
-    fun testFill_givenValidString_withLowerLength_shouldReturnFilledStartString() {
+    fun testFillGivenValidStringWithLowerLengthShouldReturnFilledStartString() {
         val result = "abc".fill(5, fillStart = true, fillChar = ' ')
 
         assertEquals("  abc", result)
     }
 
     @Test
-    fun testFill_givenValidString_withSameLength_shouldReturnGivenString() {
+    fun testFillGivenValidStringWithSameLengthShouldReturnGivenString() {
         val result = "abcde".fill(5, fillStart = true, fillChar = ' ')
 
         assertEquals("abcde", result)
     }
 
     @Test
-    fun testFill_givenValidString_withGreaterLength_shouldReturnGivenString() {
+    fun testFillGivenValidStringWithGreaterLengthShouldReturnGivenString() {
         val result = "abcdef".fill(5, fillStart = true, fillChar = ' ')
 
         assertEquals("abcdef", result)
@@ -145,28 +145,28 @@ class StringExtensionsTest {
     // region truncate
 
     @Test
-    fun testTruncate_givenInvalidMaxLength_shouldReturnGivenString() {
+    fun testTruncateGivenInvalidMaxLengthShouldReturnGivenString() {
         val result = "invalid".truncate(-1)
 
         assertEquals("invalid", result)
     }
 
     @Test
-    fun testTruncate_givenString_withSameLength_shouldReturnGivenString() {
+    fun testTruncateGivenStringWithSameLengthShouldReturnGivenString() {
         val result = "same".truncate(4)
 
         assertEquals("same", result)
     }
 
     @Test
-    fun testTruncate_givenSmallerString_shouldReturnGivenString() {
+    fun testTruncateGivenSmallerStringShouldReturnGivenString() {
         val result = "smallest".truncate(10)
 
         assertEquals("smallest", result)
     }
 
     @Test
-    fun testTruncate_givenLongerString_shouldReturnTruncatedString() {
+    fun testTruncateGivenLongerStringShouldReturnTruncatedString() {
         val result = "long string".truncate(10)
 
         assertEquals("long stri…", result)
@@ -177,28 +177,28 @@ class StringExtensionsTest {
     // region truncateOrFill
 
     @Test
-    fun testTruncateOrFill_givenNullableString_shouldReturnFilledString() {
+    fun testTruncateOrFillGivenNullableStringShouldReturnFilledString() {
         val result = (null as String?).truncateOrFill(5, fillStart = true)
 
         assertEquals(" null", result)
     }
 
     @Test
-    fun testTruncateOrFill_givenValidString_withSmallerLength_shouldReturnFilledString() {
+    fun testTruncateOrFillGivenValidStringWithSmallerLengthShouldReturnFilledString() {
         val result = "well".truncateOrFill(5, fillStart = false)
 
         assertEquals("well ", result)
     }
 
     @Test
-    fun testTruncateOrFill_givenValidString_withSameLength_shouldReturnGivenString() {
+    fun testTruncateOrFillGivenValidStringWithSameLengthShouldReturnGivenString() {
         val result = "great".truncateOrFill(5)
 
         assertEquals("great", result)
     }
 
     @Test
-    fun testTruncateOrFill_givenValidString_withGreaterLength_shouldReturnTruncatedString() {
+    fun testTruncateOrFillGivenValidStringWithGreaterLengthShouldReturnTruncatedString() {
         val result = "expected".truncateOrFill(5)
 
         assertEquals("expe…", result)
