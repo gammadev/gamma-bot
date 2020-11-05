@@ -28,6 +28,7 @@ class TrackScheduler(
     private val trackQueue = mutableListOf<AudioTrack>()
     private var curIndex: Int = -1
     private var curTrack: AudioTrack? = null
+    private var isStopped: Boolean = false
 
     override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
         if (endReason.mayStartNext) {
@@ -87,8 +88,16 @@ class TrackScheduler(
 
     fun resume(channel: TextChannel) {
         synchronized(this) {
-            EmbedMessage.success(channel, description = "Voltando a tocar agora!")
-            player.isPaused = false
+            when {
+                player.isPaused -> {
+                    player.isPaused = false
+                    EmbedMessage.success(channel, description = "Voltando a tocar agora!")
+                }
+                isStopped -> {
+                    isStopped = false
+                    playTrackAt(curIndex)
+                }
+            }
         }
     }
 
@@ -97,6 +106,18 @@ class TrackScheduler(
             curTrack?.let {
                 EmbedMessage.success(channel, description = "Parando de tocar agora!")
                 player.isPaused = true
+            }
+        }
+    }
+
+    fun stop(channel: TextChannel) {
+        synchronized(this) {
+            curTrack?.let {
+                if (!isStopped) {
+                    EmbedMessage.success(channel, description = "Parando de tocar...")
+                    isStopped = true
+                    curTrack?.stop()
+                }
             }
         }
     }
@@ -129,6 +150,10 @@ class TrackScheduler(
 
             if (player.isPaused) {
                 player.isPaused = false
+            }
+
+            if (isStopped) {
+                isStopped = false
             }
 
             curIndex = index

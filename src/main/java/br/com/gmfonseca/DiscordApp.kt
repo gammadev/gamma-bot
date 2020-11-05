@@ -62,6 +62,7 @@ object DiscordApp {
             SkipCommand(),
             PauseCommand(),
             ResumeCommand(),
+            StopCommand()
         )
     }
 
