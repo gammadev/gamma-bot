@@ -11,13 +11,13 @@ import net.dv8tion.jda.api.entities.TextChannel
 class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSchedulerListener {
 
     override fun onNextTrack(track: AudioTrack) {
+        val guildId = channel.guild.idLong
         EmbedMessage.success(
             channel,
             description = "Tocando **${track.info.title}** agora!",
             footer = track.info.author
         ) { msg ->
-            val guildId = channel.guild.idLong
-            LAST_MESSAGE_ID[channel.guild.idLong]?.let {
+            LAST_MESSAGE_ID[guildId]?.let {
                 channel.deleteMessageById(it).queue()
             }
             LAST_MESSAGE_ID[guildId] = msg.idLong

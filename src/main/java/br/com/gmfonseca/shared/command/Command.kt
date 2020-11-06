@@ -34,22 +34,6 @@ abstract class Command {
         private val commands: MutableList<Command> = mutableListOf()
         private val namesAliases = mutableSetOf<String>()
 
-        init {
-            commands.forEach { command ->
-                command.getAnnotation(CommandHandler::class)?.run {
-                    if (namesAliases.add(name)) {
-                        command.name = name
-                    }
-
-                    aliases.filter { it !in namesAliases }.let {
-                        if (namesAliases.addAll(it)) {
-                            command.aliases.addAll(it)
-                        }
-                    }
-                }
-            }
-        }
-
         fun fromName(name: String): Command {
             return commands.find { (it.name equalsIgnoreCase name) || (name.toLowerCase() in it.aliases) }
                 ?: UnknownCommand

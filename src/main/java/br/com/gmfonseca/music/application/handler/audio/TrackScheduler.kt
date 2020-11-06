@@ -48,6 +48,15 @@ class TrackScheduler(
         }
     }
 
+    fun switchVolume(volume: Int): Boolean {
+        return if (volume in 0..100) {
+            player.volume = volume
+            true
+        } else {
+            false
+        }
+    }
+
     fun queue(track: AudioTrack) {
         synchronized(this) {
             trackQueue.add(track)
