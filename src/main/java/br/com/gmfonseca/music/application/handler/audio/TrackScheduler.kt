@@ -1,6 +1,7 @@
 package br.com.gmfonseca.music.application.handler.audio
 
 import br.com.gmfonseca.shared.utils.EmbedMessage
+import br.com.gmfonseca.shared.utils.ext.addIfAbsent
 import br.com.gmfonseca.shared.utils.ext.fill
 import br.com.gmfonseca.shared.utils.ext.msToReadableTime
 import br.com.gmfonseca.shared.utils.ext.truncateOrFill
@@ -18,14 +19,13 @@ class TrackScheduler(
     private val player: AudioPlayer
 ) : AudioEventAdapter() {
 
+    val volume: Int; get() = player.volume
     var listener: ITrackSchedulerListener? = null
-        set(value) {
-            synchronized(this) {
-                field = value
-            }
+        set(value) = synchronized(this) {
+            field = value
         }
 
-    private val trackQueue = mutableListOf<AudioTrack>()
+    private val tracks = mutableListOf<AudioTrack>()
     private var curIndex: Int = -1
     private var curTrack: AudioTrack? = null
     private var isStopped: Boolean = false
@@ -42,17 +42,25 @@ class TrackScheduler(
             player.isPaused
             curTrack?.stop()
             curTrack = null
-            curIndex = -1
-            trackQueue.clear()
+            tracks.clear()
             EmbedMessage.success(channel, description = "Lista de reprodução limpa com sucesso!")
+        }
+    }
+
+    fun switchVolume(volume: Int): Boolean {
+        return if (volume in 0..1000) {
+            player.volume = volume
+            true
+        } else {
+            false
         }
     }
 
     fun queue(track: AudioTrack) {
         synchronized(this) {
-            trackQueue.add(track)
+            tracks.addIfAbsent(track)
             if (player.startTrack(track, true)) {
-                curIndex = trackQueue.indexOf(track)
+                curIndex = tracks.indexOf(track)
                 curTrack = track
                 listener?.onNextTrack(track)
             }
@@ -62,14 +70,11 @@ class TrackScheduler(
     fun queueToString(): String = synchronized(this) {
         val strBuilder = StringBuilder("```swift\n")
         val curIndex = this.curIndex
-        val queue = this.trackQueue
+        val queue = this.tracks
 
-        if (queue.isEmpty()) {
-            strBuilder.append("A lista está vazia \uD83E\uDD14")
-        } else {
+        if (queue.isNotEmpty()) {
             val starterIndex = if (curIndex < 2) 0 else curIndex - 1
             val finalIndex = min(starterIndex + 10, queue.size)
-
             val sizeCharCount = "${queue.size}".length
 
             queue.subList(starterIndex, finalIndex).forEachIndexed { i, track ->
@@ -93,6 +98,8 @@ class TrackScheduler(
             } else {
                 strBuilder.append("\nMais ${queue.size - finalIndex} abaixo")
             }
+        } else {
+            strBuilder.append("A lista está vazia \uD83E\uDD14")
         }
 
         return strBuilder.append("```").toString()
@@ -145,18 +152,17 @@ class TrackScheduler(
 
     private fun nextTrack() {
         val nextIndex = curIndex + 1
-        if (nextIndex in trackQueue.indices) {
+        if (nextIndex in tracks.indices) {
             playTrackAt(nextIndex)
         } else {
             curTrack = null
-            curIndex = -1
             listener?.onFinish()
         }
     }
 
     private fun playTrackAt(index: Int) {
         synchronized(this) {
-            if (index !in trackQueue.indices) {
+            if (index !in tracks.indices) {
                 listener?.onWrongIndex(index)
                 return
             }
@@ -171,7 +177,7 @@ class TrackScheduler(
 
             curIndex = index
 
-            trackQueue[index].makeClone().let {
+            tracks[index].makeClone().let {
                 curTrack = it
                 player.startTrack(it, false)
                 listener?.onNextTrack(it)

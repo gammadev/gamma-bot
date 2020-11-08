@@ -6,6 +6,7 @@ import br.com.gmfonseca.shared.command.CommandHandler
 import br.com.gmfonseca.music.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.music.application.listener.YoutubeClientListener
 import br.com.gmfonseca.music.business.client.YoutubeClient
+import br.com.gmfonseca.shared.REGEX_YOUTUBE
 import br.com.gmfonseca.shared.utils.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
@@ -31,7 +32,7 @@ class PlayCommand : Command() {
                     description = "Você não está conectado em um canal de voz!"
                 )
             } else {
-                if (args.first().matches(Regex(YOUTUBE_REGEX))) {
+                if (args.first().matches(Regex(REGEX_YOUTUBE))) {
                     YoutubeClient(YoutubeClientListener(channel)).download(args.first())
                 } else {
 //                    YoutubeClient(YoutubeClientListener(channel)).search(args.reduce { acc, cur -> "$acc $cur" })
@@ -54,10 +55,5 @@ class PlayCommand : Command() {
         }
 
         return true
-    }
-
-    companion object {
-        const val YOUTUBE_REGEX =
-            "(http|https)://(((www|music).youtube.com/(watch|playlist)\\?[a-zA-Z0-9_\\-&=.]+)|youtu.be/[a-zA-Z0-9_\\-&=.]+)"
     }
 }

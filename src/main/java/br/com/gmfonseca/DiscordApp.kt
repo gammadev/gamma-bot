@@ -50,6 +50,10 @@ object DiscordApp {
         }
     }
 
+    fun getMusicManager(guildId: Long): GuildMusicManager {
+        return getMusicManager("$guildId")
+    }
+
     private fun addEventListener(vararg listeners: ListenerAdapter) {
         INSTANCE.addEventListener(*listeners)
     }
@@ -64,6 +68,7 @@ object DiscordApp {
             ResumeCommand(),
             StopCommand(),
             ClearCommand(),
+            VolumeCommand(),
         )
     }
 
