@@ -30,7 +30,6 @@ abstract class Command {
     }
 
     companion object {
-        // Should be sorted by its priority
         private val commands: MutableList<Command> = mutableListOf()
         private val namesAliases = mutableSetOf<String>()
 
@@ -39,7 +38,7 @@ abstract class Command {
                 ?: UnknownCommand
         }
 
-        fun loadCommands(vararg commands: Command) {
+        fun loadCommands(commands: List<Command>) {
             if (Companion.commands.isNotEmpty()) return
 
             commands.forEach { command ->

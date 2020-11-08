@@ -2,6 +2,7 @@ package br.com.gmfonseca.shared.utils.ext
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.shared.command.Command
+import java.io.File
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
@@ -18,6 +19,13 @@ fun String.getCommand(): Command {
 
 fun String.getCommandArgs(): List<String> {
     return split(" ").run { toMutableList().subList(1, size) }
+}
+
+fun String.mapFileToClassPath(file: File): String {
+    return this + file.absolutePath.substringAfter(this.replace(".", File.separator))
+        .substringBeforeLast(file.name)
+        .plus(file.nameWithoutExtension)
+        .replace(File.separator, ".")
 }
 
 infix fun String.equalsIgnoreCase(other: String): Boolean {
