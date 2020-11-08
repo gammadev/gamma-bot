@@ -1,15 +1,19 @@
 package br.com.gmfonseca
 
-import br.com.gmfonseca.music.application.command.*
 import br.com.gmfonseca.music.application.handler.message.GuildMessageHandler
 import br.com.gmfonseca.music.business.manager.GuildMusicManager
 import br.com.gmfonseca.shared.command.Command
+import br.com.gmfonseca.shared.utils.ext.createInstance
+import br.com.gmfonseca.shared.utils.ext.mapFileToClassPath
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import java.io.File
+import java.util.logging.Level
+import java.util.logging.Logger
 import javax.security.auth.login.LoginException
 
 /**
@@ -31,16 +35,18 @@ object DiscordApp {
                 .setActivity(Activity.playing("sua mãe pela janela \uD83D\uDC4D"))
                 .build()
 
-            loadCommands()
+            mapClasses<Command> { loadCommands(it) }
             addEventListener(GuildMessageHandler())
             AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER)
-
         } catch (e: IndexOutOfBoundsException) {
-            print("Please provide a valid bot token on execute the .jar, like 'java -jar discordbot.java YOUR_TOKEN_HERE'")
+            Logger.getGlobal().log(
+                Level.WARNING,
+                "Please provide a valid bot token on execute the .jar, like 'java -jar discordbot.java YOUR_TOKEN_HERE'"
+            )
         } catch (e: LoginException) {
-            print("Couldn't login with given token '${args[0]}'. Cause: ${e.message}")
+            Logger.getGlobal().log(Level.WARNING, "Couldn't login with given token '${args[0]}'. Cause: ${e.message}")
         } catch (e: Throwable) {
-            print("Whoops, something went wrong on build JDA Instance: ${e.message}")
+            Logger.getGlobal().log(Level.WARNING, "Whoops, something went wrong on build JDA Instance: ${e.message}")
         }
     }
 
@@ -58,18 +64,35 @@ object DiscordApp {
         INSTANCE.addEventListener(*listeners)
     }
 
-    private fun loadCommands() {
-        Command.loadCommands(
-            PlayCommand(),
-            QueueCommand(),
-            JumpCommand(),
-            SkipCommand(),
-            PauseCommand(),
-            ResumeCommand(),
-            StopCommand(),
-            ClearCommand(),
-            VolumeCommand(),
-        )
+    private fun loadCommands(commands: List<Command>) {
+        Command.loadCommands(commands)
+    }
+
+    private inline fun <reified T> mapClasses(
+        classesRootPath: String = "br.com.gmfonseca",
+        onFinish: (List<T>) -> Unit
+    ) {
+        val commands = mutableListOf<T>()
+        val projectPath = File(DiscordApp::class.java.getResource("").toURI())
+
+        T::class.simpleName?.let { suffix ->
+            projectPath.walk().forEach { file ->
+                val name = file.nameWithoutExtension
+                if (name.endsWith(suffix) && name != suffix) {
+                    val classPath = classesRootPath.mapFileToClassPath(file)
+
+                    try {
+                        Class.forName(classPath).createInstance().let {
+                            commands.add(it as T)
+                        }
+                    } catch (t: Throwable) {
+                        Logger.getGlobal().log(Level.WARNING, "Failed to load Command class from: $classPath", t)
+                    }
+                }
+            }
+        }
+
+        onFinish(commands)
     }
 
 }

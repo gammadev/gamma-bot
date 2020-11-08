@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.entities.User
 /**
  * Created by Gabriel Fonseca on 04/10/2020.
  */
-@CommandHandler(name = "pause", aliases = ["p"])
+@CommandHandler(name = "pause")
 class PauseCommand : Command() {
 
     override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
