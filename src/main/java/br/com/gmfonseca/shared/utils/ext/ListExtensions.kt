@@ -11,15 +11,24 @@ fun <T> List<T>.randomize(): List<T> {
         this
     } else {
         val mutableCopy = toMutableList()
-        val mutable = mutableListOf<T>()
+        val list = mutableListOf<T>()
 
         while (mutableCopy.isNotEmpty()) {
             when (mutableCopy.size) {
-                1 -> mutable.add(mutableCopy.removeAt(0))
-                else -> mutable.add(mutableCopy.removeAt(Random.nextInt(0, mutable.size)))
+                1 -> list.add(mutableCopy.removeAt(0))
+                else -> list.add(mutableCopy.removeAt(Random.nextInt(0, list.size)))
             }
         }
 
-        mutable
+        list
+    }
+}
+
+fun <T> MutableList<T>.addIfAbsent(element: T): Boolean {
+    return if (!contains(element)) {
+        add(element)
+        true
+    } else {
+        false
     }
 }
