@@ -1,10 +1,10 @@
 package br.com.gmfonseca.music.application.handler.audio
 
-import br.com.gmfonseca.shared.utils.EmbedMessage
-import br.com.gmfonseca.shared.utils.ext.addIfAbsent
-import br.com.gmfonseca.shared.utils.ext.fill
-import br.com.gmfonseca.shared.utils.ext.msToReadableTime
-import br.com.gmfonseca.shared.utils.ext.truncateOrFill
+import br.com.gmfonseca.shared.util.EmbedMessage
+import br.com.gmfonseca.shared.util.ext.addIfAbsent
+import br.com.gmfonseca.shared.util.ext.fill
+import br.com.gmfonseca.shared.util.ext.msToReadableTime
+import br.com.gmfonseca.shared.util.ext.truncateOrFill
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack

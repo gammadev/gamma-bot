@@ -1,9 +1,9 @@
 package br.com.gmfonseca.shared.command
 
 import br.com.gmfonseca.DiscordApp
-import br.com.gmfonseca.shared.utils.EmbedMessage
-import br.com.gmfonseca.shared.utils.ext.equalsIgnoreCase
-import br.com.gmfonseca.shared.utils.ext.getAnnotation
+import br.com.gmfonseca.shared.util.EmbedMessage
+import br.com.gmfonseca.shared.util.ext.equalsIgnoreCase
+import br.com.gmfonseca.shared.util.ext.getAnnotation
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 

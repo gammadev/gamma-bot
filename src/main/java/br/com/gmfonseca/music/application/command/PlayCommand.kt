@@ -1,13 +1,13 @@
 package br.com.gmfonseca.music.application.command
 
 import br.com.gmfonseca.DiscordApp
-import br.com.gmfonseca.shared.command.Command
-import br.com.gmfonseca.shared.command.CommandHandler
 import br.com.gmfonseca.music.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.music.application.listener.YoutubeClientListener
 import br.com.gmfonseca.music.business.client.YoutubeClient
 import br.com.gmfonseca.shared.REGEX_YOUTUBE
-import br.com.gmfonseca.shared.utils.EmbedMessage
+import br.com.gmfonseca.shared.command.Command
+import br.com.gmfonseca.shared.command.CommandHandler
+import br.com.gmfonseca.shared.util.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 

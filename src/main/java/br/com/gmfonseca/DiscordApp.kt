@@ -3,15 +3,13 @@ package br.com.gmfonseca
 import br.com.gmfonseca.music.application.handler.message.GuildMessageHandler
 import br.com.gmfonseca.music.business.manager.GuildMusicManager
 import br.com.gmfonseca.shared.command.Command
-import br.com.gmfonseca.shared.utils.ext.createInstance
-import br.com.gmfonseca.shared.utils.ext.mapFileToClassPath
+import br.com.gmfonseca.shared.util.ClassMapper
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import java.io.File
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.security.auth.login.LoginException
@@ -72,27 +70,10 @@ object DiscordApp {
         classesRootPath: String = "br.com.gmfonseca",
         onFinish: (List<T>) -> Unit
     ) {
-        val commands = mutableListOf<T>()
-        val projectPath = File(DiscordApp::class.java.getResource("").toURI())
+        val classSuffixName = T::class.simpleName
+            ?: throw IllegalArgumentException("Invalid name null for given type class <T>")
 
-        T::class.simpleName?.let { suffix ->
-            projectPath.walk().forEach { file ->
-                val name = file.nameWithoutExtension
-                if (name.endsWith(suffix) && name != suffix) {
-                    val classPath = classesRootPath.mapFileToClassPath(file)
-
-                    try {
-                        Class.forName(classPath).createInstance().let {
-                            commands.add(it as T)
-                        }
-                    } catch (t: Throwable) {
-                        Logger.getGlobal().log(Level.WARNING, "Failed to load Command class from: $classPath", t)
-                    }
-                }
-            }
-        }
-
-        onFinish(commands)
+        onFinish(ClassMapper.mapClasses(classesRootPath, classSuffixName))
     }
 
 }
