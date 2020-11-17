@@ -1,4 +1,4 @@
-package br.com.gmfonseca.shared.utils.ext
+package br.com.gmfonseca.shared.util.ext
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.shared.command.Command
@@ -22,14 +22,10 @@ fun String.getCommandArgs(): List<String> {
 }
 
 fun String.mapFileToClassPath(file: File): String {
-    return this + file.absolutePath.substringAfter(this.replace(".", File.separator))
+    return this + file.absolutePath.substringAfter(replace(".", File.separator))
         .substringBeforeLast(file.name)
         .plus(file.nameWithoutExtension)
         .replace(File.separator, ".")
-}
-
-infix fun String.equalsIgnoreCase(other: String): Boolean {
-    return equals(other, ignoreCase = true)
 }
 
 /**
@@ -79,4 +75,12 @@ fun String?.truncateOrFill(maxLength: Int, fillStart: Boolean = false, fillChar:
         length < maxLength -> fill(maxLength, fillStart, fillChar)
         else -> truncate(maxLength)
     }
+}
+
+fun String.substringBetween(after: String, before: String): String {
+    return this.substringAfter(after).substringBeforeLast(before)
+}
+
+infix fun String.equalsIgnoreCase(other: String): Boolean {
+    return equals(other, ignoreCase = true)
 }

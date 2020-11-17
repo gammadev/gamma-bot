@@ -1,4 +1,4 @@
-package br.com.gmfonseca.shared.utils.ext
+package br.com.gmfonseca.shared.util.ext
 
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.MessageEmbed

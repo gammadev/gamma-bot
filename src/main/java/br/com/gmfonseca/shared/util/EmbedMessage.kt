@@ -1,6 +1,6 @@
-package br.com.gmfonseca.shared.utils
+package br.com.gmfonseca.shared.util
 
-import br.com.gmfonseca.shared.utils.ext.queue
+import br.com.gmfonseca.shared.util.ext.queue
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel

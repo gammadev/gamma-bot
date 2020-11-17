@@ -1,8 +1,8 @@
 package br.com.gmfonseca.music.application.handler.message
 
-import br.com.gmfonseca.shared.utils.ext.getCommand
-import br.com.gmfonseca.shared.utils.ext.getCommandArgs
-import br.com.gmfonseca.shared.utils.ext.isCommand
+import br.com.gmfonseca.shared.util.ext.getCommand
+import br.com.gmfonseca.shared.util.ext.getCommandArgs
+import br.com.gmfonseca.shared.util.ext.isCommand
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 

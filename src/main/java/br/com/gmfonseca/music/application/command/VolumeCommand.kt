@@ -6,7 +6,7 @@ import br.com.gmfonseca.shared.REGEX_FLOAT_ONLY
 import br.com.gmfonseca.shared.REGEX_INTEGER_ONLY
 import br.com.gmfonseca.shared.command.Command
 import br.com.gmfonseca.shared.command.CommandHandler
-import br.com.gmfonseca.shared.utils.EmbedMessage
+import br.com.gmfonseca.shared.util.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 import kotlin.math.floor
@@ -35,8 +35,12 @@ class VolumeCommand : Command() {
         val volume = with(volumeString) {
             when {
                 matches(Regex(REGEX_INTEGER_ONLY)) -> toInt()
-                matches(Regex(REGEX_FLOAT_ONLY)) -> toFloat().let {
-                    floor(if (it > 1.0) it else it * 100)
+                matches(Regex(REGEX_FLOAT_ONLY)) -> {
+                    val volume = if (length == 1) 0F else toFloat()
+
+                    volume.let {
+                        floor(if (it > 1.0) it else it * 100)
+                    }
                 }
                 else -> null
             }?.toInt() ?: return onWrongCommand(channel)

@@ -7,7 +7,7 @@ package br.com.gmfonseca.shared
 // shared regex
 private const val REGEX_PROTOCOL = "(?:(http)(|s)://)"
 const val REGEX_INTEGER_ONLY = "(?:[0-9]+)"
-const val REGEX_FLOAT_ONLY = "(?:([0-9]+|)\\.[0-9]+)"
+const val REGEX_FLOAT_ONLY = "(?:([0-9]+|)\\.([0-9]+|))"
 
 // youtube regex
 private const val REGEX_YOUTUBE_DOMAIN = "(?:(www.|m.|music.|)youtube.com)/(watch|playlist)\\?[a-zA-Z0-9_\\-&=\\.]+"

@@ -2,7 +2,7 @@ package br.com.gmfonseca.music.application.listener
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.music.business.client.YoutubeClient
-import br.com.gmfonseca.shared.utils.EmbedMessage
+import br.com.gmfonseca.shared.util.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import net.dv8tion.jda.api.entities.TextChannel
 import kotlin.concurrent.thread
