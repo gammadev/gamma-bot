@@ -1,15 +1,14 @@
 package br.com.gmfonseca.music.application.command
 
-import br.com.gmfonseca.DiscordApp
-import br.com.gmfonseca.music.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.music.application.listener.YoutubeClientListener
 import br.com.gmfonseca.music.business.client.YoutubeClient
 import br.com.gmfonseca.shared.REGEX_YOUTUBE
 import br.com.gmfonseca.shared.command.Command
 import br.com.gmfonseca.shared.command.CommandHandler
 import br.com.gmfonseca.shared.util.EmbedMessage
+import br.com.gmfonseca.shared.util.ext.connectVoice
+import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
-import net.dv8tion.jda.api.entities.User
 
 /**
  * Created by Gabriel Fonseca on 19/09/2020.
@@ -17,13 +16,13 @@ import net.dv8tion.jda.api.entities.User
 @CommandHandler(name = "play", aliases = ["p"])
 class PlayCommand : Command() {
 
-    override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
+    override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
         if (args.isEmpty()) {
             onWrongCommand(channel, "<youtube-link>")
         } else {
             val guild = channel.guild
             val voiceChannel = guild.voiceChannels.find { voiceChannel ->
-                voiceChannel.members.find { it.user.idLong == author.idLong } != null
+                voiceChannel.members.find { it.user.idLong == message.author.idLong } != null
             }
 
             if (voiceChannel == null) {
@@ -43,14 +42,7 @@ class PlayCommand : Command() {
                     )
                 }
 
-                with(guild.audioManager) {
-                    val musicManager = DiscordApp.getMusicManager(guild.id).apply {
-                        scheduler.listener = TrackSchedulerListener(channel)
-                    }
-
-                    sendingHandler = musicManager.audioSenderHandler
-                    openAudioConnection(voiceChannel) // TODO: threat InsufficientPermissionException here
-                }
+                guild.audioManager.connectVoice(channel, voiceChannel)
             }
         }
 

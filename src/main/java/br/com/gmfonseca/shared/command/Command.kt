@@ -4,8 +4,8 @@ import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.shared.util.EmbedMessage
 import br.com.gmfonseca.shared.util.ext.equalsIgnoreCase
 import br.com.gmfonseca.shared.util.ext.getAnnotation
+import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
-import net.dv8tion.jda.api.entities.User
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
@@ -19,7 +19,7 @@ abstract class Command {
         return "${DiscordApp.COMMAND_PREFIX}$name"
     }
 
-    abstract fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean
+    abstract fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
         EmbedMessage.failure(

@@ -4,6 +4,7 @@ import br.com.gmfonseca.music.application.handler.message.GuildMessageHandler
 import br.com.gmfonseca.music.business.manager.GuildMusicManager
 import br.com.gmfonseca.shared.command.Command
 import br.com.gmfonseca.shared.util.ClassMapper
+import br.com.gmfonseca.shared.util.Emoji.THUMBSUP
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.JDA
@@ -30,7 +31,7 @@ object DiscordApp {
     fun main(args: Array<String>) {
         try {
             INSTANCE = JDABuilder.createDefault(args[0])
-                .setActivity(Activity.playing("sua mãe pela janela \uD83D\uDC4D"))
+                .setActivity(Activity.playing("sua mãe pela janela $THUMBSUP"))
                 .build()
 
             mapClasses<Command> { loadCommands(it) }
@@ -56,6 +57,10 @@ object DiscordApp {
 
     fun getMusicManager(guildId: Long): GuildMusicManager {
         return getMusicManager("$guildId")
+    }
+
+    fun clearMusicManager(guildId: String): GuildMusicManager? {
+        return guildsMusicManager.remove(guildId)
     }
 
     private fun addEventListener(vararg listeners: ListenerAdapter) {

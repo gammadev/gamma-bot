@@ -18,10 +18,8 @@ class GuildMessageHandler : ListenerAdapter() {
 
         with(event.message.contentRaw) {
             if (isCommand()) {
-                getCommand().onCommand(event.author, event.channel, getCommandArgs())
+                getCommand().onCommand(event.message, event.channel, getCommandArgs())
             }
         }
-
     }
-
 }
