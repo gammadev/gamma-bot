@@ -7,8 +7,8 @@ import br.com.gmfonseca.shared.REGEX_INTEGER_ONLY
 import br.com.gmfonseca.shared.command.Command
 import br.com.gmfonseca.shared.command.CommandHandler
 import br.com.gmfonseca.shared.util.EmbedMessage
+import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
-import net.dv8tion.jda.api.entities.User
 import kotlin.math.floor
 
 /**
@@ -17,7 +17,7 @@ import kotlin.math.floor
 @CommandHandler(name = "volume", aliases = ["v"])
 class VolumeCommand : Command() {
 
-    override fun onCommand(author: User, channel: TextChannel, args: List<String>): Boolean {
+    override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.idLong
         val scheduler = DiscordApp.getMusicManager(guildId).scheduler.apply {
             listener = TrackSchedulerListener(channel)

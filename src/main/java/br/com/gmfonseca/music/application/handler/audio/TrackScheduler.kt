@@ -129,11 +129,13 @@ class TrackScheduler(
         }
     }
 
-    fun stop(channel: TextChannel) {
+    fun stop(channel: TextChannel? = null) {
         synchronized(this) {
             curTrack?.let {
                 if (!isStopped) {
-                    EmbedMessage.success(channel, description = "Parando de tocar...")
+                    if (channel != null) {
+                        EmbedMessage.success(channel, description = "Parando de tocar...")
+                    }
                     isStopped = true
                     curTrack?.stop()
                     player.stopTrack()
