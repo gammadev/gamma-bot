@@ -42,10 +42,13 @@ object DiscordApp {
                 Level.WARNING,
                 "Please provide a valid bot token on execute the .jar, like 'java -jar discordbot.java YOUR_TOKEN_HERE'"
             )
+            e.printStackTrace()
         } catch (e: LoginException) {
             Logger.getGlobal().log(Level.WARNING, "Couldn't login with given token '${args[0]}'. Cause: ${e.message}")
+            e.printStackTrace()
         } catch (e: Throwable) {
             Logger.getGlobal().log(Level.WARNING, "Whoops, something went wrong on build JDA Instance: ${e.message}")
+            e.printStackTrace()
         }
     }
 
