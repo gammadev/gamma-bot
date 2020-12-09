@@ -27,11 +27,7 @@ object ClassMapper {
     inline fun <reified T> mapJar(res: String, classesRootPackage: String, suffix: String): List<T> {
         val classes = mutableListOf<T>()
         val classesRootPath = classesRootPackage.replace(".", "/")
-        val jarInputStream = JarInputStream(
-            FileInputStream(
-                res.substringBetween("file:", "!").substring(1)
-            )
-        )
+        val jarInputStream = JarInputStream(FileInputStream(res.substringBetween("file:", "!")))
 
         var jarEntry = jarInputStream.nextJarEntry
         while (jarEntry != null) {
