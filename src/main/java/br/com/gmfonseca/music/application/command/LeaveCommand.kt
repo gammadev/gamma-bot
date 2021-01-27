@@ -2,7 +2,7 @@ package br.com.gmfonseca.music.application.command
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.shared.command.Command
-import br.com.gmfonseca.shared.command.CommandHandler
+import br.com.gmfonseca.shared.annotations.CommandHandler
 import br.com.gmfonseca.shared.util.Emoji.WAVE
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
@@ -14,7 +14,9 @@ import net.dv8tion.jda.api.entities.TextChannel
 class LeaveCommand : Command() {
 
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
-        return DiscordApp.clearMusicManager(channel.guild.id)?.let {
+        super.onCommand(message, channel, args)
+
+        return DiscordApp.removeMusicManager(channel.guild.idLong)?.let {
             it.scheduler.stop()
             channel.guild.audioManager.closeAudioConnection()
             message.addReaction(WAVE).queue()

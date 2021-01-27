@@ -1,4 +1,4 @@
-package br.com.gmfonseca.music.application.handler.audio
+package br.com.gmfonseca.music.business.scheduler
 
 import br.com.gmfonseca.shared.util.EmbedMessage
 import br.com.gmfonseca.shared.util.ext.addIfAbsent
@@ -125,6 +125,7 @@ class TrackScheduler(
             curTrack?.let {
                 EmbedMessage.success(channel, description = "Parando de tocar agora!")
                 player.isPaused = true
+                listener?.onPause()
             }
         }
     }
@@ -139,6 +140,7 @@ class TrackScheduler(
                     isStopped = true
                     curTrack?.stop()
                     player.stopTrack()
+                    listener?.onStop()
                 }
             }
         }
@@ -194,6 +196,10 @@ class TrackScheduler(
         fun onWrongIndex(index: Int)
 
         fun onFinish()
+
+        fun onPause()
+
+        fun onStop()
 
     }
 }

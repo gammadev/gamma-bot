@@ -1,4 +1,4 @@
-package br.com.gmfonseca.music.application.handler.audio
+package br.com.gmfonseca.music.application.handler
 
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer
 import com.sedmelluq.discord.lavaplayer.track.playback.MutableAudioFrame

@@ -5,7 +5,9 @@ package br.com.gmfonseca.shared.util
  */
 object Emoji {
 
-    const val THUMBSUP  = "\uD83D\uDC4D"
+    const val THUMBSUP = "\uD83D\uDC4D"
+
     const val WAVE = "\uD83D\uDC4B"
+    const val WINKING = "\uD83D\uDE09"
 
 }

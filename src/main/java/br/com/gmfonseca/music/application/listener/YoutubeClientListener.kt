@@ -5,7 +5,7 @@ import br.com.gmfonseca.music.business.client.YoutubeClient
 import br.com.gmfonseca.shared.util.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import net.dv8tion.jda.api.entities.TextChannel
-import kotlin.concurrent.thread
+import java.util.concurrent.CompletableFuture
 
 /**
  * Created by Gabriel Fonseca on 25/09/2020.
@@ -19,7 +19,7 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
             description = "Adicionado ${track.info.title} à fila."
         )
 
-        play(channel.guild.id, track)
+        playTrack(channel.guild.idLong, track)
     }
 
     override fun onPlaylistLoaded(tracks: List<AudioTrack>) {
@@ -30,11 +30,7 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
                 description = "Adicionadas **${tracks.size}** músicas à fila."
             )
 
-            thread {
-                tracks.forEach {
-                    play(channel.guild.id, it)
-                }
-            }
+            playTracksAsync(channel.guild.idLong, tracks)
         } else {
             EmbedMessage.failure(
                 channel,
@@ -58,7 +54,14 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
         )
     }
 
-    private fun play(guildId: String, track: AudioTrack) {
+    private fun playTracksAsync(guildId: Long, tracks: List<AudioTrack>) {
+        CompletableFuture.runAsync {
+            tracks.forEach { playTrack(guildId, it) }
+        }
+    }
+
+    private fun playTrack(guildId: Long, track: AudioTrack) {
         DiscordApp.getMusicManager(guildId).scheduler.queue(track)
     }
+
 }

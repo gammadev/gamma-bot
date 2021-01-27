@@ -4,7 +4,7 @@ import br.com.gmfonseca.music.application.listener.YoutubeClientListener
 import br.com.gmfonseca.music.business.client.YoutubeClient
 import br.com.gmfonseca.shared.REGEX_YOUTUBE
 import br.com.gmfonseca.shared.command.Command
-import br.com.gmfonseca.shared.command.CommandHandler
+import br.com.gmfonseca.shared.annotations.CommandHandler
 import br.com.gmfonseca.shared.util.EmbedMessage
 import br.com.gmfonseca.shared.util.ext.connectVoice
 import net.dv8tion.jda.api.entities.Message
@@ -17,6 +17,8 @@ import net.dv8tion.jda.api.entities.TextChannel
 class PlayCommand : Command() {
 
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
+        super.onCommand(message, channel, args)
+
         if (args.isEmpty()) {
             onWrongCommand(channel, "<youtube-link>")
         } else {
@@ -32,7 +34,7 @@ class PlayCommand : Command() {
                 )
             } else {
                 if (args.first().matches(Regex(REGEX_YOUTUBE))) {
-                    YoutubeClient(YoutubeClientListener(channel)).download(args.first())
+                    YoutubeClient(YoutubeClientListener(channel)).downloadTrackAsync(args.first())
                 } else {
 //                    YoutubeClient(YoutubeClientListener(channel)).search(args.reduce { acc, cur -> "$acc $cur" })
                     EmbedMessage.info(

@@ -1,6 +1,5 @@
 package br.com.gmfonseca
 
-import br.com.gmfonseca.music.application.handler.message.GuildMessageHandler
 import br.com.gmfonseca.music.business.manager.GuildMusicManager
 import br.com.gmfonseca.shared.command.Command
 import br.com.gmfonseca.shared.util.ClassMapper
@@ -10,6 +9,8 @@ import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -21,11 +22,16 @@ import javax.security.auth.login.LoginException
 object DiscordApp {
 
     const val COMMAND_PREFIX = '>'
+
     val PLAYER_MANAGER = DefaultAudioPlayerManager()
 
-    private val guildsMusicManager = mutableMapOf<String, GuildMusicManager>()
-
     private lateinit var INSTANCE: JDA
+
+    val id; get() = INSTANCE.selfUser.id
+
+    private val guildsMusicManager = mutableMapOf<Long, GuildMusicManager>()
+    private val guildsConnectedVoiceChannel = mutableMapOf<Long, VoiceChannel>()
+    private val guildsLatestTextChannel = mutableMapOf<Long, TextChannel>()
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -34,8 +40,9 @@ object DiscordApp {
                 .setActivity(Activity.playing("sua mãe pela janela $THUMBSUP"))
                 .build()
 
-            mapClasses<Command> { loadCommands(it) }
-            addEventListener(GuildMessageHandler())
+            mapClasses<Command> { Command.loadCommands(it) }
+            mapClasses<ListenerAdapter> { INSTANCE.addEventListener(*it.toTypedArray()) }
+
             AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER)
         } catch (e: IndexOutOfBoundsException) {
             Logger.getGlobal().log(
@@ -52,36 +59,49 @@ object DiscordApp {
         }
     }
 
-    fun getMusicManager(guildId: String): GuildMusicManager {
+    fun getMusicManager(guildId: Long): GuildMusicManager {
         return guildsMusicManager[guildId] ?: GuildMusicManager(PLAYER_MANAGER).also {
             guildsMusicManager[guildId] = it
         }
     }
 
-    fun getMusicManager(guildId: Long): GuildMusicManager {
-        return getMusicManager("$guildId")
-    }
-
-    fun clearMusicManager(guildId: String): GuildMusicManager? {
+    fun removeMusicManager(guildId: Long): GuildMusicManager? {
         return guildsMusicManager.remove(guildId)
     }
 
-    private fun addEventListener(vararg listeners: ListenerAdapter) {
-        INSTANCE.addEventListener(*listeners)
+    fun putConnectedVoice(guildId: Long, channel: VoiceChannel): VoiceChannel? {
+        return guildsConnectedVoiceChannel.put(guildId, channel)
     }
 
-    private fun loadCommands(commands: List<Command>) {
-        Command.loadCommands(commands)
+    fun getConnectVoice(guildId: Long): VoiceChannel? {
+        return guildsConnectedVoiceChannel[guildId]
+    }
+
+    fun leaveConnectedVoice(guildId: Long): VoiceChannel? {
+        removeMusicManager(guildId)?.scheduler?.stop(null)
+
+        return guildsConnectedVoiceChannel.remove(guildId)?.also {
+            it.guild.audioManager.closeAudioConnection()
+        }
+    }
+
+    fun putLatestTextChannel(guildId: Long, channel: TextChannel): TextChannel? {
+        return guildsLatestTextChannel.put(guildId, channel)
+    }
+
+    fun getLatestTextChannel(guildId: Long): TextChannel? {
+        return guildsLatestTextChannel[guildId]
+    }
+
+    fun removeLatestTextChannel(guildId: Long): TextChannel? {
+        return guildsLatestTextChannel.remove(guildId)
     }
 
     private inline fun <reified T> mapClasses(
         classesRootPath: String = "br.com.gmfonseca",
         onFinish: (List<T>) -> Unit
     ) {
-        val classSuffixName = T::class.simpleName
-            ?: throw IllegalArgumentException("Invalid name null for given type class <T>")
-
-        onFinish(ClassMapper.mapClasses(classesRootPath, classSuffixName))
+        onFinish(ClassMapper.mapClasses(classesRootPath))
     }
 
 }

@@ -1,7 +1,7 @@
 package br.com.gmfonseca.music.business.manager
 
-import br.com.gmfonseca.music.application.handler.audio.AudioSenderHandler
-import br.com.gmfonseca.music.application.handler.audio.TrackScheduler
+import br.com.gmfonseca.music.application.handler.AudioSenderHandler
+import br.com.gmfonseca.music.business.scheduler.TrackScheduler
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager
 import net.dv8tion.jda.api.entities.VoiceChannel
 

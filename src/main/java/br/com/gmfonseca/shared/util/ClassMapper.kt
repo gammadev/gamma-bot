@@ -14,17 +14,17 @@ import java.util.jar.JarInputStream
  */
 object ClassMapper {
 
-    inline fun <reified T> mapClasses(classesRootPath: String, suffix: String): List<T> {
+    inline fun <reified T> mapClasses(classesRootPath: String): List<T> {
         val resUrl = DiscordApp::class.java.getResource("")
 
         return if (resUrl.protocol equalsIgnoreCase "jar") {
-            mapJar(resUrl.file, classesRootPath, suffix)
+            mapJar(resUrl.file, classesRootPath)
         } else {
-            mapProject(resUrl.file, classesRootPath, suffix)
+            mapProject(resUrl.file, classesRootPath)
         }
     }
 
-    inline fun <reified T> mapJar(res: String, classesRootPackage: String, suffix: String): List<T> {
+    inline fun <reified T> mapJar(res: String, classesRootPackage: String): List<T> {
         val classes = mutableListOf<T>()
         val classesRootPath = classesRootPackage.replace(".", "/")
         val jarInputStream = JarInputStream(FileInputStream(res.substringBetween("file:", "!")))
@@ -32,7 +32,7 @@ object ClassMapper {
         var jarEntry = jarInputStream.nextJarEntry
         while (jarEntry != null) {
             val fileName = jarEntry.name
-            if (fileName.startsWith(classesRootPath) && fileName.endsWith("$suffix.class")) {
+            if (fileName.startsWith(classesRootPath) && fileName.endsWith(".class")) {
                 val className = fileName.substringBefore(".class").replace("/", ".")
 
                 Class.forName(className).createInstance()?.let {
@@ -48,12 +48,11 @@ object ClassMapper {
         return classes
     }
 
-    inline fun <reified T> mapProject(res: String, classesRootPath: String, suffix: String): List<T> {
+    inline fun <reified T> mapProject(res: String, classesRootPath: String): List<T> {
         val classes = mutableListOf<T>()
 
         File(res).walk().forEach { file ->
-            val name = file.nameWithoutExtension
-            if (name.endsWith(suffix) && name != suffix) {
+            if (file.isFile) {
                 Class.forName(classesRootPath.mapFileToClassPath(file)).createInstance()?.let {
                     if (it is T) {
                         classes.add(it)

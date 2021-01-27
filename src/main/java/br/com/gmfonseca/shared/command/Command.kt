@@ -1,6 +1,7 @@
 package br.com.gmfonseca.shared.command
 
 import br.com.gmfonseca.DiscordApp
+import br.com.gmfonseca.shared.annotations.CommandHandler
 import br.com.gmfonseca.shared.util.EmbedMessage
 import br.com.gmfonseca.shared.util.ext.equalsIgnoreCase
 import br.com.gmfonseca.shared.util.ext.getAnnotation
@@ -19,7 +20,14 @@ abstract class Command {
         return "${DiscordApp.COMMAND_PREFIX}$name"
     }
 
-    abstract fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean
+    /**
+     * To everything works fine, call this super method if you are not sure about what you doing.
+     */
+    open fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
+        DiscordApp.putLatestTextChannel(channel.guild.idLong, channel)
+
+        return true
+    }
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
         EmbedMessage.failure(
@@ -43,6 +51,8 @@ abstract class Command {
 
             commands.forEach { command ->
                 command.getAnnotation(CommandHandler::class)?.run {
+                    if (!enabled) return@run
+
                     if (namesAliases.add(name)) {
                         command.name = name
                     }

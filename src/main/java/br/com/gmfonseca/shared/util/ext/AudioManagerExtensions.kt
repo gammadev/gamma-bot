@@ -2,6 +2,7 @@ package br.com.gmfonseca.shared.util.ext
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.music.application.listener.TrackSchedulerListener
+import br.com.gmfonseca.music.business.scheduler.LeaveVoiceScheduler
 import br.com.gmfonseca.shared.util.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.VoiceChannel
@@ -14,7 +15,7 @@ import java.util.logging.Logger
  * Created by Gabriel Fonseca on 02/12/2020.
  */
 fun AudioManager.connectVoice(textChannel: TextChannel, voiceChannel: VoiceChannel): Boolean {
-    val musicManager = DiscordApp.getMusicManager(guild.id).apply {
+    val musicManager = DiscordApp.getMusicManager(guild.idLong).apply {
         scheduler.listener = TrackSchedulerListener(textChannel)
     }
 
@@ -31,7 +32,12 @@ fun AudioManager.connectVoice(textChannel: TextChannel, voiceChannel: VoiceChann
 
 fun AudioManager.safetyConnectVoice(channel: VoiceChannel, onInsufficientPermission: () -> Unit = {}): Boolean {
     try {
+        val guildId = channel.guild.idLong
+
         openAudioConnection(channel)
+        DiscordApp.putConnectedVoice(guildId, channel)
+        LeaveVoiceScheduler.schedule(guildId, channel.idLong)
+
         return true
     } catch (exception: InsufficientPermissionException) {
         Logger.getGlobal().log(

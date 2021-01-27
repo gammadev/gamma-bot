@@ -8,7 +8,7 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeSearchProvider
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
-import kotlin.concurrent.thread
+import java.util.concurrent.CompletableFuture
 
 
 /**
@@ -25,26 +25,28 @@ class YoutubeClient(private val listener: YoutubeClientListener) {
         }
     }
 
-    fun download(identifier: String) {
-        thread {
-            DiscordApp.PLAYER_MANAGER.loadItem(identifier, object : AudioLoadResultHandler {
-                override fun trackLoaded(track: AudioTrack) {
-                    listener.onTrackLoaded(track)
-                }
+    fun downloadTrackAsync(identifier: String) {
+        CompletableFuture.runAsync { downloadTrack(identifier) }
+    }
 
-                override fun playlistLoaded(playlist: AudioPlaylist) {
-                    listener.onPlaylistLoaded(playlist.tracks)
-                }
+    private fun downloadTrack(identifier: String) {
+        DiscordApp.PLAYER_MANAGER.loadItem(identifier, object : AudioLoadResultHandler {
+            override fun trackLoaded(track: AudioTrack) {
+                listener.onTrackLoaded(track)
+            }
 
-                override fun noMatches() {
-                    listener.onNoMatches()
-                }
+            override fun playlistLoaded(playlist: AudioPlaylist) {
+                listener.onPlaylistLoaded(playlist.tracks)
+            }
 
-                override fun loadFailed(p0: FriendlyException?) {
-                    listener.onLoadFailed(p0?.message)
-                }
-            })
-        }
+            override fun noMatches() {
+                listener.onNoMatches()
+            }
+
+            override fun loadFailed(p0: FriendlyException?) {
+                listener.onLoadFailed(p0?.message)
+            }
+        })
     }
 
     interface YoutubeClientListener {
