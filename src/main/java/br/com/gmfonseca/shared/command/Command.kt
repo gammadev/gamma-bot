@@ -12,7 +12,7 @@ import net.dv8tion.jda.api.entities.TextChannel
  */
 abstract class Command {
 
-    private var name: String = ""
+    var name: String = ""; private set
     private val aliases = mutableListOf<String>()
 
     override fun toString(): String {
@@ -30,7 +30,9 @@ abstract class Command {
     }
 
     companion object {
-        private val commands: MutableList<Command> = mutableListOf()
+        private val mutableCommands: MutableList<Command> = mutableListOf()
+        val commands: List<Command>; get() = mutableCommands
+
         private val namesAliases = mutableSetOf<String>()
 
         fun fromName(name: String): Command {
@@ -39,7 +41,7 @@ abstract class Command {
         }
 
         fun loadCommands(commands: List<Command>) {
-            if (Companion.commands.isNotEmpty()) return
+            if (mutableCommands.isNotEmpty()) return
 
             commands.forEach { command ->
                 command.getAnnotation(CommandHandler::class)?.run {
@@ -53,7 +55,7 @@ abstract class Command {
                         }
                     }
 
-                    Companion.commands.add(command)
+                    mutableCommands.add(command)
                 }
             }
         }
