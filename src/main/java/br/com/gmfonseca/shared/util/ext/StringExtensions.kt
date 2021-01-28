@@ -12,6 +12,7 @@ fun String.isCommand(): Boolean {
     return isNotBlank() && first() == DiscordApp.COMMAND_PREFIX
 }
 
+@Throws(StringIndexOutOfBoundsException::class)
 fun String.getCommand(): Command {
     val command = split(" ").first().substring(1)
     return Command.fromName(command)

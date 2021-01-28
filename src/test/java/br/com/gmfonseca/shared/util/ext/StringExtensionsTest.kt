@@ -1,7 +1,17 @@
 package br.com.gmfonseca.shared.util.ext
 
 import br.com.gmfonseca.DiscordApp
+import br.com.gmfonseca.music.application.command.PlayCommand
+import br.com.gmfonseca.shared.command.Command
+import br.com.gmfonseca.shared.command.UnknownCommand
+import io.mockk.*
+import io.mockk.impl.annotations.MockK
+import org.junit.AfterClass
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
+import java.io.File
+import java.io.File.separator
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -11,7 +21,20 @@ import kotlin.test.assertTrue
  */
 class StringExtensionsTest {
 
+    // region setup
+    @MockK
+    private lateinit var joinCommand: PlayCommand
+
     private val commandPrefix = DiscordApp.COMMAND_PREFIX
+
+    @Before
+    fun beforeTest() {
+        MockKAnnotations.init(this, relaxed = true)
+
+        every { Command.Companion.commands } returns listOf(joinCommand)
+    }
+
+    // endregion
 
     // region isCommand
 
@@ -45,6 +68,38 @@ class StringExtensionsTest {
 
     // endregion
 
+    // region getCommand
+
+    @Test(expected = StringIndexOutOfBoundsException::class)
+    fun testGetCommand_givenBlankString_shouldThrowsStringIndexOutOfBoundsException() {
+        "".getCommand()
+    }
+
+    @Test
+    fun testGetCommand_givenCommandStringWithoutPrefix_shouldReturnsUnknownCommand() {
+        // Mock
+        every { Command.fromName("oin") } returns UnknownCommand
+
+        // Run
+        val result = "join".getCommand()
+
+        // Assert
+        assertEquals(UnknownCommand, result)
+        verify(exactly = 1) { Command.fromName("oin") }
+    }
+
+    @Test
+    fun testGetCommand_givenCommandStringWithPrefix_shouldReturnsCorrectlyCommand() {
+        every { joinCommand.name } returns "join"
+
+        val result = "${commandPrefix}join".getCommand()
+
+        assertTrue(result is PlayCommand)
+        verify(exactly = 1) { joinCommand.name }
+    }
+
+    // endregion
+
     // region getCommandArgs
 
     @Test
@@ -71,34 +126,35 @@ class StringExtensionsTest {
 
     // endregion
 
-    // region equalsIgnoreCase
+    // test mapFileToClassPath
 
     @Test
-    fun testEqualsIgnoreCaseGivenDifferentStringWithDifferentCaseShouldReturnTrue() {
-        val result = "ABC123".equalsIgnoreCase("efg345")
+    fun testMapFileToClassPath_givenValidFilePath() {
+        // Mock
+        val file = mockk<File>()
+        val name = "StringExtensions.kt"
+        val path = StringBuilder("br")
+            .append(separator, "com")
+            .append(separator, "gmfonseca")
+            .append(separator, "shared")
+            .append(separator, "util")
+            .append(separator, "ext")
+            .append(separator, name)
+            .toString()
 
-        assertFalse { result }
-    }
+        every { file.absolutePath } returns path
+        every { file.name } returns name
 
-    @Test
-    fun testEqualsIgnoreCaseGivenDifferentStringWithSameCaseShouldReturnTrue() {
-        val result = "abc123".equalsIgnoreCase("efg345")
+        // Run
+        val result = "br.com.gmfonseca".mapFileToClassPath(file)
 
-        assertFalse { result }
-    }
-
-    @Test
-    fun testEqualsIgnoreCaseGivenSameStringWithDifferentCaseShouldReturnTrue() {
-        val result = "aBc345".equalsIgnoreCase("Abc345")
-
-        assertTrue { result }
-    }
-
-    @Test
-    fun testEqualsIgnoreCaseGivenSameStringWithSameCaseShouldReturnTrue() {
-        val result = "abc345".equalsIgnoreCase("abc345")
-
-        assertTrue { result }
+        // Assert
+        assertEquals("br.com.gmfonseca.shared.util.ext.StringExtensions", result)
+        verifyAll {
+            file.absolutePath
+            file.name
+        }
+        confirmVerified(file)
     }
 
     // endregion
@@ -205,4 +261,81 @@ class StringExtensionsTest {
     }
 
     // endregion
+
+    // region substringBetween
+
+    @Test
+    fun testSubstringBetween_givenEmptyString_shouldReturnsEmptyString() {
+        val result = "".substringBetween("1", "2")
+
+        assertEquals("", result)
+    }
+
+    @Test
+    fun testSubstringBetween_givenSequentialStringRemovingExtremes_shouldReturnsReducedString() {
+        val result = "12345".substringBetween("1", "5")
+
+        assertEquals("234", result)
+    }
+
+    @Test
+    fun testSubstringBetween_givenSequentialStringAndInvalidBeforeArgument_shouldReturnsReducedStringWithSameEnding() {
+        val result = "12345".substringBetween("1", "6")
+
+        assertEquals("2345", result)
+    }
+
+    @Test
+    fun testSubstringBetween_givenSequentialStringAndInvalidAfterArgument_shouldReturnsReducedStringWithSameStarting() {
+        val result = "12345".substringBetween("0", "5")
+
+        assertEquals("1234", result)
+    }
+    // endregion
+
+    // region equalsIgnoreCase
+
+    @Test
+    fun testEqualsIgnoreCaseGivenDifferentStringWithDifferentCaseShouldReturnTrue() {
+        val result = "ABC123".equalsIgnoreCase("efg345")
+
+        assertFalse { result }
+    }
+
+    @Test
+    fun testEqualsIgnoreCaseGivenDifferentStringWithSameCaseShouldReturnTrue() {
+        val result = "abc123".equalsIgnoreCase("efg345")
+
+        assertFalse { result }
+    }
+
+    @Test
+    fun testEqualsIgnoreCaseGivenSameStringWithDifferentCaseShouldReturnTrue() {
+        val result = "aBc345".equalsIgnoreCase("Abc345")
+
+        assertTrue { result }
+    }
+
+    @Test
+    fun testEqualsIgnoreCaseGivenSameStringWithSameCaseShouldReturnTrue() {
+        val result = "abc345".equalsIgnoreCase("abc345")
+
+        assertTrue { result }
+    }
+
+    // endregion
+
+    companion object {
+        @JvmStatic
+        @BeforeClass
+        fun beforeClass() {
+            mockkObject(Command.Companion)
+        }
+
+        @JvmStatic
+        @AfterClass
+        fun afterClass() {
+            unmockkObject(Command.Companion)
+        }
+    }
 }
