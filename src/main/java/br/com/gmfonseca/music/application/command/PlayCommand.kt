@@ -23,7 +23,7 @@ class PlayCommand : Command() {
         } else {
             val guild = channel.guild
             val voiceChannel = guild.voiceChannels.find { voiceChannel ->
-                voiceChannel.members.find { it.user.idLong == message.author.idLong } != null
+                voiceChannel.members.any { it.user.idLong == message.author.idLong }
             }
 
             if (voiceChannel == null) {
