@@ -14,9 +14,11 @@ import net.dv8tion.jda.api.entities.TextChannel
 class LeaveCommand : Command() {
 
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
-        return DiscordApp.clearMusicManager(channel.guild.id)?.let {
+        val guild = channel.guild
+
+        return DiscordApp.clearMusicManager(guild.id)?.let {
             it.scheduler.stop()
-            channel.guild.audioManager.closeAudioConnection()
+            guild.audioManager.closeAudioConnection()
             message.addReaction(WAVE).queue()
             true
         } ?: false

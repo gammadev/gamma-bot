@@ -13,7 +13,7 @@
         <kotlin.version>1.4.21</kotlin.version>
 
         <jacoco.version>0.8.6</jacoco.version>
-        <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <pitest-version>1.6.2</pitest-version>
     </properties>
 
     <dependencies>
@@ -172,6 +172,15 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>${pitest-version}</version>
+                <configuration>
+                    <timestampedReports>false</timestampedReports>
+                    <verbose>true</verbose>
+                </configuration>
             </plugin>
         </plugins>
     </build>

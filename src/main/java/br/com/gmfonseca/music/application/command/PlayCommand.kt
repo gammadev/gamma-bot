@@ -19,10 +19,11 @@ class PlayCommand : Command() {
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
         if (args.isEmpty()) {
             onWrongCommand(channel, "<youtube-link>")
+            return false
         } else {
             val guild = channel.guild
             val voiceChannel = guild.voiceChannels.find { voiceChannel ->
-                voiceChannel.members.find { it.user.idLong == message.author.idLong } != null
+                voiceChannel.members.any { it.user.idLong == message.author.idLong }
             }
 
             if (voiceChannel == null) {
@@ -30,6 +31,7 @@ class PlayCommand : Command() {
                     channel,
                     description = "Você não está conectado em um canal de voz!"
                 )
+                return false
             } else {
                 if (args.first().matches(Regex(REGEX_YOUTUBE))) {
                     YoutubeClient(YoutubeClientListener(channel)).download(args.first())
