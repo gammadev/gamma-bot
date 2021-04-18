@@ -3,6 +3,7 @@ package br.com.gmfonseca
 import br.com.gmfonseca.music.application.handler.message.GuildMessageHandler
 import br.com.gmfonseca.music.business.manager.GuildMusicManager
 import br.com.gmfonseca.shared.command.Command
+import br.com.gmfonseca.shared.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.shared.util.ClassMapper
 import br.com.gmfonseca.shared.util.Emoji.THUMBSUP
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
@@ -14,6 +15,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.security.auth.login.LoginException
+import kotlin.reflect.jvm.jvmName
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
@@ -30,25 +32,27 @@ object DiscordApp {
     @JvmStatic
     fun main(args: Array<String>) {
         try {
+            mapClasses<Command> { loadCommands(it) }
+
             INSTANCE = JDABuilder.createDefault(args[0])
                 .setActivity(Activity.playing("sua mãe pela janela $THUMBSUP"))
                 .build()
-
-            mapClasses<Command> { loadCommands(it) }
             addEventListener(GuildMessageHandler())
             AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER)
         } catch (e: IndexOutOfBoundsException) {
-            Logger.getGlobal().log(
-                Level.WARNING,
+            logSevere(
+                e,
                 "Please provide a valid bot token on execute the .jar, like 'java -jar discordbot.java YOUR_TOKEN_HERE'"
             )
-            e.printStackTrace()
         } catch (e: LoginException) {
-            Logger.getGlobal().log(Level.WARNING, "Couldn't login with given token '${args[0]}'. Cause: ${e.message}")
-            e.printStackTrace()
+            logSevere(e, "Couldn't login with given token '${args[0]}'. Cause: ${e.message}")
+        } catch (e: IllegalCommandClassException) {
+            logSevere(
+                e,
+                "Failed to create an instance for class ${e.klass.jvmName}, when mapping commands. Cause: ${e.message}"
+            )
         } catch (e: Throwable) {
-            Logger.getGlobal().log(Level.WARNING, "Whoops, something went wrong on build JDA Instance: ${e.message}")
-            e.printStackTrace()
+            logSevere(e, "Whoops, something went wrong on build JDA Instance: ${e.message}")
         }
     }
 
@@ -84,4 +88,11 @@ object DiscordApp {
         onFinish(ClassMapper.mapClasses(classesRootPath, classSuffixName))
     }
 
+    private fun logSevere(throwable: Throwable, message: String) {
+        Logger.getGlobal().log(
+            Level.SEVERE,
+            message
+        )
+        throwable.printStackTrace()
+    }
 }
