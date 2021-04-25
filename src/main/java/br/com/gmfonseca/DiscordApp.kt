@@ -6,6 +6,7 @@ import br.com.gmfonseca.shared.command.Command
 import br.com.gmfonseca.shared.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.shared.util.ClassMapper
 import br.com.gmfonseca.shared.util.Emoji.THUMBSUP
+import br.com.gmfonseca.testing.generated
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.JDA
@@ -32,8 +33,9 @@ object DiscordApp {
     @JvmStatic
     fun main(args: Array<String>) {
         try {
+//            generated()
+//            br.com.gmfonseca.generated.commands.Commands().COMMANDS
             mapClasses<Command> { loadCommands(it) }
-
             INSTANCE = JDABuilder.createDefault(args[0])
                 .setActivity(Activity.playing("sua mãe pela janela $THUMBSUP"))
                 .build()
