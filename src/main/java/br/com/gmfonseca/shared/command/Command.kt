@@ -1,8 +1,8 @@
 package br.com.gmfonseca.shared.command
 
 import br.com.gmfonseca.DiscordApp
+import br.com.gmfonseca.shared.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.shared.util.EmbedMessage
-import br.com.gmfonseca.shared.util.ext.equalsIgnoreCase
 import br.com.gmfonseca.shared.util.ext.getAnnotation
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
@@ -12,8 +12,17 @@ import net.dv8tion.jda.api.entities.TextChannel
  */
 abstract class Command {
 
-    var name: String = ""; private set
-    private val aliases = mutableListOf<String>()
+    val name: String
+    private val aliases: List<String>
+
+    init {
+        val handlerAnn = getAnnotation(CommandHandler::class)
+
+        requireNotNull(handlerAnn) { throw IllegalCommandClassException(this::class) }
+
+        name = handlerAnn.name.toLowerCase()
+        aliases = handlerAnn.aliases.map { it.toLowerCase() }
+    }
 
     override fun toString(): String {
         return "${DiscordApp.COMMAND_PREFIX}$name"
@@ -30,34 +39,15 @@ abstract class Command {
     }
 
     companion object {
-        private val mutableCommands: MutableList<Command> = mutableListOf()
-        val commands: List<Command>; get() = mutableCommands
+        var commands: List<Command> = emptyList(); private set
 
-        private val namesAliases = mutableSetOf<String>()
-
-        fun fromName(name: String): Command {
-            return commands.find { (it.name equalsIgnoreCase name) || (name.toLowerCase() in it.aliases) }
+        fun findCommand(name: String): Command {
+            return commands.find { (it.name == name) || (name in it.aliases) }
                 ?: UnknownCommand
         }
 
         fun loadCommands(commands: List<Command>) {
-            if (mutableCommands.isNotEmpty()) return
-
-            commands.forEach { command ->
-                command.getAnnotation(CommandHandler::class)?.run {
-                    if (namesAliases.add(name)) {
-                        command.name = name
-                    }
-
-                    aliases.filter { it !in namesAliases }.let {
-                        if (namesAliases.addAll(it)) {
-                            command.aliases.addAll(it)
-                        }
-                    }
-
-                    mutableCommands.add(command)
-                }
-            }
+            this.commands = commands
         }
     }
 }

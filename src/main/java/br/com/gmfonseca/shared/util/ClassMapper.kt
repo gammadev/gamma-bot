@@ -17,6 +17,8 @@ object ClassMapper {
     inline fun <reified T> mapClasses(classesRootPath: String, suffix: String): List<T> {
         val resUrl = DiscordApp::class.java.getResource("")
 
+        requireNotNull(resUrl)
+
         return if (resUrl.protocol equalsIgnoreCase "jar") {
             mapJar(resUrl.file, classesRootPath, suffix)
         } else {
@@ -63,6 +65,10 @@ object ClassMapper {
         }
 
         return classes
+    }
+
+    private fun test() {
+
     }
 
 }

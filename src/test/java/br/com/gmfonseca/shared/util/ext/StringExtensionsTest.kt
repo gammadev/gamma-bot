@@ -78,14 +78,14 @@ class StringExtensionsTest {
     @Test
     fun testGetCommand_givenCommandStringWithoutPrefix_shouldReturnsUnknownCommand() {
         // Mock
-        every { Command.fromName("oin") } returns UnknownCommand
+        every { Command.findCommand("oin") } returns UnknownCommand
 
         // Run
         val result = "join".getCommand()
 
         // Assert
         assertEquals(UnknownCommand, result)
-        verify(exactly = 1) { Command.fromName("oin") }
+        verify(exactly = 1) { Command.findCommand("oin") }
     }
 
     @Test

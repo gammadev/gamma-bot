@@ -6,7 +6,7 @@ package br.com.gmfonseca.shared.util.ext
 fun <T : Any> Class<T>.createInstance(): T? {
     return try {
         getDeclaredConstructor().newInstance()
-    } catch (t: Throwable) {
+    } catch (e: IllegalAccessException) {
         null
     }
 }
