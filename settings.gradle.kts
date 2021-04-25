@@ -1,1 +1,1 @@
-include(":features:music")
+rootProject.name = "gamma-bot"

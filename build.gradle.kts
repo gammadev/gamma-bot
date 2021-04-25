@@ -1,6 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    id("java")
-    id("maven-publish")
+    application
+    kotlin("jvm") version "1.4.0"
 }
 
 repositories {
@@ -24,7 +26,32 @@ dependencies {
 group = "br.com.gmfonseca"
 version = "0.1-alpha"
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+application {
+    mainClassName = "br.com.gmfonseca.DiscordApp"
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir("src/main/java")
+        }
+    }
+    test {
+        java {
+            srcDir("src/test/java")
+        }
+    }
+}
+
+tasks.withType<KotlinCompile> {
+
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
+
+    kotlinOptions {
+        jvmTarget = "11"
+        apiVersion = "1.4"
+        languageVersion = "1.4"
+        allWarningsAsErrors = true
+    }
 }
