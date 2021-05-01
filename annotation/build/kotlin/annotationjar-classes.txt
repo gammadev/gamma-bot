@@ -1,0 +1,1 @@
+D:\Projects\gamma-bot-groovy\annotation\build\classes\kotlin\main\br\com\gmfonseca\annotations\CommandHandler.class
