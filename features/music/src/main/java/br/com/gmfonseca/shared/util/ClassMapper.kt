@@ -67,8 +67,16 @@ object ClassMapper {
         return classes
     }
 
-    private fun test() {
-
+    inline fun <reified T> mapClasses(classNames: List<String>): List<T> {
+        return classNames.mapNotNull { className ->
+            Class.forName(className).createInstance()?.let {
+                if (it is T) {
+                    it
+                } else {
+                    null
+                }
+            }
+        }
     }
 
 }

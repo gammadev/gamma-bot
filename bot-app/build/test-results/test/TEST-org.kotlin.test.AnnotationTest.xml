@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.kotlin.test.AnnotationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-05-02T00:34:42" hostname="DESKTOP-DSF4LDK" time="0.001">
+  <properties/>
+  <testcase name="testSimple" classname="org.kotlin.test.AnnotationTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

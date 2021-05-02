@@ -1,5 +1,6 @@
 package br.com.gmfonseca
 
+import br.com.gmfonseca.generated.Statics
 import br.com.gmfonseca.music.application.handler.message.GuildMessageHandler
 import br.com.gmfonseca.music.business.manager.GuildMusicManager
 import br.com.gmfonseca.shared.command.Command
@@ -32,9 +33,6 @@ object DiscordApp {
     @JvmStatic
     fun main(args: Array<String>) {
         try {
-//            generated()
-//            br.com.gmfonseca.generated.commands.Commands().COMMANDS
-            mapClasses<Command> { loadCommands(it) }
             INSTANCE = JDABuilder.createDefault(args[0])
                 .setActivity(Activity.playing("sua mãe pela janela $THUMBSUP"))
                 .build()
@@ -73,10 +71,6 @@ object DiscordApp {
 
     private fun addEventListener(vararg listeners: ListenerAdapter) {
         INSTANCE.addEventListener(*listeners)
-    }
-
-    private fun loadCommands(commands: List<Command>) {
-        Command.loadCommands(commands)
     }
 
     private inline fun <reified T> mapClasses(

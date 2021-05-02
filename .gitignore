@@ -1,0 +1,7 @@
+*.iml
+.idea/
+.gradle/
+target/
+build/
+out/
+dependency-reduced-pom.xml
