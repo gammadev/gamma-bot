@@ -12,6 +12,7 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-reflect:1.4.10")
     api("com.squareup:javapoet:1.13.0")
 
+    implementation(project(":features:music"))
     implementation(project(":annotation"))
     kapt(project(":annotation-processor"))
 
@@ -23,5 +24,18 @@ idea {
         sourceDirs = sourceDirs + files("build/generated/source/kapt/main", "build/generated/source/kaptKotlin/main")
         generatedSourceDirs =
             generatedSourceDirs + files("build/generated/source/kapt/main", "build/generated/source/kaptKotlin/main")
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
+
+    kotlinOptions {
+        jvmTarget = "11"
+        apiVersion = "1.4"
+        languageVersion = "1.4"
+        allWarningsAsErrors = true
     }
 }

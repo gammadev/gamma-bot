@@ -1,6 +1,7 @@
-package br.com.gmfonseca.processors
+package br.com.gmfonseca.annotations.processors
 
 import br.com.gmfonseca.annotations.CommandHandler
+import org.yanex.takenoko.INTERNAL
 import org.yanex.takenoko.KoType
 import org.yanex.takenoko.PRIVATE
 import org.yanex.takenoko.PrettyPrinter
@@ -13,7 +14,6 @@ import javax.annotation.processing.SupportedAnnotationTypes
 import javax.annotation.processing.SupportedOptions
 import javax.annotation.processing.SupportedSourceVersion
 import javax.lang.model.SourceVersion
-import javax.lang.model.element.Element
 import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 
@@ -35,19 +35,24 @@ class CommandHandlerAnnotationProcessor : AbstractProcessor() {
             return false
         }
 
-        val generatedKtFile = kotlinFile("br.com.gmfonseca.generated") {
-            objectDeclaration("Statics") {
+        val generatedKtFile = kotlinFile(packageName = "br.com.gmfonseca.generated") {
+            objectDeclaration(name = "Statics", modifiers = INTERNAL) {
                 val initCommands = "initCommands"
+                val commandListType = KoType.Companion.parseType("List<$COMMAND_TYPE_NAME>")
 
-                property("COMMANDS") {
+                property(name = "COMMANDS", type = commandListType) {
                     initializer("$initCommands()")
                 }
 
                 function(name = initCommands, modifiers = PRIVATE) {
-                    returnType(KoType.Companion.parseType("List<$COMMAND_TYPE_NAME>"))
+                    returnType(commandListType)
 
                     val names = annotatedElements.mapNotNull {
-                        it.toTypeElementOrNull()?.run { "\t\t\"$qualifiedName\"" }
+                        if (it is TypeElement) {
+                            "\t\t\"${it.qualifiedName}\""
+                        } else {
+                            null
+                        }
                     }.joinToString(separator = ",\n")
 
                     body(expressionBody = true) {
@@ -68,15 +73,6 @@ class CommandHandlerAnnotationProcessor : AbstractProcessor() {
         }
 
         return true
-    }
-
-    private fun Element.toTypeElementOrNull(): TypeElement? {
-        if (this !is TypeElement) {
-            processingEnv.messager.printMessage(Diagnostic.Kind.ERROR, "Invalid element type, class expected", this)
-            return null
-        }
-
-        return this
     }
 
     internal companion object {

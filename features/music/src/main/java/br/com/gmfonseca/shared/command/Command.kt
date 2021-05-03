@@ -2,7 +2,6 @@ package br.com.gmfonseca.shared.command
 
 import br.com.gmfonseca.DiscordApp
 import br.com.gmfonseca.annotations.CommandHandler
-import br.com.gmfonseca.generated.Statics
 import br.com.gmfonseca.shared.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.shared.util.EmbedMessage
 import br.com.gmfonseca.shared.util.ext.getAnnotation
@@ -42,8 +41,7 @@ abstract class Command {
 
     companion object {
         fun findCommand(name: String): Command {
-            return Statics.COMMANDS.find { (it.name == name) || (name in it.aliases) }
-                ?: UnknownCommand
+            return UnknownCommand
         }
     }
 
