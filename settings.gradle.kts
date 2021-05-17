@@ -1,3 +1,3 @@
 rootProject.name = "gamma-bot-groovy"
 
-include(":annotation", ":annotation-processor", ":app", ":features:music")
+include(":common:annotations", ":common:annotations-processor", ":bot", ":apps:music")
