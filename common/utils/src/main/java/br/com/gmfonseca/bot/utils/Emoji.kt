@@ -1,4 +1,4 @@
-package br.com.gmfonseca.bot.shared.util
+package br.com.gmfonseca.bot.utils
 
 /**
  * Created by Gabriel Fonseca on 05/12/2020.

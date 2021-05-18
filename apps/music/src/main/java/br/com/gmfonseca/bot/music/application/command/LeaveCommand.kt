@@ -3,7 +3,7 @@ package br.com.gmfonseca.bot.music.application.command
 import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.annotations.CommandHandler
 import br.com.gmfonseca.bot.shared.command.Command
-import br.com.gmfonseca.bot.shared.util.Emoji.WAVE
+import br.com.gmfonseca.bot.utils.Emoji.WAVE
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 

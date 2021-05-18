@@ -1,9 +1,8 @@
 package br.com.gmfonseca.bot
 
 import br.com.gmfonseca.bot.music.application.handler.message.GuildMessageHandler
-import br.com.gmfonseca.bot.music.business.manager.GuildMusicManager
 import br.com.gmfonseca.bot.shared.exceptions.IllegalCommandClassException
-import br.com.gmfonseca.bot.shared.util.Emoji.THUMBSUP
+import br.com.gmfonseca.bot.utils.Emoji.THUMBSUP
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
 import net.dv8tion.jda.api.JDA
@@ -20,7 +19,7 @@ import kotlin.reflect.jvm.jvmName
  */
 object DiscordApp {
 
-    val PLAYER_MANAGER = DefaultAudioPlayerManager()
+    private val PLAYER_MANAGER = DefaultAudioPlayerManager()
 
     private lateinit var INSTANCE: JDA
 

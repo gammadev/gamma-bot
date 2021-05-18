@@ -12,6 +12,12 @@ dependencies {
     api("org.jetbrains.kotlin:kotlin-reflect:1.4.10")
 
     implementation(project(Modules.Apps.music))
+
+    implementation(project(Modules.Common.core))
+    implementation(project(Modules.Common.coreBot))
+
+    implementation(project(Modules.Common.utils))
+
     implementation(project(Modules.Common.annotations))
     kapt(project(Modules.Common.annotationsProcessor))
 
