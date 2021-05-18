@@ -3,10 +3,14 @@ object Modules {
 
     object Common {
         const val core = ":common:core"
-        const val coreBot = ":common:core-bot"
+        const val coreBot = ":common:core-discord"
         const val annotations = ":common:annotations"
         const val annotationsProcessor = ":common:annotations-processor"
         const val utils = ":common:utils"
+
+        object Plugins {
+            const val commandManager = ":common:plugins:command-manager"
+        }
     }
 
     object Apps {
