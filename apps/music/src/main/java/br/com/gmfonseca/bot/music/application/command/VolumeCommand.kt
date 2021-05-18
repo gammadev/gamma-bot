@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.music.application.command
 
-import br.com.gmfonseca.bot.DiscordApp
+import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.annotations.CommandHandler
 import br.com.gmfonseca.bot.music.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.bot.shared.REGEX_FLOAT_ONLY
@@ -19,7 +19,7 @@ class VolumeCommand : Command() {
 
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.idLong
-        val scheduler = DiscordApp.getMusicManager(guildId).scheduler.apply {
+        val scheduler = MusicManager.getMusicManager(guildId).scheduler.apply {
             listener = TrackSchedulerListener(channel)
         }
 

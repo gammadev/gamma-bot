@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.music.business.client
 
-import br.com.gmfonseca.bot.DiscordApp
+import br.com.gmfonseca.bot.MusicManager
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioSourceManager
 import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack
@@ -26,7 +26,7 @@ class YoutubeClient(private val listener: YoutubeClientListener) {
 
     fun download(identifier: String) {
         thread {
-            DiscordApp.PLAYER_MANAGER.loadItem(identifier, object : AudioLoadResultHandler {
+            MusicManager.PLAYER_MANAGER.loadItem(identifier, object : AudioLoadResultHandler {
                 override fun trackLoaded(track: AudioTrack) {
                     listener.onTrackLoaded(track)
                 }

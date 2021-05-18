@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.shared.util.ext
 
-import br.com.gmfonseca.bot.DiscordApp
+import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.bot.shared.command.Command
 import java.io.File
 
@@ -9,7 +9,7 @@ import java.io.File
  */
 
 fun String.isCommand(): Boolean {
-    return isNotBlank() && first() == DiscordApp.COMMAND_PREFIX
+    return isNotBlank() && first() == MusicManager.COMMAND_PREFIX
 }
 
 @Throws(StringIndexOutOfBoundsException::class)

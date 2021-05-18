@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.music.application.listener
 
-import br.com.gmfonseca.bot.DiscordApp
+import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.bot.music.business.client.YoutubeClient
 import br.com.gmfonseca.bot.shared.util.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
@@ -59,6 +59,6 @@ class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.Yo
     }
 
     private fun play(guildId: String, track: AudioTrack) {
-        DiscordApp.getMusicManager(guildId).scheduler.queue(track)
+        MusicManager.getMusicManager(guildId).scheduler.queue(track)
     }
 }

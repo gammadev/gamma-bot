@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.shared.util
 
-import br.com.gmfonseca.bot.DiscordApp
+import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.bot.shared.util.ext.createInstance
 import br.com.gmfonseca.bot.shared.util.ext.equalsIgnoreCase
 import br.com.gmfonseca.bot.shared.util.ext.mapFileToClassPath
@@ -15,7 +15,7 @@ import java.util.jar.JarInputStream
 object ClassMapper {
 
     inline fun <reified T> mapClasses(classesRootPath: String, suffix: String): List<T> {
-        val resUrl = DiscordApp::class.java.getResource("")
+        val resUrl = MusicManager::class.java.getResource("")
 
         requireNotNull(resUrl)
 

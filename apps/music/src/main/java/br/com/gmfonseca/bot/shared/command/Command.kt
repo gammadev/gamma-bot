@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.shared.command
 
-import br.com.gmfonseca.bot.DiscordApp
+import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.annotations.CommandHandler
 import br.com.gmfonseca.generated.Statics
 import br.com.gmfonseca.bot.shared.exceptions.IllegalCommandClassException
@@ -27,7 +27,7 @@ abstract class Command {
     }
 
     override fun toString(): String {
-        return "${DiscordApp.COMMAND_PREFIX}$name"
+        return "${MusicManager.COMMAND_PREFIX}$name"
     }
 
     abstract fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean

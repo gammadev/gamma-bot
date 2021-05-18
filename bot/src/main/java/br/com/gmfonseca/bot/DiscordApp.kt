@@ -20,10 +20,7 @@ import kotlin.reflect.jvm.jvmName
  */
 object DiscordApp {
 
-    const val COMMAND_PREFIX = '>'
     val PLAYER_MANAGER = DefaultAudioPlayerManager()
-
-    private val guildsMusicManager = mutableMapOf<String, GuildMusicManager>()
 
     private lateinit var INSTANCE: JDA
 
@@ -50,20 +47,6 @@ object DiscordApp {
         } catch (e: Throwable) {
             logSevere(e, "Whoops, something went wrong on build JDA Instance: ${e.message}")
         }
-    }
-
-    fun getMusicManager(guildId: String): GuildMusicManager {
-        return guildsMusicManager[guildId] ?: GuildMusicManager(PLAYER_MANAGER).also {
-            guildsMusicManager[guildId] = it
-        }
-    }
-
-    fun getMusicManager(guildId: Long): GuildMusicManager {
-        return getMusicManager("$guildId")
-    }
-
-    fun clearMusicManager(guildId: String): GuildMusicManager? {
-        return guildsMusicManager.remove(guildId)
     }
 
     private fun addEventListener(vararg listeners: ListenerAdapter) {

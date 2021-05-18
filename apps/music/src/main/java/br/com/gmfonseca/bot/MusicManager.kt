@@ -6,7 +6,7 @@ import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
  */
-object DiscordApp {
+object MusicManager {
 
     const val COMMAND_PREFIX = '>'
     val PLAYER_MANAGER = DefaultAudioPlayerManager()

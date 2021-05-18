@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.shared.util.ext
 
-import br.com.gmfonseca.bot.DiscordApp
+import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.bot.music.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.bot.shared.util.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
@@ -14,7 +14,7 @@ import java.util.logging.Logger
  * Created by Gabriel Fonseca on 02/12/2020.
  */
 fun AudioManager.connectVoice(textChannel: TextChannel, voiceChannel: VoiceChannel): Boolean {
-    val musicManager = DiscordApp.getMusicManager(guild.id).apply {
+    val musicManager = MusicManager.getMusicManager(guild.id).apply {
         scheduler.listener = TrackSchedulerListener(textChannel)
     }
 
