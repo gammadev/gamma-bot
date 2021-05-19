@@ -1,7 +1,7 @@
 plugins {
-    kotlin("jvm")
+    kotlin(Plugins.JVM)
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    api(Dependencies.STDLIB)
 }

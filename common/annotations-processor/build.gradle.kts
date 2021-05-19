@@ -1,9 +1,10 @@
 plugins {
-    kotlin("jvm")
+    kotlin(Plugins.JVM)
 }
 
 dependencies {
     implementation(project(Modules.Common.annotations))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("com.github.yanex:takenoko:0.1")
+
+    api(Dependencies.STDLIB)
+    api(Dependencies.TAKENOKO)
 }

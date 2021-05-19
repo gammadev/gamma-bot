@@ -1,27 +1,31 @@
 plugins {
-    kotlin("jvm")
-    kotlin("kapt")
+    kotlin(Plugins.JVM)
+    kotlin(Plugins.KAPT)
     idea
 }
 
 dependencies {
-    api("net.dv8tion:JDA:4.2.0_204")
-    api("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.21")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
-    api("com.sedmelluq:lavaplayer:1.3.53")
-    api("org.jetbrains.kotlin:kotlin-reflect:1.4.10")
-
-    implementation(project(Modules.Apps.music))
-
+    // Core
     implementation(project(Modules.Common.core))
     implementation(project(Modules.Common.coreBot))
 
+    // Common
     implementation(project(Modules.Common.utils))
-
     implementation(project(Modules.Common.annotations))
     kapt(project(Modules.Common.annotationsProcessor))
 
-    testImplementation("junit:junit:4.12")
+    // Apps
+    implementation(project(Modules.Apps.music))
+
+    // Dependencies
+    api(Dependencies.JDA)
+    api(Dependencies.STDLIB)
+    api(Dependencies.COROUTINES_CORE)
+    api(Dependencies.LAVA_PLAYER)
+    api(Dependencies.KOTLIN_REFLECT)
+
+    // Test
+    testImplementation(TestDependencies.JUNIT)
 }
 
 idea {
