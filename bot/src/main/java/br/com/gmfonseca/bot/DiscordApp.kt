@@ -31,6 +31,7 @@ object DiscordApp {
                 .build()
             addEventListener(GuildMessageHandler())
             AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER)
+            MusicManager.init()
         } catch (e: IndexOutOfBoundsException) {
             logSevere(
                 e,

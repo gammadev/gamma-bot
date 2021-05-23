@@ -1,6 +1,8 @@
 package br.com.gmfonseca.bot
 
+import br.com.gmfonseca.bot.commandmanager.CommandManager
 import br.com.gmfonseca.bot.music.business.manager.GuildMusicManager
+import br.com.gmfonseca.generated.Statics
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 
 /**
@@ -25,5 +27,9 @@ object MusicManager {
 
     fun clearMusicManager(guildId: String): GuildMusicManager? {
         return guildsMusicManager.remove(guildId)
+    }
+
+    fun init() {
+        CommandManager.registerCommands(Statics.COMMANDS)
     }
 }

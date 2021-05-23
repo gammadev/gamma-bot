@@ -77,7 +77,7 @@ class CommandHandlerAnnotationProcessor : AbstractProcessor() {
 
     internal companion object {
         const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
-        const val COMMAND_TYPE_NAME = "br.com.gmfonseca.bot.shared.command.Command"
-        const val CLASS_MAPPER_MAPPING_METHOD_NAME = "br.com.gmfonseca.bot.shared.util.ClassMapper.mapClasses"
+        const val COMMAND_TYPE_NAME = "br.com.gmfonseca.bot.commandmanager.Command"
+        const val CLASS_MAPPER_MAPPING_METHOD_NAME = "br.com.gmfonseca.bot.commandmanager.ClassMapper.mapClasses"
     }
 }

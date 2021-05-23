@@ -1,7 +1,8 @@
 package br.com.gmfonseca.bot.shared.util.ext
 
 import br.com.gmfonseca.bot.MusicManager
-import br.com.gmfonseca.bot.shared.command.Command
+import br.com.gmfonseca.bot.commandmanager.Command
+import br.com.gmfonseca.bot.commandmanager.CommandManager
 import java.io.File
 
 /**
@@ -15,7 +16,7 @@ fun String.isCommand(): Boolean {
 @Throws(StringIndexOutOfBoundsException::class)
 fun String.getCommand(): Command {
     val command = split(" ").first().substring(1)
-    return Command.findCommand(command)
+    return CommandManager.findCommand(command)
 }
 
 fun String.getCommandArgs(): List<String> {

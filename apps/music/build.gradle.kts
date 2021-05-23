@@ -14,6 +14,8 @@ dependencies {
     implementation(project(Modules.Common.annotations))
     kapt(project(Modules.Common.annotationsProcessor))
 
+    implementation(project(Modules.Common.Plugins.commandManager))
+
     // Dependencies
     api(Dependencies.JDA)
     api(Dependencies.STDLIB)
