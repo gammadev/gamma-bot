@@ -2,7 +2,7 @@ package br.com.gmfonseca.bot.commandmanager
 
 import br.com.gmfonseca.annotations.CommandHandler
 import br.com.gmfonseca.bot.commandmanager.exceptions.IllegalCommandClassException
-//import br.com.gmfonseca.bot.shared.util.EmbedMessage
+import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 
@@ -30,11 +30,11 @@ abstract class Command {
     abstract fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
-//        EmbedMessage.failure(
-//            channel = channel,
-//            title = "Comando inválido",
-//            description = "Por favor, use $this $extra"
-//        )
+        EmbedMessage.failure(
+            channel = channel,
+            title = "Comando inválido",
+            description = "Por favor, use $this $extra"
+        )
     }
 
 }

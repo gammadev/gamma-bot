@@ -1,8 +1,8 @@
 package br.com.gmfonseca.bot.music.application.listener
 
 import br.com.gmfonseca.bot.MusicManager
+import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.music.business.client.YoutubeClient
-import br.com.gmfonseca.bot.shared.util.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import net.dv8tion.jda.api.entities.TextChannel
 import kotlin.concurrent.thread

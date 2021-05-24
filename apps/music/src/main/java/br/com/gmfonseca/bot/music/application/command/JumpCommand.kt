@@ -1,10 +1,10 @@
 package br.com.gmfonseca.bot.music.application.command
 
-import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.annotations.CommandHandler
+import br.com.gmfonseca.bot.MusicManager
+import br.com.gmfonseca.bot.commandmanager.Command
+import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.music.application.listener.TrackSchedulerListener
-import br.com.gmfonseca.bot.shared.command.Command
-import br.com.gmfonseca.bot.shared.util.EmbedMessage
 import br.com.gmfonseca.bot.shared.util.ext.connectVoice
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel

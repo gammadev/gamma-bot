@@ -4,6 +4,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(Modules.Common.core))
+    implementation(project(Modules.Common.coreDiscord))
     implementation(project(Modules.Common.annotations))
     kapt(project(Modules.Common.annotationsProcessor))
 

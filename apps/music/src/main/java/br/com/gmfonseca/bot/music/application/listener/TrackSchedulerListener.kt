@@ -1,7 +1,7 @@
 package br.com.gmfonseca.bot.music.application.listener
 
 import br.com.gmfonseca.bot.music.application.handler.audio.TrackScheduler
-import br.com.gmfonseca.bot.shared.util.EmbedMessage
+import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import net.dv8tion.jda.api.entities.TextChannel
 

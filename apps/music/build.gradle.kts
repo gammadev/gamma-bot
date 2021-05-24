@@ -7,7 +7,7 @@ plugins {
 dependencies {
     // Core
     implementation(project(Modules.Common.core))
-    implementation(project(Modules.Common.coreBot))
+    implementation(project(Modules.Common.coreDiscord))
 
     // Common
     implementation(project(Modules.Common.utils))

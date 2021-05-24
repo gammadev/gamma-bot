@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.music.application.handler.audio
 
-import br.com.gmfonseca.bot.shared.util.EmbedMessage
+import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.shared.util.ext.addIfAbsent
 import br.com.gmfonseca.bot.shared.util.ext.fill
 import br.com.gmfonseca.bot.shared.util.ext.msToReadableTime

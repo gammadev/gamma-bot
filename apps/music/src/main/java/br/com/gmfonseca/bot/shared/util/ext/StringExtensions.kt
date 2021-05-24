@@ -15,7 +15,7 @@ fun String.isCommand(): Boolean {
 
 @Throws(StringIndexOutOfBoundsException::class)
 fun String.getCommand(): Command {
-    val command = split(" ").first().substring(1)
+    val command = split(" ").first().substring(1).toLowerCase()
     return CommandManager.findCommand(command)
 }
 

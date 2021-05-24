@@ -3,7 +3,7 @@ object Modules {
 
     object Common {
         const val core = ":common:core"
-        const val coreBot = ":common:core-discord"
+        const val coreDiscord = ":common:core-discord"
         const val annotations = ":common:annotations"
         const val annotationsProcessor = ":common:annotations-processor"
         const val utils = ":common:utils"

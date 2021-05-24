@@ -2,7 +2,7 @@ package br.com.gmfonseca.bot.shared.util.ext
 
 import br.com.gmfonseca.bot.MusicManager
 import br.com.gmfonseca.bot.music.application.listener.TrackSchedulerListener
-import br.com.gmfonseca.bot.shared.util.EmbedMessage
+import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.VoiceChannel
 import net.dv8tion.jda.api.exceptions.InsufficientPermissionException
