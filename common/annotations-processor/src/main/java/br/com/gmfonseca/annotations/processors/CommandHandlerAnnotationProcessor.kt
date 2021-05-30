@@ -35,7 +35,18 @@ class CommandHandlerAnnotationProcessor : AbstractProcessor() {
             return false
         }
 
-        val generatedKtFile = kotlinFile(packageName = "br.com.gmfonseca.generated") {
+        val packageName = annotatedElements.firstOrNull()?.let {
+            if (it is TypeElement) {
+                val name = it.qualifiedName.toString()
+                val packageName = name.substringAfter("$BASE_PACKAGE.").substringBefore(".")
+
+                "$BASE_PACKAGE.$packageName.generated"
+            } else {
+                null
+            }
+        }
+
+        val generatedKtFile = kotlinFile(packageName = packageName ?: "br.com.gmfonseca.generated") {
             objectDeclaration(name = "Statics", modifiers = INTERNAL) {
                 val initCommands = "initCommands"
                 val commandListType = KoType.Companion.parseType("List<$COMMAND_TYPE_NAME>")
@@ -76,8 +87,9 @@ class CommandHandlerAnnotationProcessor : AbstractProcessor() {
     }
 
     internal companion object {
+        const val BASE_PACKAGE = "br.com.gmfonseca.bot"
         const val KAPT_KOTLIN_GENERATED_OPTION_NAME = "kapt.kotlin.generated"
-        const val COMMAND_TYPE_NAME = "br.com.gmfonseca.bot.commandmanager.Command"
-        const val CLASS_MAPPER_MAPPING_METHOD_NAME = "br.com.gmfonseca.bot.commandmanager.ClassMapper.mapClasses"
+        const val COMMAND_TYPE_NAME = "${BASE_PACKAGE}.commandmanager.Command"
+        const val CLASS_MAPPER_MAPPING_METHOD_NAME = "${BASE_PACKAGE}.commandmanager.ClassMapper.mapClasses"
     }
 }

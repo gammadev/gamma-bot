@@ -1,8 +1,8 @@
-package br.com.gmfonseca.bot.music.application.handler.message
+package br.com.gmfonseca.bot.commandmanager.handler.message
 
-import br.com.gmfonseca.bot.shared.util.ext.getCommand
-import br.com.gmfonseca.bot.shared.util.ext.getCommandArgs
-import br.com.gmfonseca.bot.shared.util.ext.isCommand
+import br.com.gmfonseca.bot.commandmanager.ext.command
+import br.com.gmfonseca.bot.commandmanager.ext.commandArgs
+import br.com.gmfonseca.bot.commandmanager.ext.isCommand
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
@@ -17,8 +17,8 @@ class GuildMessageHandler : ListenerAdapter() {
         if (event.author.isBot) return
 
         with(event.message.contentRaw) {
-            if (isCommand()) {
-                getCommand().onCommand(event.message, event.channel, getCommandArgs())
+            if (isCommand) {
+                command.onCommand(event.message, event.channel, commandArgs)
             }
         }
     }

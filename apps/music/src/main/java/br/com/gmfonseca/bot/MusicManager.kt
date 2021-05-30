@@ -1,17 +1,18 @@
 package br.com.gmfonseca.bot
 
 import br.com.gmfonseca.bot.commandmanager.CommandManager
+import br.com.gmfonseca.bot.core.discord.AppManager
+import br.com.gmfonseca.bot.music.generated.Statics
 import br.com.gmfonseca.bot.music.business.manager.GuildMusicManager
-import br.com.gmfonseca.generated.Statics
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers
+import net.dv8tion.jda.api.JDA
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
  */
-object MusicManager {
+object MusicManager : AppManager {
 
-    const val COMMAND_PREFIX = '>'
     val PLAYER_MANAGER = DefaultAudioPlayerManager()
 
     private val guildsMusicManager = mutableMapOf<String, GuildMusicManager>()
@@ -30,8 +31,10 @@ object MusicManager {
         return guildsMusicManager.remove(guildId)
     }
 
-    fun init() {
+    override fun init(jda: JDA): Boolean = run {
         CommandManager.registerCommands(Statics.COMMANDS)
         AudioSourceManagers.registerRemoteSources(PLAYER_MANAGER)
+
+        true
     }
 }

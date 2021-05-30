@@ -14,15 +14,18 @@ dependencies {
     implementation(project(Modules.Common.annotations))
     kapt(project(Modules.Common.annotationsProcessor))
 
+    // Plugins
+    implementation(project(Modules.Common.Plugins.commandManager))
+
     // Apps
     implementation(project(Modules.Apps.music))
 
     // Dependencies
-    api(Dependencies.JDA)
-    api(Dependencies.STDLIB)
-    api(Dependencies.COROUTINES_CORE)
-    api(Dependencies.LAVA_PLAYER)
-    api(Dependencies.KOTLIN_REFLECT)
+    implementation(Dependencies.JDA)
+    implementation(Dependencies.STDLIB)
+    implementation(Dependencies.COROUTINES_CORE)
+    implementation(Dependencies.LAVA_PLAYER)
+    implementation(Dependencies.KOTLIN_REFLECT)
 
     // Test
     testImplementation(TestDependencies.JUNIT)

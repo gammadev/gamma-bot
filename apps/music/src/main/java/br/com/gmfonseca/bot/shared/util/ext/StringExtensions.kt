@@ -9,20 +9,6 @@ import java.io.File
  * Created by Gabriel Fonseca on 18/09/2020.
  */
 
-fun String.isCommand(): Boolean {
-    return isNotBlank() && first() == MusicManager.COMMAND_PREFIX
-}
-
-@Throws(StringIndexOutOfBoundsException::class)
-fun String.getCommand(): Command {
-    val command = split(" ").first().substring(1).toLowerCase()
-    return CommandManager.findCommand(command)
-}
-
-fun String.getCommandArgs(): List<String> {
-    return split(" ").run { toMutableList().subList(1, size) }
-}
-
 fun String.mapFileToClassPath(file: File): String {
     return this + file.absolutePath.substringAfter(replace(".", File.separator))
         .substringBeforeLast(file.name)

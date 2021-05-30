@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.core.discord
 
-import br.com.gmfonseca.bot.core.discord.extensions.queue
+import br.com.gmfonseca.bot.core.discord.ext.queue
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel

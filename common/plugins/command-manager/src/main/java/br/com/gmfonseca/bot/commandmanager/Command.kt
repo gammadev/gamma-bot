@@ -36,5 +36,4 @@ abstract class Command {
             description = "Por favor, use $this $extra"
         )
     }
-
 }

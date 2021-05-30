@@ -16,5 +16,4 @@ object Modules {
     object Apps {
         const val music = ":apps:music"
     }
-
 }

@@ -5,7 +5,6 @@ package br.com.gmfonseca.bot.utils
  */
 object Emoji {
 
-    const val THUMBSUP  = "\uD83D\uDC4D"
+    const val THUMBSUP = "\uD83D\uDC4D"
     const val WAVE = "\uD83D\uDC4B"
-
 }

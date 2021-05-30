@@ -1,22 +1,31 @@
 package br.com.gmfonseca.bot.commandmanager
 
+import br.com.gmfonseca.bot.commandmanager.handler.message.GuildMessageHandler
+import br.com.gmfonseca.bot.core.discord.AppManager
+import net.dv8tion.jda.api.JDA
 import java.util.logging.Level
 import java.util.logging.Logger
 
-object CommandManager {
+object CommandManager : AppManager {
 
-    const val COMMAND_PREFIX = '>'
+    const val COMMAND_PREFIX = "g>"
 
     private val COMMANDS = mutableMapOf<String, Command>()
     private val logger = Logger.getLogger("CommandManager")
 
+    override fun init(jda: JDA): Boolean = run {
+        jda.addEventListener(GuildMessageHandler())
+        true
+    }
+
     fun registerCommands(commands: Iterable<Command>) = commands.forEach { command ->
         val existentCommand = COMMANDS.putIfAbsent(command.name, command)
+        val commandClassName = command::class.java.name
 
         if (existentCommand != null) {
             logger.log(
                 Level.WARNING,
-                "Failed to register command '${command::class.java.name}'. Name '${command.name}' was previously registered by ${existentCommand::class.java.name}"
+                registrationFailureMessage(commandClassName, "Name '${command.name}'", existentCommand::class.java.name)
             )
         }
 
@@ -26,7 +35,7 @@ object CommandManager {
             if (existentAlias != null) {
                 logger.log(
                     Level.WARNING,
-                    "Failed to register command '${command::class.java.name}'. Alias '${alias}' was previously registered by ${existentAlias::class.java.name}"
+                    registrationFailureMessage(commandClassName, "Alias '$alias'", existentAlias::class.java.name)
                 )
             }
         }
@@ -34,5 +43,15 @@ object CommandManager {
 
     fun findCommand(name: String): Command {
         return COMMANDS[name] ?: UnknownCommand
+    }
+
+    private fun registrationFailureMessage(
+        className: String,
+        previouslyRegisteredReason: String,
+        registerOwner: String
+    ): String {
+        return "Failed to register command '%s'. %s was previously registered by %s".format(
+            className, previouslyRegisteredReason, registerOwner
+        )
     }
 }
