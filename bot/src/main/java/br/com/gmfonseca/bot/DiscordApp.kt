@@ -29,7 +29,7 @@ object DiscordApp {
                 .setActivity(Activity.playing("sua mãe pela janela $THUMBSUP"))
                 .build()
 
-            Managers.initializeAll(INSTANCE, Apps, Plugins)
+            Managers.initializeAll(INSTANCE, Plugins, Apps)
         } catch (e: MissingBotTokenException) {
             logSevere(
                 e,
