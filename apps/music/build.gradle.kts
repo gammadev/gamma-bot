@@ -6,15 +6,15 @@ plugins {
 
 dependencies {
     // Core
-    implementation(project(Modules.Common.core))
-    implementation(project(Modules.Common.coreDiscord))
+    implementation(project(Modules.Common.CORE))
+    implementation(project(Modules.Common.CORE_DISCORD))
 
     // Common
-    implementation(project(Modules.Common.utils))
-    implementation(project(Modules.Common.annotations))
-    kapt(project(Modules.Common.annotationsProcessor))
+    implementation(project(Modules.Common.UTILS))
+    implementation(project(Modules.Common.ANNOTATIONS))
+    kapt(project(Modules.Common.ANNOTATIONS_PROCESSOR))
 
-    implementation(project(Modules.Common.Plugins.commandManager))
+    implementation(project(Modules.Common.Plugins.COMMAND_MANAGER))
 
     // Dependencies
     api(Dependencies.JDA)

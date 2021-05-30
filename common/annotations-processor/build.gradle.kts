@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(Modules.Common.annotations))
+    implementation(project(Modules.Common.ANNOTATIONS))
 
     api(Dependencies.STDLIB)
     api(Dependencies.TAKENOKO)

@@ -4,10 +4,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(Modules.Common.core))
-    implementation(project(Modules.Common.coreDiscord))
-    implementation(project(Modules.Common.annotations))
-    kapt(project(Modules.Common.annotationsProcessor))
+    implementation(project(Modules.Common.CORE))
+    implementation(project(Modules.Common.CORE_DISCORD))
+    implementation(project(Modules.Common.ANNOTATIONS))
+    kapt(project(Modules.Common.ANNOTATIONS_PROCESSOR))
 
     implementation(Dependencies.STDLIB)
     implementation(Dependencies.JDA)
