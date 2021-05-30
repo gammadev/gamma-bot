@@ -1,14 +1,14 @@
 package br.com.gmfonseca.bot.commandmanager
 
 import br.com.gmfonseca.bot.commandmanager.handler.message.GuildMessageHandler
-import br.com.gmfonseca.bot.core.discord.AppManager
+import br.com.gmfonseca.bot.core.discord.managers.PluginManager
 import net.dv8tion.jda.api.JDA
 import java.util.logging.Level
 import java.util.logging.Logger
 
-object CommandManager : AppManager {
+object CommandManager : PluginManager {
 
-    const val COMMAND_PREFIX = "g>"
+    const val COMMAND_PREFIX = ">"
 
     private val COMMANDS = mutableMapOf<String, Command>()
     private val logger = Logger.getLogger("CommandManager")

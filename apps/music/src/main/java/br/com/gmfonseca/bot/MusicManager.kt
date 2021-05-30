@@ -1,7 +1,7 @@
 package br.com.gmfonseca.bot
 
 import br.com.gmfonseca.bot.commandmanager.CommandManager
-import br.com.gmfonseca.bot.core.discord.AppManager
+import br.com.gmfonseca.bot.core.discord.managers.AppManager
 import br.com.gmfonseca.bot.music.generated.Statics
 import br.com.gmfonseca.bot.music.business.manager.GuildMusicManager
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager
