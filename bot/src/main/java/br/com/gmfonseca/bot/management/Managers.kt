@@ -5,5 +5,5 @@ import net.dv8tion.jda.api.JDA
 
 object Managers {
 
-    fun initializeAll(jda: JDA, vararg managers: BotManager<out Manager>) = managers.all { it.initializeAll(jda) }
+    fun initializeAll(jda: JDA, vararg managers: BotManagers<out Manager>) = managers.all { it.initializeAll(jda) }
 }
