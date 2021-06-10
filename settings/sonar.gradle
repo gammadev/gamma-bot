@@ -2,8 +2,8 @@ apply plugin: "org.sonarqube"
 
 sonarqube {
     properties {
-        property "sonar.projectName", "gamma-bot"
-        property "sonar.projectKey", "gamma-bot"
+        property "sonar.projectName", "Gamma Bot"
+        property "sonar.projectKey", "gammadev_gamma-bot"
 
         property "sonar.host.url", "http://localhost"
         property "sonar.login", System.getenv("SONAR_TOKEN")
