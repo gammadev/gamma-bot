@@ -1,10 +1,14 @@
 plugins {
     kotlin(Plugins.JVM)
+    jacoco
 }
 
 dependencies {
     implementation(project(Modules.Common.ANNOTATIONS))
 
-    api(Dependencies.STDLIB)
-    api(Dependencies.TAKENOKO)
+    implementation(Dependencies.STDLIB)
+    implementation(Dependencies.TAKENOKO)
+
+    // Test
+    testImplementation(TestDependencies.JUNIT)
 }
