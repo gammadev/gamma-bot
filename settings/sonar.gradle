@@ -5,7 +5,7 @@ sonarqube {
         property "sonar.projectName", "Gamma Bot"
         property "sonar.projectKey", "gammadev_gamma-bot"
 
-        property "sonar.host.url", "http://localhost"
+        property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.login", System.getenv("SONAR_TOKEN")
     }
 }
