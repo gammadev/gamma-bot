@@ -10,7 +10,7 @@ object CommandManager : PluginManager {
 
     const val COMMAND_PREFIX = ">"
 
-    private val COMMANDS = mutableMapOf<String, Command>()
+    val COMMANDS = mutableMapOf<String, Command>()
     private val logger = Logger.getLogger("CommandManager")
 
     override fun init(jda: JDA): Boolean = run {
