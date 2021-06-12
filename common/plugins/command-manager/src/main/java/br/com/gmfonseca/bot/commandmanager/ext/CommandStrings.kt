@@ -5,7 +5,7 @@ import br.com.gmfonseca.bot.commandmanager.CommandManager
 
 val String.isCommand: Boolean get() = isNotBlank() && startsWith(CommandManager.COMMAND_PREFIX)
 
-val String.command: Command
+val String.asCommand: Command
     get() {
         val command = split(" ").first().substring(CommandManager.COMMAND_PREFIX.length).toLowerCase()
         return CommandManager.findCommand(command)

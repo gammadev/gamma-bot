@@ -24,8 +24,13 @@ dependencies {
     implementation(Dependencies.LAVA_PLAYER)
     implementation(Dependencies.KOTLIN_REFLECT)
 
-    // Test
-    testImplementation(TestDependencies.JUNIT)
+    // Jupiter
+    testImplementation(TestDependencies.JUNIT_KOTLIN)
+    testImplementation(TestDependencies.JUPITER)
+    testRuntimeOnly(TestDependencies.JUPITER_ENGINE)
+
+    // MocK
+    testImplementation(TestDependencies.MOCKK)
 }
 
 idea {
@@ -33,5 +38,18 @@ idea {
         sourceDirs = sourceDirs + files("build/generated/source/kapt/main", "build/generated/source/kaptKotlin/main")
         generatedSourceDirs =
             generatedSourceDirs + files("build/generated/source/kapt/main", "build/generated/source/kaptKotlin/main")
+    }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+        apiVersion = "1.4"
+        languageVersion = "1.4"
+        allWarningsAsErrors = true
     }
 }
