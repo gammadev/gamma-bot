@@ -19,6 +19,8 @@ object ClassMapper {
 
         requireNotNull(resUrl)
 
+        requireNotNull(resUrl)
+
         return if (resUrl.protocol equalsIgnoreCase "jar") {
             mapJar(resUrl.file, classesRootPath, suffix)
         } else {
