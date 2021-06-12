@@ -1,8 +1,12 @@
 plugins {
     kotlin(Plugins.JVM)
+    jacoco
 }
 
 dependencies {
-    api(Dependencies.STDLIB)
-    api(Dependencies.JDA)
+    implementation(Dependencies.STDLIB)
+    implementation(Dependencies.JDA)
+
+    // Test
+    testImplementation(TestDependencies.JUNIT)
 }

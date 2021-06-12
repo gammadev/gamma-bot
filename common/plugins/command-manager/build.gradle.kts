@@ -1,6 +1,7 @@
 plugins {
     kotlin(Plugins.JVM)
     kotlin(Plugins.KAPT)
+    jacoco
 }
 
 dependencies {
@@ -12,4 +13,7 @@ dependencies {
     implementation(Dependencies.STDLIB)
     implementation(Dependencies.JDA)
     implementation(Dependencies.KOTLIN_REFLECT)
+
+    // Test
+    testImplementation(TestDependencies.JUNIT)
 }

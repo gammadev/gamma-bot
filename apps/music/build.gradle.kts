@@ -2,6 +2,7 @@ plugins {
     kotlin(Plugins.JVM)
     kotlin(Plugins.KAPT)
     idea
+    jacoco
 }
 
 dependencies {
@@ -17,11 +18,11 @@ dependencies {
     implementation(project(Modules.Common.Plugins.COMMAND_MANAGER))
 
     // Dependencies
-    api(Dependencies.JDA)
-    api(Dependencies.STDLIB)
-    api(Dependencies.COROUTINES_CORE)
-    api(Dependencies.LAVA_PLAYER)
-    api(Dependencies.KOTLIN_REFLECT)
+    implementation(Dependencies.JDA)
+    implementation(Dependencies.STDLIB)
+    implementation(Dependencies.COROUTINES_CORE)
+    implementation(Dependencies.LAVA_PLAYER)
+    implementation(Dependencies.KOTLIN_REFLECT)
 
     // Test
     testImplementation(TestDependencies.JUNIT)

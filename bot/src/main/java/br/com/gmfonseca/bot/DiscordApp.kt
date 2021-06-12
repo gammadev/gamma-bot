@@ -5,11 +5,13 @@ import br.com.gmfonseca.bot.core.discord.exceptions.MissingBotTokenException
 import br.com.gmfonseca.bot.management.Apps
 import br.com.gmfonseca.bot.management.Managers
 import br.com.gmfonseca.bot.management.Plugins
+import br.com.gmfonseca.bot.shared.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.bot.utils.Emoji.THUMBSUP
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 import javax.security.auth.login.LoginException
+import kotlin.reflect.jvm.jvmName
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
@@ -35,6 +37,11 @@ object DiscordApp {
             )
         } catch (e: LoginException) {
             logSevere(e, "Couldn't login with given token '${args[0]}'. Cause: ${e.message}")
+        } catch (e: IllegalCommandClassException) {
+            logSevere(
+                e,
+                "Failed to create an instance for class ${e.klass.jvmName}, when mapping commands. Cause: ${e.message}"
+            )
         }
     }
 }

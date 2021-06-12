@@ -1,5 +1,8 @@
 buildscript {
-    ext.kotlin_version = '1.4.32'
+    ext {
+        kotlin_version = '1.4.32'
+        jacoco_version = '0.8.7'
+    }
 
     repositories {
         jcenter()
@@ -7,7 +10,14 @@ buildscript {
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jacoco:org.jacoco.core:$jacoco_version"
     }
+}
+
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'org.sonarqube' version '3.2.0'
 }
 
 allprojects {
@@ -16,3 +26,16 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
+
+subprojects {
+    apply plugin: 'org.sonarqube'
+
+    sonarqube {
+        properties {
+            property 'sonar.coverage.jacoco.xmlReportPaths', "$projectDir.parentFile.path/build/reports/jacoco/codeCoverageReport/codeCoverageReport.xml"
+        }
+    }
+}
+
+apply from: "$project.rootDir/settings/sonar.gradle"
+apply from: "$project.rootDir/settings/jacoco.gradle.kts"

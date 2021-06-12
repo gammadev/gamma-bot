@@ -1,0 +1,12 @@
+apply plugin: "org.sonarqube"
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "Gamma Bot"
+        property "sonar.projectKey", "gammadev_gamma-bot"
+        property "sonar.organization", "gamma-dev"
+
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.login", System.getenv("SONAR_TOKEN")
+    }
+}
