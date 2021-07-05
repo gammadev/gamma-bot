@@ -1,4 +1,4 @@
-rootProject.name = "gamma-bot-groovy"
+rootProject.name = "gamma-bot"
 
 include(":bot")
 

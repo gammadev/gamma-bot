@@ -1,8 +1,5 @@
 package br.com.gmfonseca.bot.shared.util.ext
 
-import br.com.gmfonseca.bot.MusicManager
-import br.com.gmfonseca.bot.commandmanager.Command
-import br.com.gmfonseca.bot.commandmanager.CommandManager
 import java.io.File
 
 /**

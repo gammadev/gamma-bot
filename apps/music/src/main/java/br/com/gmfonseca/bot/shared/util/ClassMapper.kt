@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.shared.util
 
-import br.com.gmfonseca.bot.MusicManager
+import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.shared.util.ext.createInstance
 import br.com.gmfonseca.bot.shared.util.ext.equalsIgnoreCase
 import br.com.gmfonseca.bot.shared.util.ext.mapFileToClassPath

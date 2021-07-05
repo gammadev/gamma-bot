@@ -1,8 +1,8 @@
-# Gamma Bot [![example workflow name](https://github.com/gammadev/gamma-bot/workflows/Build/badge.svg)](https://github.com/gammadev/gamma-bot/actions?query=workflow%3A%22Verify+CI%22) [![Reliability rating](https://sonarcloud.io/api/project_badges/measure?project=gammadev_gamma-bot&metric=reliability_rating)](https://sonarcloud.io/component_measures?id=gammadev_gamma-bot&metric=Reliability) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gammadev_gamma-bot&metric=coverage)](https://sonarcloud.io/component_measures?id=gammadev_gamma-bot&metric=Coverage)
+# Gamma Bot [![Build](https://github.com/gammadev/gamma-bot/actions/workflows/build.yml/badge.svg)](https://github.com/gammadev/gamma-bot/actions?query=Build+and+Quality) [![Reliability rating](https://sonarcloud.io/api/project_badges/measure?project=gammadev_gamma-bot&metric=reliability_rating)](https://sonarcloud.io/component_measures?id=gammadev_gamma-bot&metric=Reliability) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gammadev_gamma-bot&metric=coverage)](https://sonarcloud.io/component_measures?id=gammadev_gamma-bot&metric=Coverage)
 
 Gamma Bot is a Kotlin bot that involves a lot of features to improve my own development skills under different scenarios.
 
->Currently it is focused on Music feature, but for future implementations it would have some games and day-to-day facilitators
+>Currently, it is focused on Music feature, but for future implementations it would have some games and day-to-day facilitators
 
 ## Setup
 
@@ -25,7 +25,6 @@ object val var fun interface enum companion
 
 ## External libraries
 
+- [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA) [4.2.0_204]
 - [LavaPlayer - Audio player library for Discord](https://github.com/sedmelluq/lavaplayer) [1.5.33]
 - [MockK - Mocking library for Kotlin](https://mockk.io/) [1.10.2]
-
-## Licenses

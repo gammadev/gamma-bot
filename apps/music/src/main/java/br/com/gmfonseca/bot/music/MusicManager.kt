@@ -1,4 +1,4 @@
-package br.com.gmfonseca.bot
+package br.com.gmfonseca.bot.music
 
 import br.com.gmfonseca.bot.commandmanager.CommandManager
 import br.com.gmfonseca.bot.core.discord.managers.AppManager

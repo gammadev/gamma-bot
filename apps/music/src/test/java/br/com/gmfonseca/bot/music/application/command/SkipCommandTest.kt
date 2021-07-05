@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.music.application.command
 
-import br.com.gmfonseca.bot.MusicManager
+import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.music.application.handler.audio.TrackScheduler
 import br.com.gmfonseca.bot.music.business.manager.GuildMusicManager
 import io.mockk.MockKAnnotations

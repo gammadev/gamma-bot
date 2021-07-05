@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.shared.util.ext
 
-import br.com.gmfonseca.bot.MusicManager
+import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.music.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import net.dv8tion.jda.api.entities.TextChannel
@@ -36,7 +36,7 @@ fun AudioManager.safetyConnectVoice(channel: VoiceChannel, onInsufficientPermiss
     } catch (exception: InsufficientPermissionException) {
         Logger.getGlobal().log(
             Level.WARNING,
-            "Insufficiente Permission on guild [name: ${channel.guild.name} | id: ${channel.guild.id}]"
+            "Insufficient Permission on guild [name: ${channel.guild.name} | id: ${channel.guild.id}]"
         )
         onInsufficientPermission()
     } catch (throwable: Throwable) {

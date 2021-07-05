@@ -1,6 +1,6 @@
 package br.com.gmfonseca.bot.music.application.listener
 
-import br.com.gmfonseca.bot.MusicManager
+import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.music.business.client.YoutubeClient
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack

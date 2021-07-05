@@ -1,7 +1,7 @@
 package br.com.gmfonseca.bot.music.application.command
 
 import br.com.gmfonseca.annotations.CommandHandler
-import br.com.gmfonseca.bot.MusicManager
+import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.commandmanager.Command
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.music.application.listener.TrackSchedulerListener
