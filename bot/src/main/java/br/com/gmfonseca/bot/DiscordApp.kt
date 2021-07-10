@@ -1,7 +1,7 @@
 package br.com.gmfonseca.bot
 
-import br.com.gmfonseca.bot.core.Logger.logSevere
 import br.com.gmfonseca.bot.core.discord.exceptions.MissingBotTokenException
+import br.com.gmfonseca.bot.core.logger.logSevere
 import br.com.gmfonseca.bot.management.Apps
 import br.com.gmfonseca.bot.management.Managers
 import br.com.gmfonseca.bot.management.Plugins
