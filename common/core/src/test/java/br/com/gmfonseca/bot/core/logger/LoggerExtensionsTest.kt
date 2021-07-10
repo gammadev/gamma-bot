@@ -27,10 +27,10 @@ class LoggerExtensionsTest {
     }
 
     @Nested
-    inner class LogSever {
+    inner class LogSevere {
 
         @Test
-        fun test() {
+        fun `calling to log severe, should log severe calling to global instance`() {
             // Setup
             every { Logger.INSTANCE } returns logger
             justRun { logger.logSevere(throwable, MESSAGE) }
