@@ -13,6 +13,7 @@ dependencies {
     implementation(Dependencies.STDLIB)
     implementation(Dependencies.JDA)
     implementation(Dependencies.KOTLIN_REFLECT)
+    implementation(Dependencies.TAKENOKO)
 
     // Test
     testImplementation(TestDependencies.JUNIT)

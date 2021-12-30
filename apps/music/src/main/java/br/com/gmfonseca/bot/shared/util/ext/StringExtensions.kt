@@ -1,17 +1,8 @@
 package br.com.gmfonseca.bot.shared.util.ext
 
-import java.io.File
-
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
  */
-
-fun String.mapFileToClassPath(file: File): String {
-    return this + file.absolutePath.substringAfter(replace(".", File.separator))
-        .substringBeforeLast(file.name)
-        .plus(file.nameWithoutExtension)
-        .replace(File.separator, ".")
-}
 
 /**
  * Fill [this] with [fillChar] to reach to [maxLength], or returns [this] if bigger than [maxLength]

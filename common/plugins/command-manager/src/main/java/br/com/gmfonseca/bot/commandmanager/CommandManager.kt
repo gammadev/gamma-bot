@@ -11,7 +11,7 @@ object CommandManager : PluginManager {
     const val COMMAND_PREFIX = ">"
 
     val COMMANDS = mutableMapOf<String, Command>()
-    private val logger = Logger.getLogger("CommandManager")
+    private val logger = Logger.getLogger(this::class.java.name)
 
     override fun init(jda: JDA): Boolean = run {
         jda.addEventListener(GuildMessageHandler())

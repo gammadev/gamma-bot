@@ -4,7 +4,9 @@ object Dependencies {
     const val COROUTINES_CORE = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES_CORE}"
     const val LAVA_PLAYER = "com.sedmelluq:lavaplayer:${Versions.LAVA_PLAYER}"
     const val KOTLIN_REFLECT = "org.jetbrains.kotlin:kotlin-reflect:${Versions.KOTLIN_REFLECT}"
+    const val KOTLIN_COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLIN_COROUTINES}"
     const val TAKENOKO = "com.github.yanex:takenoko:${Versions.TAKENOKO}"
+    const val GSON = "com.google.code.gson:gson:${Versions.GSON}"
 
     object Versions {
         const val JDA = "4.2.0_204"
@@ -13,5 +15,7 @@ object Dependencies {
         const val LAVA_PLAYER = "1.3.53"
         const val KOTLIN_REFLECT = "1.4.10"
         const val TAKENOKO = "0.1"
+        const val GSON = "2.8.7"
+        const val KOTLIN_COROUTINES = "1.5.1"
     }
 }

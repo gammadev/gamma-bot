@@ -9,23 +9,14 @@ import java.nio.ByteBuffer
  * Created by Gabriel Fonseca on 19/09/2020.
  */
 class AudioSenderHandler(private val audioPlayer: AudioPlayer) : AudioSendHandler {
-    private val buffer = ByteBuffer.allocate(1024)
-    private val frame = MutableAudioFrame()
+    private val buffer = ByteBuffer.allocate(BUFFER_BYTES_CAPACITY)
+    private val frame = MutableAudioFrame().apply { setBuffer(buffer) }
 
-    init {
-        frame.setBuffer(buffer)
+    override fun isOpus(): Boolean = true
+    override fun canProvide(): Boolean = audioPlayer.provide(frame)
+    override fun provide20MsAudio(): ByteBuffer = buffer.also(ByteBuffer::flip)
+
+    private companion object {
+        const val BUFFER_BYTES_CAPACITY = 1024
     }
-
-    override fun canProvide(): Boolean {
-        return audioPlayer.provide(frame)
-    }
-
-    override fun provide20MsAudio(): ByteBuffer {
-        return buffer.also { it.flip() }
-    }
-
-    override fun isOpus(): Boolean {
-        return true
-    }
-
 }

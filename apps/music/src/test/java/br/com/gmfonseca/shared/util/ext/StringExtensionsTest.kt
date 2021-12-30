@@ -8,25 +8,20 @@ import br.com.gmfonseca.bot.commandmanager.ext.isCommand
 import br.com.gmfonseca.bot.music.application.command.PlayCommand
 import br.com.gmfonseca.bot.shared.util.ext.equalsIgnoreCase
 import br.com.gmfonseca.bot.shared.util.ext.fill
-import br.com.gmfonseca.bot.shared.util.ext.mapFileToClassPath
 import br.com.gmfonseca.bot.shared.util.ext.substringBetween
 import br.com.gmfonseca.bot.shared.util.ext.truncate
 import br.com.gmfonseca.bot.shared.util.ext.truncateOrFill
 import io.mockk.MockKAnnotations
-import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkObject
 import io.mockk.unmockkObject
 import io.mockk.verify
-import io.mockk.verifyAll
 import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.jupiter.api.assertThrows
-import java.io.File
-import java.io.File.separator
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -134,39 +129,6 @@ class StringExtensionsTest {
         val result = "$commandPrefix arg1 arg2 arg3".commandArgs
 
         assertEquals(expected, result)
-    }
-
-    // endregion
-
-    // region mapFileToClassPath
-
-    @Test
-    fun givenValidFilePath() {
-        // Mock
-        val file = mockk<File>()
-        val name = "StringExtensions.kt"
-        val path = StringBuilder("br")
-            .append(separator, "com")
-            .append(separator, "gmfonseca")
-            .append(separator, "shared")
-            .append(separator, "util")
-            .append(separator, "ext")
-            .append(separator, name)
-            .toString()
-
-        every { file.absolutePath } returns path
-        every { file.name } returns name
-
-        // Run
-        val result = "br.com.gmfonseca".mapFileToClassPath(file)
-
-        // Assert
-        assertEquals("br.com.gmfonseca.shared.util.ext.StringExtensions", result)
-        verifyAll {
-            file.absolutePath
-            file.name
-        }
-        confirmVerified(file)
     }
 
     // endregion

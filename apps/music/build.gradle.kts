@@ -22,7 +22,10 @@ dependencies {
     implementation(Dependencies.STDLIB)
     implementation(Dependencies.COROUTINES_CORE)
     implementation(Dependencies.LAVA_PLAYER)
+
+    // Kotlin
     implementation(Dependencies.KOTLIN_REFLECT)
+//    implementation(Dependencies.KOTLIN_COROUTINES)
 
     // Jupiter
     testImplementation(TestDependencies.JUNIT_KOTLIN)

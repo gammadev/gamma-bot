@@ -1,11 +1,11 @@
 package br.com.gmfonseca.bot
 
+import br.com.gmfonseca.bot.commandmanager.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.bot.core.Logger.logSevere
 import br.com.gmfonseca.bot.core.discord.exceptions.MissingBotTokenException
 import br.com.gmfonseca.bot.management.Apps
 import br.com.gmfonseca.bot.management.Managers
 import br.com.gmfonseca.bot.management.Plugins
-import br.com.gmfonseca.bot.shared.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.bot.utils.Emoji.THUMBSUP
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder

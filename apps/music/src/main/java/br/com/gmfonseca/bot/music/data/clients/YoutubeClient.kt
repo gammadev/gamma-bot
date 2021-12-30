@@ -1,4 +1,4 @@
-package br.com.gmfonseca.bot.music.business.client
+package br.com.gmfonseca.bot.music.data.clients
 
 import br.com.gmfonseca.bot.music.MusicManager
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler

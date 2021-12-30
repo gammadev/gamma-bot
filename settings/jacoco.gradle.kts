@@ -14,6 +14,6 @@ tasks.register("codeCoverageReport", JacocoReport::class) {
 
     reports {
         xml.isEnabled = true
-        html.isEnabled = true
+//        html.isEnabled = true
     }
 }

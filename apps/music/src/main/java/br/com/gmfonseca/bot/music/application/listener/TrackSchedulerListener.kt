@@ -8,7 +8,8 @@ import net.dv8tion.jda.api.entities.TextChannel
 /**
  * Created by Gabriel Fonseca on 27/09/2020.
  */
-class TrackSchedulerListener(val channel: TextChannel) : TrackScheduler.ITrackSchedulerListener {
+class TrackSchedulerListener(val channel: TextChannel) :
+    TrackScheduler.TrackSchedulerListener {
 
     override fun onNextTrack(track: AudioTrack) {
         val guildId = channel.guild.idLong
