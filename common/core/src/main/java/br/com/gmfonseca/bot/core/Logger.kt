@@ -4,8 +4,10 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 object Logger {
-    fun logSevere(throwable: Throwable, message: String) {
-        Logger.getGlobal().log(
+    private val logger = Logger.getGlobal()
+
+    fun logError(throwable: Throwable, message: String) {
+        logger.log(
             Level.SEVERE,
             message
         )

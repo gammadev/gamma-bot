@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.JDA
 object Plugins : BotManagers<PluginManager> {
 
     override operator fun invoke(): List<PluginManager> = listOf(
-        CommandManager
+        CommandManager,
     )
 
     override fun initializeAll(jda: JDA) = this().all { it.init(jda) }
