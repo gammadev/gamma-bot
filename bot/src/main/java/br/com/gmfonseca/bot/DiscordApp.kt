@@ -1,7 +1,7 @@
 package br.com.gmfonseca.bot
 
 import br.com.gmfonseca.bot.commandmanager.exceptions.IllegalCommandClassException
-import br.com.gmfonseca.bot.core.Logger.logError
+import br.com.gmfonseca.bot.core.Logger.error
 import br.com.gmfonseca.bot.core.discord.exceptions.MissingBotTokenException
 import br.com.gmfonseca.bot.management.Apps
 import br.com.gmfonseca.bot.management.Managers
@@ -25,11 +25,11 @@ object DiscordApp {
         try {
             startBot(args)
         } catch (e: MissingBotTokenException) {
-            logError(e, MISSING_TOKEN_MESSAGE)
+            error(e, MISSING_TOKEN_MESSAGE)
         } catch (e: LoginException) {
-            logError(e, LOGIN_FAIL_MESSAGE.format(args[0], e.message))
+            error(e, LOGIN_FAIL_MESSAGE.format(args[0], e.message))
         } catch (e: IllegalCommandClassException) {
-            logError(e, ILLEGAL_COMMAND_CLASS_MESSAGE.format(e.klass.jvmName, e.message))
+            error(e, ILLEGAL_COMMAND_CLASS_MESSAGE.format(e.klass.jvmName, e.message))
         }
     }
 

@@ -5,16 +5,8 @@ package br.com.gmfonseca.bot.commandmanager
  */
 object ClassMapper {
 
-    inline fun <reified T> mapClasses(classNames: List<String>): List<T> {
-        return classNames.mapNotNull { className ->
-            Class.forName(className).createInstance()?.let {
-                if (it is T) {
-                    it
-                } else {
-                    null
-                }
-            }
-        }
+    inline fun <reified T> mapClasses(classesName: List<String>): List<T> {
+        return classesName.mapNotNull { Class.forName(it).createInstance() as? T }
     }
 
     fun <T : Any> Class<T>.createInstance(): T? {

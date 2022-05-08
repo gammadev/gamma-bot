@@ -1,15 +1,16 @@
-package br.com.gmfonseca.bot.commandmanager
+package br.com.gmfonseca.bot.commandmanager.commands
 
 import br.com.gmfonseca.annotations.CommandHandler
+import br.com.gmfonseca.annotations.ext.getAnnotation
+import br.com.gmfonseca.bot.commandmanager.CommandManager
 import br.com.gmfonseca.bot.commandmanager.exceptions.IllegalCommandClassException
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
-import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.TextChannel
 
 /**
  * Created by Gabriel Fonseca on 18/09/2020.
  */
-abstract class Command {
+abstract class BaseCommand : Command {
 
     val name: String
     val aliases: List<String>
@@ -20,14 +21,10 @@ abstract class Command {
         requireNotNull(handlerAnn) { throw IllegalCommandClassException(this::class) }
 
         name = handlerAnn.name.toLowerCase()
-        aliases = handlerAnn.aliases.map { it.toLowerCase() }
+        aliases = handlerAnn.aliases.map(String::toLowerCase).distinct()
     }
 
-    override fun toString(): String {
-        return "${CommandManager.COMMAND_PREFIX}$name"
-    }
-
-    abstract fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean
+    override fun toString() = "${CommandManager.COMMAND_PREFIX}$name"
 
     protected fun onWrongCommand(channel: TextChannel, extra: String = "") {
         EmbedMessage.failure(

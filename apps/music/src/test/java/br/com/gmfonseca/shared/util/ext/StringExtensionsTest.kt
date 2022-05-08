@@ -1,7 +1,7 @@
 package br.com.gmfonseca.shared.util.ext
 
 import br.com.gmfonseca.bot.commandmanager.CommandManager
-import br.com.gmfonseca.bot.commandmanager.UnknownCommand
+import br.com.gmfonseca.bot.commandmanager.commands.UnknownCommand
 import br.com.gmfonseca.bot.commandmanager.ext.asCommand
 import br.com.gmfonseca.bot.commandmanager.ext.commandArgs
 import br.com.gmfonseca.bot.commandmanager.ext.isCommand
@@ -39,8 +39,6 @@ class StringExtensionsTest {
     @Before
     fun beforeTest() {
         MockKAnnotations.init(this, relaxed = true)
-
-        every { CommandManager.COMMANDS } returns mutableMapOf("play" to playCommand)
     }
 
     // endregion

@@ -1,7 +1,7 @@
 package br.com.gmfonseca.bot.music.application.command
 
 import br.com.gmfonseca.annotations.CommandHandler
-import br.com.gmfonseca.bot.commandmanager.Command
+import br.com.gmfonseca.bot.commandmanager.commands.BaseCommand
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.music.application.listener.YoutubeClientListener
 import br.com.gmfonseca.bot.music.data.clients.YoutubeClient
@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.entities.TextChannel
  * Created by Gabriel Fonseca on 19/09/2020.
  */
 @CommandHandler(name = "play", aliases = ["p"])
-class PlayCommand : Command() {
+class PlayCommand : BaseCommand() {
 
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
         if (args.isEmpty()) {
