@@ -7,7 +7,7 @@ sonarqube {
         property "sonar.organization", "gamma-dev"
         property "sonar.sources", "src/main/java/br/com/gmfonseca/bot/music/MusicManager.kt"
 
-        property "sonar.host.url", "http://localhost"
+        property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.login", System.getenv("SONAR_TOKEN")
         property 'sonar.coverage.jacoco.xmlReportPaths', "$projectDir.path/build/reports/jacoco/codeCoverageReport/codeCoverageReport.xml"
     }
