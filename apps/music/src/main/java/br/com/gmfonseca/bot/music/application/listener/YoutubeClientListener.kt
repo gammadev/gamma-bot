@@ -1,8 +1,8 @@
 package br.com.gmfonseca.bot.music.application.listener
 
-import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
-import br.com.gmfonseca.bot.music.data.clients.YoutubeClient
+import br.com.gmfonseca.bot.music.MusicManager
+import br.com.gmfonseca.bot.music.data.clients.youtube.YoutubeClientImpl
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack
 import net.dv8tion.jda.api.entities.TextChannel
 import kotlin.concurrent.thread
@@ -10,7 +10,7 @@ import kotlin.concurrent.thread
 /**
  * Created by Gabriel Fonseca on 25/09/2020.
  */
-class YoutubeClientListener(private val channel: TextChannel) : YoutubeClient.YoutubeClientListener {
+class YoutubeClientListener(private val channel: TextChannel) : YoutubeClientImpl.YoutubeClientListener {
 
     override fun onTrackLoaded(track: AudioTrack) {
         EmbedMessage.success(

@@ -4,7 +4,8 @@ import br.com.gmfonseca.annotations.CommandHandler
 import br.com.gmfonseca.bot.commandmanager.commands.BaseCommand
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.music.application.listener.YoutubeClientListener
-import br.com.gmfonseca.bot.music.data.clients.YoutubeClient
+import br.com.gmfonseca.bot.music.data.clients.youtube.YoutubeClient
+import br.com.gmfonseca.bot.music.data.clients.youtube.YoutubeClientImpl
 import br.com.gmfonseca.bot.shared.REGEX_YOUTUBE
 import br.com.gmfonseca.bot.shared.util.ext.connectVoice
 import net.dv8tion.jda.api.entities.Message
@@ -31,7 +32,7 @@ class PlayCommand : BaseCommand() {
                 )
                 return false
             } else {
-                val youtubeClient = YoutubeClient(YoutubeClientListener(channel))
+                val youtubeClient: YoutubeClient = YoutubeClientImpl(YoutubeClientListener(channel))
 
                 if (args.first().matches(Regex(REGEX_YOUTUBE))) {
                     youtubeClient.download(args.first())

@@ -1,4 +1,4 @@
-package br.com.gmfonseca.bot.music.data.clients
+package br.com.gmfonseca.bot.music.data.clients.youtube
 
 import br.com.gmfonseca.bot.music.MusicManager
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler
@@ -13,9 +13,9 @@ import kotlin.concurrent.thread
 /**
  * Created by Gabriel Fonseca on 19/09/2020.
  */
-class YoutubeClient(private val listener: YoutubeClientListener) {
+class YoutubeClientImpl(private val listener: YoutubeClientListener): YoutubeClient {
 
-    fun search(identifier: String) {
+    override fun search(identifier: String) {
         YoutubeSearchProvider().loadSearchResult(identifier) { trackInfo ->
             trackInfo?.run {
                 listener.onTrackLoaded(YoutubeAudioTrack(trackInfo, YoutubeAudioSourceManager()))
@@ -24,7 +24,7 @@ class YoutubeClient(private val listener: YoutubeClientListener) {
         }
     }
 
-    fun download(identifier: String) {
+    override fun download(identifier: String) {
         thread {
             MusicManager.PLAYER_MANAGER.loadItem(identifier, object : AudioLoadResultHandler {
                 override fun trackLoaded(track: AudioTrack) {
