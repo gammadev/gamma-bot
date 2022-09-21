@@ -32,8 +32,8 @@ sonarqube {
         property("sonar.projectKey", "gammadev_gamma-bot")
         property("sonar.organization", "gamma-dev")
 
-        property("sonar.host.url", "http://localhost")
-        property("sonar.login", "c59c65d58f0b88b99f4c15d07ca3a00f46912fb5")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.login", System.getenv("SONAR_TOKEN"))
         property(
             "sonar.coverage.jacoco.xmlReportPaths",
             "${projectDir.path}/build/reports/jacoco/codeCoverageReport/codeCoverageReport.xml"
