@@ -1,5 +1,5 @@
 buildscript {
-    val kotlinVersion = "1.4.32"
+    val kotlinVersion = "1.5.30"
     val jacocoVersion = "0.8.7"
 
     repositories {
@@ -23,6 +23,7 @@ allprojects {
     repositories {
         jcenter()
         maven(url = "https://jitpack.io")
+        maven(url = "https://m2.dv8tion.net/releases")
     }
 }
 

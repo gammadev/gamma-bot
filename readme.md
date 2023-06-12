@@ -26,5 +26,5 @@ object val var fun interface enum companion
 ## External libraries
 
 - [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA) [4.2.0_204]
-- [LavaPlayer - Audio player library for Discord](https://github.com/sedmelluq/lavaplayer) [1.5.33]
+- [LavaPlayer - Audio player library for Discord](https://github.com/sedmelluq/lavaplayer) [1.3.78]
 - [MockK - Mocking library for Kotlin](https://mockk.io/) [1.10.2]

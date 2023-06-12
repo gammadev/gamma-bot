@@ -10,10 +10,10 @@ object Dependencies {
 
     object Versions {
         const val JDA = "4.2.0_204"
-        const val STDLIB = "1.4.21"
+        const val STDLIB = "1.5.30"
         const val COROUTINES_CORE = "1.3.9"
-        const val LAVA_PLAYER = "1.3.53"
-        const val KOTLIN_REFLECT = "1.4.10"
+        const val LAVA_PLAYER = "1.3.78"
+        const val KOTLIN_REFLECT = "1.5.30"
         const val TAKENOKO = "0.1"
         const val GSON = "2.8.7"
         const val KOTLIN_COROUTINES = "1.5.1"
