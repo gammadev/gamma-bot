@@ -2,7 +2,7 @@ package br.com.gmfonseca.bot.music.application.command
 
 import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.music.application.handler.audio.TrackScheduler
-import br.com.gmfonseca.bot.music.business.manager.GuildMusicManager
+import br.com.gmfonseca.bot.music.domain.managers.AudioPlayerManagerDelegate
 import br.com.gmfonseca.bot.utils.Emoji
 import io.mockk.MockKAnnotations
 import io.mockk.confirmVerified
@@ -32,7 +32,7 @@ import kotlin.test.assertTrue
 class LeaveCommandTest {
 
     // region setup
-    private val guildMusicManager = mockk<GuildMusicManager>()
+    private val guildMusicManager = mockk<AudioPlayerManagerDelegate>()
     private val guild = mockk<Guild>()
     private val message = mockk<Message>()
     private val channel = mockk<TextChannel>()

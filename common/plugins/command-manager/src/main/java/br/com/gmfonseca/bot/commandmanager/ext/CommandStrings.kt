@@ -1,7 +1,7 @@
 package br.com.gmfonseca.bot.commandmanager.ext
 
-import br.com.gmfonseca.bot.commandmanager.Command
 import br.com.gmfonseca.bot.commandmanager.CommandManager
+import br.com.gmfonseca.bot.commandmanager.commands.Command
 
 val String.isCommand: Boolean get() = isNotBlank() && startsWith(CommandManager.COMMAND_PREFIX)
 

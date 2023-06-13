@@ -4,11 +4,17 @@ import java.util.logging.Level
 import java.util.logging.Logger
 
 object Logger {
-    fun logSevere(throwable: Throwable, message: String) {
-        Logger.getGlobal().log(
+    val instance: Logger = Logger.getGlobal()
+
+    inline fun error(throwable: Throwable, message: String) {
+        instance.log(
             Level.SEVERE,
             message
         )
         throwable.printStackTrace()
+    }
+
+    inline fun warn(message: String) {
+        instance.log(Level.WARNING, message)
     }
 }

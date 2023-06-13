@@ -19,8 +19,8 @@ class TrackScheduler(
     private val player: AudioPlayer
 ) : AudioEventAdapter() {
 
-    val volume: Int; get() = player.volume
-    var listener: ITrackSchedulerListener? = null
+    val volume: Int get() = player.volume
+    var listener: TrackSchedulerListener? = null
         set(value) = synchronized(this) {
             field = value
         }
@@ -187,13 +187,9 @@ class TrackScheduler(
         }
     }
 
-    interface ITrackSchedulerListener {
-
+    interface TrackSchedulerListener {
         fun onNextTrack(track: AudioTrack)
-
         fun onWrongIndex(index: Int)
-
         fun onFinish()
-
     }
 }

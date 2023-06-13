@@ -1,10 +1,11 @@
 package br.com.gmfonseca.bot.music.application.command
 
 import br.com.gmfonseca.annotations.CommandHandler
-import br.com.gmfonseca.bot.commandmanager.Command
+import br.com.gmfonseca.bot.commandmanager.commands.BaseCommand
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
 import br.com.gmfonseca.bot.music.application.listener.YoutubeClientListener
-import br.com.gmfonseca.bot.music.business.client.YoutubeClient
+import br.com.gmfonseca.bot.music.data.clients.youtube.YoutubeClient
+import br.com.gmfonseca.bot.music.data.clients.youtube.YoutubeClientImpl
 import br.com.gmfonseca.bot.shared.REGEX_YOUTUBE
 import br.com.gmfonseca.bot.shared.util.ext.connectVoice
 import net.dv8tion.jda.api.entities.Message
@@ -14,7 +15,7 @@ import net.dv8tion.jda.api.entities.TextChannel
  * Created by Gabriel Fonseca on 19/09/2020.
  */
 @CommandHandler(name = "play", aliases = ["p"])
-class PlayCommand : Command() {
+class PlayCommand : BaseCommand() {
 
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
         if (args.isEmpty()) {
@@ -22,9 +23,7 @@ class PlayCommand : Command() {
             return false
         } else {
             val guild = channel.guild
-            val voiceChannel = guild.voiceChannels.find { voiceChannel ->
-                voiceChannel.members.any { it.user.idLong == message.author.idLong }
-            }
+            val voiceChannel = message.member?.voiceState?.channel
 
             if (voiceChannel == null) {
                 EmbedMessage.failure(
@@ -33,10 +32,12 @@ class PlayCommand : Command() {
                 )
                 return false
             } else {
+                val youtubeClient: YoutubeClient = YoutubeClientImpl(YoutubeClientListener(channel))
+
                 if (args.first().matches(Regex(REGEX_YOUTUBE))) {
-                    YoutubeClient(YoutubeClientListener(channel)).download(args.first())
+                    youtubeClient.download(args.first())
                 } else {
-//                    YoutubeClient(YoutubeClientListener(channel)).search(args.reduce { acc, cur -> "$acc $cur" })
+                    youtubeClient.search(args.fold(StringBuilder()) { acc, cur -> acc.append(cur) }.toString())
                     EmbedMessage.info(
                         channel,
                         title = "Ainda não suportado!",

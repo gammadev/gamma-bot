@@ -80,5 +80,4 @@ object EmbedMessage {
 
         }.build().queue(channel, onMessageSent)
     }
-
 }

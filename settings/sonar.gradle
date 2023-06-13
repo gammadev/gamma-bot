@@ -5,6 +5,7 @@ sonarqube {
         property "sonar.projectName", "Gamma Bot"
         property "sonar.projectKey", "gammadev_gamma-bot"
         property "sonar.organization", "gamma-dev"
+        property "sonar.sources", "src/main/java/br/com/gmfonseca/bot/music/MusicManager.kt"
 
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.login", System.getenv("SONAR_TOKEN")

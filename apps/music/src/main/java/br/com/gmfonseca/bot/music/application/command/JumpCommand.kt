@@ -1,9 +1,9 @@
 package br.com.gmfonseca.bot.music.application.command
 
 import br.com.gmfonseca.annotations.CommandHandler
-import br.com.gmfonseca.bot.music.MusicManager
-import br.com.gmfonseca.bot.commandmanager.Command
+import br.com.gmfonseca.bot.commandmanager.commands.BaseCommand
 import br.com.gmfonseca.bot.core.discord.EmbedMessage
+import br.com.gmfonseca.bot.music.MusicManager
 import br.com.gmfonseca.bot.music.application.listener.TrackSchedulerListener
 import br.com.gmfonseca.bot.shared.util.ext.connectVoice
 import net.dv8tion.jda.api.entities.Message
@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.entities.TextChannel
  * Created by Gabriel Fonseca on 03/10/2020.
  */
 @CommandHandler(name = "jump", aliases = ["j"])
-class JumpCommand : Command() {
+class JumpCommand : BaseCommand() {
 
     override fun onCommand(message: Message, channel: TextChannel, args: List<String>): Boolean {
         val guildId = channel.guild.id
@@ -28,9 +28,7 @@ class JumpCommand : Command() {
             scheduler.skip()
         } else {
             val guild = channel.guild
-            val voiceChannel = guild.voiceChannels.find { voiceChannel ->
-                voiceChannel.members.find { it.user.idLong == message.idLong } != null
-            }
+            val voiceChannel = message.member?.voiceState?.channel
 
             if (voiceChannel == null) {
                 EmbedMessage.failure(
