@@ -4,7 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation(Dependencies.STDLIB)
+    api(Dependencies.STDLIB)
+
     implementation(Dependencies.GSON)
 
     // Test

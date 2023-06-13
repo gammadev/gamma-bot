@@ -17,7 +17,7 @@ import javax.lang.model.SourceVersion
 import javax.lang.model.element.TypeElement
 import javax.tools.Diagnostic
 
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_11)
 @SupportedAnnotationTypes("br.com.gmfonseca.annotations.CommandHandler")
 @SupportedOptions(CommandHandlerAnnotationProcessor.KAPT_KOTLIN_GENERATED_OPTION_NAME)
 class CommandHandlerAnnotationProcessor : AbstractProcessor() {

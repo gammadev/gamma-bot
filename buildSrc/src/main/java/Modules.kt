@@ -16,4 +16,8 @@ object Modules {
     object Apps {
         const val MUSIC = ":apps:music"
     }
+
+    object Games {
+        const val BATTLESHIP = ":games:battleship"
+    }
 }

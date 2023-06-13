@@ -46,13 +46,10 @@ idea {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
-
     kotlinOptions {
-        jvmTarget = "1.8"
-        apiVersion = "1.4"
-        languageVersion = "1.4"
+        jvmTarget = "11"
+        apiVersion = "1.6"
+        languageVersion = "1.6"
         allWarningsAsErrors = true
     }
 }

@@ -1,5 +1,5 @@
 buildscript {
-    val kotlinVersion = "1.5.30"
+    val kotlinVersion = "1.8.22"
     val jacocoVersion = "0.8.7"
 
     repositories {

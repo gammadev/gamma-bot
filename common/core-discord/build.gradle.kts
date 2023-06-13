@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
+    api(Dependencies.JDA)
     implementation(Dependencies.STDLIB)
-    implementation(Dependencies.JDA)
 
     // Test
     testImplementation(TestDependencies.JUNIT)

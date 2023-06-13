@@ -12,3 +12,5 @@ include(":common:annotations-processor")
 include(":common:plugins:command-manager")
 
 include(":apps:music")
+
+include(":games:battleship")

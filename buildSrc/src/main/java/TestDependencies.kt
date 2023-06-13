@@ -1,7 +1,7 @@
 object TestDependencies {
 
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
-    const val JUNIT_KOTLIN = "org.jetbrains.kotlin:kotlin-test-junit:1.5.30"
+    const val JUNIT_KOTLIN = "org.jetbrains.kotlin:kotlin-test-junit:1.8.22"
     const val JUPITER = "org.junit.jupiter:junit-jupiter-api:${Versions.JUPITER}"
     const val JUPITER_ENGINE = "org.junit.jupiter:junit-jupiter-api:${Versions.JUPITER}"
     const val MOCKK = "io.mockk:mockk:${Versions.MOCKK}"
